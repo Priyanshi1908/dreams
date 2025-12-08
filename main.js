@@ -92,23 +92,96 @@ function createSky() {
 // =============== STARS ===============
 function createStars() {
   const group = new THREE.Group();
-  const starColor = new THREE.Color("#ffffff");
   
-  for (let i = 0; i < 120; i++) {
-    const x = (Math.random() - 0.5) * 180;
-    const y = Math.random() * 40 + 10;
-    const size = Math.random() * 0.3 + 0.1;
+  // Seeded random for consistent stars
+  const seededRandom = (seed) => {
+    const x = Math.sin(seed * 9999) * 10000;
+    return x - Math.floor(x);
+  };
+  
+  let seed = 54321;
+  const twinklingStars = [];
+  
+  // Main stars spread across the sky
+  for (let i = 0; i < 150; i++) {
+    // Spread across full screen width
+    const x = (seededRandom(seed++) - 0.5) * 250;
+    const y = seededRandom(seed++) * 42 + 8;
     
-    const geo = new THREE.CircleGeometry(size, 8);
+    // Mostly tiny stars with a few slightly larger ones
+    const sizeRand = seededRandom(seed++);
+    let size;
+    if (sizeRand > 0.97) {
+      size = 0.35 + seededRandom(seed++) * 0.15; // Few slightly larger
+    } else if (sizeRand > 0.85) {
+      size = 0.2 + seededRandom(seed++) * 0.1; // Some medium
+    } else {
+      size = 0.08 + seededRandom(seed++) * 0.1; // Mostly tiny
+    }
+    
+    // Varying opacity - dimmer overall
+    const baseOpacity = 0.3 + seededRandom(seed++) * 0.5;
+    
+    const geo = new THREE.CircleGeometry(size, 16);
     const mat = new THREE.MeshBasicMaterial({ 
-      color: starColor,
+      color: 0xffffff,
       transparent: true,
-      opacity: Math.random() * 0.6 + 0.3
+      opacity: baseOpacity
     });
     const star = new THREE.Mesh(geo, mat);
     star.position.set(x, y, -15);
     group.add(star);
+    
+    // 15% of stars will twinkle
+    if (seededRandom(seed++) < 0.15) {
+      twinklingStars.push({
+        mesh: star,
+        baseOpacity: baseOpacity,
+        speed: 1.5 + seededRandom(seed++) * 2.5,
+        phase: seededRandom(seed++) * Math.PI * 2
+      });
+    }
   }
+  
+  // Extra stars for the top-left corner
+  for (let i = 0; i < 25; i++) {
+    const x = -125 + seededRandom(seed++) * 80; // -125 to -45
+    const y = 30 + seededRandom(seed++) * 20; // 30 to 50 (upper area)
+    
+    const sizeRand = seededRandom(seed++);
+    let size;
+    if (sizeRand > 0.9) {
+      size = 0.25 + seededRandom(seed++) * 0.15;
+    } else {
+      size = 0.08 + seededRandom(seed++) * 0.12;
+    }
+    
+    const baseOpacity = 0.3 + seededRandom(seed++) * 0.5;
+    
+    const geo = new THREE.CircleGeometry(size, 16);
+    const mat = new THREE.MeshBasicMaterial({ 
+      color: 0xffffff,
+      transparent: true,
+      opacity: baseOpacity
+    });
+    const star = new THREE.Mesh(geo, mat);
+    star.position.set(x, y, -15);
+    group.add(star);
+    
+    // 15% of these also twinkle
+    if (seededRandom(seed++) < 0.15) {
+      twinklingStars.push({
+        mesh: star,
+        baseOpacity: baseOpacity,
+        speed: 1.5 + seededRandom(seed++) * 2.5,
+        phase: seededRandom(seed++) * Math.PI * 2
+      });
+    }
+  }
+  
+  // Store twinkling stars for animation
+  window.twinklingStars = twinklingStars;
+  
   return group;
 }
 
@@ -184,7 +257,7 @@ function createMoon() {
   // 3D Moon sphere with realistic texture
   const moonGeo = new THREE.SphereGeometry(8, 64, 64);
   const moonMat = new THREE.MeshPhongMaterial({
-    color: 0xFCAEB2,
+    color: 0xE396A2,
     map: moonTexture,
     displacementMap: displacementMap,
     displacementScale: 0.5,
@@ -1197,6 +1270,15 @@ function render() {
   // Update moon reflection animation
   if (window.moonReflectionMaterial) {
     window.moonReflectionMaterial.uniforms.time.value = time;
+  }
+  
+  // Update twinkling stars
+  if (window.twinklingStars) {
+    window.twinklingStars.forEach(star => {
+      const twinkle = Math.sin(time * star.speed + star.phase) * 0.5 + 0.5;
+      star.mesh.material.opacity = star.baseOpacity * (0.2 + twinkle * 0.8);
+      star.mesh.material.needsUpdate = true;
+    });
   }
   
   renderer.render(scene, camera);
