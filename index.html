@@ -1,18 +1,312 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Moonlit Lake</title>
+  <title>Astral</title>
+  <link rel="icon" type="image/png" href="logo.png">
   <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap"
+    rel="stylesheet">
   <script src="https://unpkg.com/three@0.158.0/build/three.min.js"></script>
   <script src="https://unpkg.com/three@0.158.0/examples/js/utils/BufferGeometryUtils.js"></script>
 </head>
+
 <body>
   <div class="scene-wrap">
     <canvas id="scene"></canvas>
     <div class="vignette"></div>
   </div>
+
+  <!-- Glass Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-profile">
+      <div class="profile-avatar">
+        <div class="avatar-face">
+          <div class="avatar-eyes">
+            <span class="eye left"></span>
+            <span class="eye right"></span>
+          </div>
+          <div class="avatar-blush left"></div>
+          <div class="avatar-blush right"></div>
+          <div class="avatar-mouth"></div>
+        </div>
+        <div class="avatar-glow"></div>
+      </div>
+      <div class="profile-info">
+        <span class="profile-name">Priyanshi</span>
+        <span class="profile-status"><span class="status-dot"></span>Dreaming...</span>
+      </div>
+      <button class="profile-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-content">
+      <div class="month-card">
+        <div class="month-icon january">
+          <span class="icon-inner">&#10052;</span>
+        </div>
+        <span class="month-name">January</span>
+        <span class="month-count">3</span>
+      </div>
+      <div class="month-card">
+        <div class="month-icon february">
+          <span class="icon-inner">&#10084;</span>
+        </div>
+        <span class="month-name">February</span>
+        <span class="month-count">5</span>
+      </div>
+      <div class="month-card">
+        <div class="month-icon march">
+          <span class="icon-inner">&#127800;</span>
+        </div>
+        <span class="month-name">March</span>
+        <span class="month-count">2</span>
+      </div>
+      <div class="month-card">
+        <div class="month-icon april">
+          <span class="icon-inner">&#127782;</span>
+        </div>
+        <span class="month-name">April</span>
+        <span class="month-count">7</span>
+      </div>
+      <div class="month-card">
+        <div class="month-icon may">
+          <span class="icon-inner">&#127803;</span>
+        </div>
+        <span class="month-name">May</span>
+        <span class="month-count">4</span>
+      </div>
+      <div class="month-card">
+        <div class="month-icon june">
+          <span class="icon-inner">&#9728;</span>
+        </div>
+        <span class="month-name">June</span>
+        <span class="month-count">6</span>
+      </div>
+      <div class="month-card">
+        <div class="month-icon july">
+          <span class="icon-inner">&#127774;</span>
+        </div>
+        <span class="month-name">July</span>
+        <span class="month-count">8</span>
+      </div>
+      <div class="month-card">
+        <div class="month-icon august">
+          <span class="icon-inner">&#11088;</span>
+        </div>
+        <span class="month-name">August</span>
+        <span class="month-count">3</span>
+      </div>
+      <div class="month-card">
+        <div class="month-icon september">
+          <span class="icon-inner">&#127810;</span>
+        </div>
+        <span class="month-name">September</span>
+        <span class="month-count">5</span>
+      </div>
+      <div class="month-card">
+        <div class="month-icon october">
+          <span class="icon-inner">&#127875;</span>
+        </div>
+        <span class="month-name">October</span>
+        <span class="month-count">9</span>
+      </div>
+      <div class="month-card">
+        <div class="month-icon november">
+          <span class="icon-inner">&#127811;</span>
+        </div>
+        <span class="month-name">November</span>
+        <span class="month-count">4</span>
+      </div>
+      <div class="month-card">
+        <div class="month-icon december">
+          <span class="icon-inner">&#127876;</span>
+        </div>
+        <span class="month-name">December</span>
+        <span class="month-count">6</span>
+      </div>
+    </div>
+
+    <!-- Calendar View (hidden by default) -->
+    <div class="calendar-view" id="calendarView">
+      <div class="calendar-header">
+        <button class="calendar-back" id="calendarBack">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M15 18l-6-6 6-6" />
+          </svg>
+        </button>
+        <div class="calendar-title">
+          <span class="calendar-month" id="calendarMonth">January</span>
+          <span class="calendar-year" id="calendarYear">2026</span>
+        </div>
+      </div>
+      <div class="calendar-weekdays">
+        <span>S</span>
+        <span>M</span>
+        <span>T</span>
+        <span>W</span>
+        <span>T</span>
+        <span>F</span>
+        <span>S</span>
+      </div>
+      <div class="calendar-grid" id="calendarGrid">
+        <!-- Days will be generated by JavaScript -->
+      </div>
+    </div>
+    <div class="sidebar-footer">
+      <button class="add-dream-btn">
+        <span class="btn-highlight"></span>
+        <span class="btn-text">Add Dream</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Add Dream Dialog -->
+  <div class="dream-dialog-overlay" id="dreamDialogOverlay">
+    <div class="dream-dialog">
+      <button class="dialog-close" id="dialogClose">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12" />
+        </svg>
+      </button>
+
+      <div class="dialog-character">
+        <div class="character-glow"></div>
+        <img src="" alt="Dream Companion" id="dialogCharacter" />
+      </div>
+
+      <div class="dialog-content">
+        <h2 class="dialog-title" id="dialogTitle">Luna</h2>
+        <p class="dialog-subtitle" id="dialogSubtitle">Your dream companion awaits...</p>
+
+        <div class="dialog-form">
+          <div class="form-group">
+            <label for="dreamTitle">Dream Title</label>
+            <input type="text" id="dreamTitle" placeholder="What was your dream about?" />
+          </div>
+
+          <div class="form-group">
+            <label for="dreamContent">Describe your dream</label>
+            <textarea id="dreamContent" placeholder="Let your memories flow..." rows="4"></textarea>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="dreamMood">Mood</label>
+              <select id="dreamMood">
+                <option value="peaceful">Peaceful</option>
+                <option value="adventurous">Adventurous</option>
+                <option value="mysterious">Mysterious</option>
+                <option value="scary">Scary</option>
+                <option value="happy">Happy</option>
+                <option value="sad">Sad</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="dreamDate">Date</label>
+              <input type="date" id="dreamDate" />
+            </div>
+          </div>
+        </div>
+
+        <div class="dialog-actions">
+          <button class="btn-secondary" id="btnClear">Clear Dream</button>
+          <button class="btn-primary" id="btnSave">
+            <span class="btn-highlight"></span>
+            <span>Submit Dream</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tarot Card Dream View -->
+  <div class="tarot-overlay" id="tarotOverlay">
+    <div class="tarot-mystical-bg">
+      <div class="tarot-stars"></div>
+      <div class="tarot-rays"></div>
+    </div>
+    <div class="tarot-card">
+      <div class="tarot-card-inner">
+        <!-- Ornate corner decorations -->
+        <div class="tarot-corner top-left"></div>
+        <div class="tarot-corner top-right"></div>
+        <div class="tarot-corner bottom-left"></div>
+        <div class="tarot-corner bottom-right"></div>
+
+        <!-- Close button -->
+        <button class="tarot-close" id="tarotClose">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M18 6L6 18M6 6l12 12" />
+          </svg>
+        </button>
+
+        <!-- Moon phases header -->
+        <div class="tarot-moon-phases">
+          <span class="moon-phase">🌑</span>
+          <span class="moon-phase">🌒</span>
+          <span class="moon-phase main">🌕</span>
+          <span class="moon-phase">🌘</span>
+          <span class="moon-phase">🌑</span>
+        </div>
+
+        <!-- Decorative sun rays -->
+        <div class="tarot-sun-burst">
+          <div class="sun-circle"></div>
+          <div class="sun-rays"></div>
+        </div>
+
+        <!-- Main content area -->
+        <div class="tarot-content">
+          <!-- Mood icon -->
+          <div class="tarot-mood-icon" id="tarotMoodIcon">✨</div>
+
+          <!-- Dream title -->
+          <h2 class="tarot-title" id="tarotTitle">Dream Title</h2>
+
+          <!-- Decorative divider -->
+          <div class="tarot-divider">
+            <span class="divider-star">✦</span>
+          </div>
+
+          <!-- Dream content -->
+          <div class="tarot-dream-content" id="tarotContent">
+            <p>Dream content will appear here...</p>
+          </div>
+
+          <!-- Date footer -->
+          <div class="tarot-date" id="tarotDate">
+            <span class="date-star">☆</span>
+            <span class="date-text">December 24, 2025</span>
+            <span class="date-star">☆</span>
+          </div>
+        </div>
+
+        <!-- Bottom ornament -->
+        <div class="tarot-bottom-ornament">
+          <span class="ornament-dot"></span>
+          <span class="ornament-line"></span>
+          <span class="ornament-diamond">◇</span>
+          <span class="ornament-line"></span>
+          <span class="ornament-dot"></span>
+        </div>
+      </div>
+
+      <!-- Subtle glow effect -->
+      <div class="tarot-glow"></div>
+    </div>
+  </div>
+
   <script type="module" src="main.js"></script>
 </body>
+
 </html>

@@ -4,7 +4,8 @@
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   width: 100%;
   height: 100%;
   overflow: hidden;
@@ -28,3 +29,3050 @@ html, body {
   inset: 0;
   background: radial-gradient(ellipse 70% 50% at 50% 30%, transparent 30%, rgba(60, 20, 40, 0.25) 100%);
 }
+
+/* =============== GLASS SIDEBAR =============== */
+.sidebar {
+  position: fixed;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 280px;
+  height: 85vh;
+  background: linear-gradient(160deg,
+      rgba(180, 120, 180, 0.12) 0%,
+      rgba(140, 100, 160, 0.08) 30%,
+      rgba(100, 80, 140, 0.1) 70%,
+      rgba(120, 90, 150, 0.12) 100%);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 200, 255, 0.15);
+  box-shadow:
+    0 8px 32px rgba(80, 40, 80, 0.2),
+    inset 0 1px 0 rgba(255, 220, 255, 0.15),
+    inset 0 -1px 0 rgba(60, 20, 60, 0.1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 1000;
+}
+
+/* Profile Section */
+.sidebar-profile {
+  display: flex;
+  align-items: center;
+  padding: 18px 16px;
+  gap: 12px;
+}
+
+.profile-avatar {
+  position: relative;
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+}
+
+.avatar-face {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(145deg, #ffd6e8, #ffb8d4);
+  border-radius: 50%;
+  position: relative;
+  box-shadow:
+    0 4px 12px rgba(255, 150, 200, 0.4),
+    inset 0 -4px 8px rgba(200, 100, 150, 0.2),
+    inset 0 4px 8px rgba(255, 255, 255, 0.4);
+  overflow: hidden;
+}
+
+.avatar-eyes {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  gap: 10px;
+}
+
+.eye {
+  width: 6px;
+  height: 8px;
+  background: #4a3040;
+  border-radius: 50%;
+  position: relative;
+  animation: blink 4s infinite;
+}
+
+.eye::after {
+  content: '';
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  width: 2px;
+  height: 2px;
+  background: white;
+  border-radius: 50%;
+}
+
+@keyframes blink {
+
+  0%,
+  95%,
+  100% {
+    transform: scaleY(1);
+  }
+
+  97% {
+    transform: scaleY(0.1);
+  }
+}
+
+.avatar-blush {
+  position: absolute;
+  width: 10px;
+  height: 6px;
+  background: rgba(255, 150, 180, 0.6);
+  border-radius: 50%;
+  top: 55%;
+}
+
+.avatar-blush.left {
+  left: 15%;
+}
+
+.avatar-blush.right {
+  right: 15%;
+}
+
+.avatar-mouth {
+  position: absolute;
+  bottom: 28%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 8px;
+  height: 4px;
+  border: 2px solid #4a3040;
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+}
+
+.avatar-glow {
+  position: absolute;
+  inset: -4px;
+  background: radial-gradient(circle, rgba(255, 180, 220, 0.4) 0%, transparent 70%);
+  border-radius: 50%;
+  z-index: -1;
+  animation: pulse 3s ease-in-out infinite;
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.8;
+    transform: scale(1.1);
+  }
+}
+
+.profile-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.profile-name {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 17px;
+  font-weight: 600;
+  color: rgba(255, 240, 250, 0.95);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  letter-spacing: 0.5px;
+}
+
+.profile-status {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 12px;
+  font-style: italic;
+  color: rgba(255, 200, 230, 0.7);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  background: #c084fc;
+  border-radius: 50%;
+  animation: statusPulse 2s ease-in-out infinite;
+  box-shadow: 0 0 8px rgba(192, 132, 252, 0.6);
+}
+
+@keyframes statusPulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
+}
+
+.profile-menu {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 200, 255, 0.1);
+  border-radius: 10px;
+  padding: 8px 6px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  transition: all 0.2s ease;
+}
+
+.profile-menu:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.profile-menu span {
+  width: 16px;
+  height: 2px;
+  background: rgba(255, 200, 230, 0.7);
+  border-radius: 2px;
+  transition: all 0.2s ease;
+}
+
+.profile-menu:hover span {
+  background: rgba(255, 220, 240, 0.9);
+}
+
+/* Divider */
+.sidebar-divider {
+  height: 1px;
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 180, 220, 0.2) 20%,
+      rgba(255, 180, 220, 0.2) 80%,
+      transparent);
+  margin: 0 16px;
+}
+
+/* Content area */
+.sidebar-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Custom scrollbar */
+.sidebar-content::-webkit-scrollbar {
+  width: 4px;
+}
+
+.sidebar-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar-content::-webkit-scrollbar-thumb {
+  background: rgba(255, 180, 220, 0.25);
+  border-radius: 4px;
+}
+
+.sidebar-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 180, 220, 0.4);
+}
+
+/* Month cards */
+.month-card {
+  display: flex;
+  align-items: center;
+  padding: 10px 12px;
+  gap: 12px;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: rgba(255, 200, 230, 0.03);
+  border: 1px solid transparent;
+}
+
+.month-card:hover {
+  background: rgba(255, 180, 220, 0.1);
+  border-color: rgba(255, 180, 220, 0.15);
+  transform: translateX(4px);
+}
+
+.month-card:active {
+  transform: translateX(2px);
+  background: rgba(255, 180, 220, 0.15);
+}
+
+/* Month icons - prettier glass orbs */
+.month-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  background: linear-gradient(145deg,
+      rgba(255, 200, 230, 0.25) 0%,
+      rgba(180, 120, 180, 0.15) 50%,
+      rgba(140, 80, 140, 0.2) 100%);
+  border: 1px solid rgba(255, 200, 230, 0.2);
+  box-shadow:
+    0 4px 12px rgba(120, 60, 100, 0.2),
+    inset 0 2px 4px rgba(255, 255, 255, 0.15),
+    inset 0 -2px 4px rgba(100, 50, 80, 0.1);
+}
+
+.month-icon::before {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 6px;
+  width: 10px;
+  height: 6px;
+  background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.4) 0%,
+      transparent 100%);
+  border-radius: 50%;
+}
+
+.icon-inner {
+  font-size: 18px;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+  position: relative;
+  z-index: 1;
+}
+
+/* Seasonal colors for icons - pink/purple/maroon theme */
+.month-icon.january {
+  background: linear-gradient(145deg, rgba(200, 220, 255, 0.3), rgba(150, 180, 220, 0.2), rgba(120, 140, 180, 0.25));
+}
+
+.month-icon.february {
+  background: linear-gradient(145deg, rgba(255, 150, 180, 0.35), rgba(220, 100, 150, 0.25), rgba(180, 80, 120, 0.3));
+}
+
+.month-icon.march {
+  background: linear-gradient(145deg, rgba(200, 230, 200, 0.3), rgba(150, 200, 160, 0.2), rgba(120, 160, 130, 0.25));
+}
+
+.month-icon.april {
+  background: linear-gradient(145deg, rgba(180, 200, 240, 0.3), rgba(140, 160, 210, 0.2), rgba(120, 140, 180, 0.25));
+}
+
+.month-icon.may {
+  background: linear-gradient(145deg, rgba(255, 220, 180, 0.3), rgba(240, 190, 140, 0.2), rgba(200, 160, 120, 0.25));
+}
+
+.month-icon.june {
+  background: linear-gradient(145deg, rgba(255, 200, 150, 0.3), rgba(240, 170, 120, 0.2), rgba(200, 140, 100, 0.25));
+}
+
+.month-icon.july {
+  background: linear-gradient(145deg, rgba(255, 180, 180, 0.3), rgba(240, 140, 150, 0.2), rgba(200, 120, 130, 0.25));
+}
+
+.month-icon.august {
+  background: linear-gradient(145deg, rgba(255, 210, 170, 0.3), rgba(240, 180, 140, 0.2), rgba(200, 150, 120, 0.25));
+}
+
+.month-icon.september {
+  background: linear-gradient(145deg, rgba(255, 190, 170, 0.3), rgba(220, 150, 140, 0.2), rgba(180, 120, 110, 0.25));
+}
+
+.month-icon.october {
+  background: linear-gradient(145deg, rgba(255, 170, 140, 0.3), rgba(220, 130, 110, 0.2), rgba(180, 100, 90, 0.25));
+}
+
+.month-icon.november {
+  background: linear-gradient(145deg, rgba(200, 160, 220, 0.3), rgba(160, 120, 190, 0.2), rgba(130, 90, 160, 0.25));
+}
+
+.month-icon.december {
+  background: linear-gradient(145deg, rgba(190, 210, 240, 0.3), rgba(150, 180, 220, 0.2), rgba(120, 150, 190, 0.25));
+}
+
+/* Month info */
+.month-name {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: rgba(255, 240, 250, 0.95);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  flex: 1;
+}
+
+/* Month count badge */
+.month-count {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255, 200, 230, 0.5);
+  flex-shrink: 0;
+}
+
+/* Footer with beautiful 3D button */
+.sidebar-footer {
+  padding: 16px 14px 20px;
+  display: flex;
+  justify-content: center;
+  border-top: 1px solid rgba(255, 180, 220, 0.1);
+}
+
+.add-dream-btn {
+  position: relative;
+  width: 100%;
+  padding: 16px 24px;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  background: linear-gradient(145deg,
+      #8b3a6e 0%,
+      #6d2854 50%,
+      #5a2045 100%);
+  box-shadow:
+    0 6px 0 #3d1530,
+    0 8px 16px rgba(60, 20, 50, 0.5),
+    inset 0 1px 0 rgba(255, 180, 220, 0.25);
+  transition: all 0.1s ease;
+  overflow: hidden;
+}
+
+.add-dream-btn:hover {
+  background: linear-gradient(145deg,
+      #9a4578 0%,
+      #7d3260 50%,
+      #6a2850 100%);
+  transform: translateY(1px);
+  box-shadow:
+    0 5px 0 #3d1530,
+    0 7px 14px rgba(60, 20, 50, 0.5),
+    inset 0 1px 0 rgba(255, 180, 220, 0.25);
+}
+
+.add-dream-btn:active {
+  transform: translateY(4px);
+  box-shadow:
+    0 2px 0 #3d1530,
+    0 4px 8px rgba(60, 20, 50, 0.4),
+    inset 0 1px 0 rgba(255, 180, 220, 0.2);
+}
+
+.btn-highlight {
+  position: absolute;
+  top: 6px;
+  left: 12px;
+  width: 30px;
+  height: 12px;
+  background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.35) 0%,
+      rgba(255, 255, 255, 0.1) 50%,
+      transparent 100%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.btn-text {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 19px;
+  font-weight: 600;
+  color: rgba(255, 240, 250, 0.95);
+  letter-spacing: 1px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 1;
+}
+
+/* =============== DREAM DIALOG =============== */
+.dream-dialog-overlay {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(60, 20, 50, 0.7) 0%, rgba(30, 10, 30, 0.9) 100%);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dream-dialog-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.dream-dialog {
+  position: relative;
+  width: 90%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: linear-gradient(165deg,
+      rgba(200, 140, 200, 0.15) 0%,
+      rgba(160, 100, 170, 0.1) 25%,
+      rgba(120, 80, 150, 0.12) 50%,
+      rgba(140, 90, 160, 0.1) 75%,
+      rgba(180, 120, 180, 0.15) 100%);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-radius: 32px;
+  border: 1px solid rgba(255, 200, 255, 0.2);
+  box-shadow:
+    0 25px 80px rgba(40, 10, 40, 0.6),
+    0 10px 40px rgba(60, 20, 50, 0.4),
+    inset 0 1px 0 rgba(255, 220, 255, 0.2),
+    inset 0 -1px 0 rgba(80, 30, 80, 0.15);
+  padding: 0;
+  transform: scale(0.9) translateY(20px);
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.dream-dialog-overlay.active .dream-dialog {
+  transform: scale(1) translateY(0);
+}
+
+/* Close button */
+.dialog-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 200, 230, 0.1);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+.dialog-close:hover {
+  background: rgba(255, 200, 230, 0.2);
+  transform: rotate(90deg);
+}
+
+.dialog-close svg {
+  width: 18px;
+  height: 18px;
+  color: rgba(255, 220, 240, 0.8);
+}
+
+/* Character section */
+.dialog-character {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg,
+      rgba(200, 130, 180, 0.2) 0%,
+      rgba(180, 100, 160, 0.15) 50%,
+      transparent 100%);
+  border-radius: 32px 32px 0 0;
+  overflow: hidden;
+}
+
+.character-glow {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle,
+      rgba(255, 180, 220, 0.4) 0%,
+      rgba(200, 120, 180, 0.2) 40%,
+      transparent 70%);
+  animation: characterPulse 3s ease-in-out infinite;
+}
+
+@keyframes characterPulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+
+  50% {
+    transform: scale(1.1);
+    opacity: 0.9;
+  }
+}
+
+.dialog-character img {
+  position: relative;
+  height: 160px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 30px rgba(100, 40, 80, 0.5));
+  animation: characterFloat 4s ease-in-out infinite;
+  z-index: 1;
+}
+
+@keyframes characterFloat {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* Dialog content */
+.dialog-content {
+  padding: 24px 28px 28px;
+}
+
+.dialog-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 28px;
+  font-weight: 600;
+  color: rgba(255, 240, 250, 0.95);
+  text-align: center;
+  margin: 0 0 4px;
+  letter-spacing: 2px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.dialog-subtitle {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 14px;
+  font-style: italic;
+  color: rgba(255, 200, 230, 0.7);
+  text-align: center;
+  margin: 0 0 24px;
+}
+
+/* Form styles */
+.dialog-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255, 220, 240, 0.8);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid rgba(255, 180, 220, 0.15);
+  border-radius: 14px;
+  background: rgba(255, 200, 230, 0.06);
+  backdrop-filter: blur(4px);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 15px;
+  color: rgba(255, 240, 250, 0.95);
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: rgba(255, 200, 230, 0.4);
+  font-style: italic;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: rgba(255, 180, 220, 0.35);
+  background: rgba(255, 200, 230, 0.1);
+  box-shadow: 0 0 20px rgba(255, 150, 200, 0.15);
+}
+
+.form-group textarea {
+  resize: none;
+  min-height: 100px;
+}
+
+.form-group select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ffb8d4' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 40px;
+}
+
+.form-group select option {
+  background: #4a1840;
+  color: #fff;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+/* Action buttons */
+.dialog-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.btn-secondary {
+  flex: 1;
+  padding: 14px 20px;
+  border: 1px solid rgba(255, 180, 220, 0.2);
+  border-radius: 14px;
+  background: rgba(255, 200, 230, 0.06);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: rgba(255, 220, 240, 0.8);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 200, 230, 0.12);
+  border-color: rgba(255, 180, 220, 0.3);
+}
+
+.btn-primary {
+  flex: 1.5;
+  position: relative;
+  padding: 14px 24px;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(145deg,
+      #9b4a78 0%,
+      #7d3260 50%,
+      #6a2850 100%);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: rgba(255, 240, 250, 0.95);
+  cursor: pointer;
+  box-shadow:
+    0 4px 0 #4a1838,
+    0 6px 16px rgba(60, 20, 50, 0.4),
+    inset 0 1px 0 rgba(255, 180, 220, 0.25);
+  transition: all 0.1s ease;
+  overflow: hidden;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(145deg,
+      #a85585 0%,
+      #8a3a6a 50%,
+      #753058 100%);
+  transform: translateY(1px);
+  box-shadow:
+    0 3px 0 #4a1838,
+    0 5px 12px rgba(60, 20, 50, 0.4),
+    inset 0 1px 0 rgba(255, 180, 220, 0.25);
+}
+
+.btn-primary:active {
+  transform: translateY(3px);
+  box-shadow:
+    0 1px 0 #4a1838,
+    0 2px 8px rgba(60, 20, 50, 0.3),
+    inset 0 1px 0 rgba(255, 180, 220, 0.2);
+}
+
+.btn-primary .btn-highlight {
+  position: absolute;
+  top: 4px;
+  left: 10px;
+  width: 25px;
+  height: 10px;
+  background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.3) 0%,
+      rgba(255, 255, 255, 0.1) 50%,
+      transparent 100%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* Custom scrollbar for dialog */
+.dream-dialog::-webkit-scrollbar {
+  width: 6px;
+}
+
+.dream-dialog::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.dream-dialog::-webkit-scrollbar-thumb {
+  background: rgba(255, 180, 220, 0.2);
+  border-radius: 6px;
+}
+
+.dream-dialog::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 180, 220, 0.35);
+}
+
+@media (max-width: 520px) {
+  .dream-dialog {
+    width: 95%;
+    border-radius: 24px;
+  }
+
+  .dialog-character {
+    height: 160px;
+    border-radius: 24px 24px 0 0;
+  }
+
+  .dialog-character img {
+    height: 130px;
+  }
+
+  .dialog-content {
+    padding: 20px 20px 24px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =============== LETTER TO MOON ANIMATION =============== */
+/* State when dialog is shrinking before transforming to letter */
+.dream-dialog.shrinking {
+  animation: dialogShrink 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  pointer-events: none;
+}
+
+@keyframes dialogShrink {
+  0% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+    filter: blur(0px);
+  }
+
+  40% {
+    transform: scale(0.4) translateY(0);
+    opacity: 1;
+    filter: blur(1px);
+  }
+
+  70% {
+    transform: scale(0.15) translateY(0);
+    opacity: 0.7;
+    filter: blur(3px);
+  }
+
+  100% {
+    transform: scale(0) translateY(0);
+    opacity: 0;
+    filter: blur(5px);
+  }
+}
+
+/* Flying letter element - Futuristic holographic envelope */
+.flying-letter {
+  position: fixed;
+  z-index: 3000;
+  pointer-events: none;
+  /* Envelope shape */
+  width: 140px;
+  height: 100px;
+  background: linear-gradient(165deg,
+      #1a0a2e 0%,
+      #2d1b4e 30%,
+      #4a2c7a 60%,
+      #6b3fa0 100%);
+  border-radius: 6px 6px 14px 14px;
+  box-shadow:
+    0 0 40px rgba(147, 51, 234, 0.7),
+    0 0 80px rgba(79, 209, 197, 0.4),
+    0 20px 60px rgba(30, 10, 60, 0.8),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    inset 0 -4px 10px rgba(79, 209, 197, 0.2);
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  border: 1px solid rgba(147, 51, 234, 0.6);
+  /* Holographic shimmer */
+  background-image:
+    linear-gradient(165deg,
+      #1a0a2e 0%,
+      #2d1b4e 30%,
+      #4a2c7a 60%,
+      #6b3fa0 100%),
+    linear-gradient(45deg,
+      transparent 30%,
+      rgba(79, 209, 197, 0.1) 50%,
+      transparent 70%);
+}
+
+/* Envelope flap (top triangle) - neon edge */
+.flying-letter::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  background: linear-gradient(175deg,
+      #2d1b4e 0%,
+      #4a2c7a 50%,
+      #6b3fa0 100%);
+  clip-path: polygon(0 0, 50% 100%, 100% 0);
+  transform-origin: top center;
+  animation: flapWing 0.2s ease-in-out infinite alternate;
+  box-shadow:
+    0 0 20px rgba(147, 51, 234, 0.5),
+    inset 0 -15px 25px rgba(79, 209, 197, 0.15);
+  border-bottom: 1px solid rgba(79, 209, 197, 0.4);
+}
+
+/* Glowing crystal seal */
+.flying-letter::after {
+  content: '✧';
+  position: absolute;
+  top: 35px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 32px;
+  height: 32px;
+  background: radial-gradient(circle at 40% 40%,
+      #4fd1c5 0%,
+      #38a89d 40%,
+      #2c7a7b 70%,
+      #1d4e4e 100%);
+  border-radius: 50%;
+  font-size: 14px;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 32px;
+  text-align: center;
+  box-shadow:
+    0 0 20px rgba(79, 209, 197, 0.8),
+    0 0 40px rgba(79, 209, 197, 0.4),
+    inset 0 2px 3px rgba(255, 255, 255, 0.4),
+    inset 0 -2px 3px rgba(20, 60, 60, 0.4);
+  z-index: 5;
+  animation: sealGlow 1s ease-in-out infinite alternate;
+}
+
+@keyframes sealGlow {
+  0% {
+    box-shadow: 0 0 20px rgba(79, 209, 197, 0.8), 0 0 40px rgba(79, 209, 197, 0.4), inset 0 2px 3px rgba(255, 255, 255, 0.4);
+  }
+
+  100% {
+    box-shadow: 0 0 30px rgba(79, 209, 197, 1), 0 0 60px rgba(147, 51, 234, 0.6), inset 0 2px 3px rgba(255, 255, 255, 0.5);
+  }
+}
+
+/* Wing flapping animation */
+@keyframes flapWing {
+  0% {
+    transform: rotateX(0deg);
+  }
+
+  100% {
+    transform: rotateX(-25deg);
+  }
+}
+
+/* Left wing - holographic energy wing */
+.letter-wing-left {
+  position: absolute;
+  left: -45px;
+  top: 25px;
+  width: 55px;
+  height: 35px;
+  background: linear-gradient(150deg,
+      rgba(147, 51, 234, 0.9) 0%,
+      rgba(79, 209, 197, 0.7) 50%,
+      rgba(147, 51, 234, 0.8) 100%);
+  border-radius: 80% 80% 60% 20%;
+  transform-origin: right center;
+  animation: leftWingFlap 0.1s ease-in-out infinite alternate;
+  box-shadow:
+    0 0 25px rgba(147, 51, 234, 0.6),
+    0 0 50px rgba(79, 209, 197, 0.3),
+    inset 0 3px 6px rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(79, 209, 197, 0.5);
+}
+
+/* Right wing - holographic energy wing */
+.letter-wing-right {
+  position: absolute;
+  right: -45px;
+  top: 25px;
+  width: 55px;
+  height: 35px;
+  background: linear-gradient(210deg,
+      rgba(147, 51, 234, 0.9) 0%,
+      rgba(79, 209, 197, 0.7) 50%,
+      rgba(147, 51, 234, 0.8) 100%);
+  border-radius: 80% 80% 20% 60%;
+  transform-origin: left center;
+  animation: rightWingFlap 0.1s ease-in-out infinite alternate;
+  box-shadow:
+    0 0 25px rgba(147, 51, 234, 0.6),
+    0 0 50px rgba(79, 209, 197, 0.3),
+    inset 0 3px 6px rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(79, 209, 197, 0.5);
+}
+
+@keyframes leftWingFlap {
+  0% {
+    transform: rotateZ(10deg) rotateY(0deg);
+  }
+
+  100% {
+    transform: rotateZ(-15deg) rotateY(-20deg);
+  }
+}
+
+@keyframes rightWingFlap {
+  0% {
+    transform: rotateZ(-10deg) rotateY(0deg);
+  }
+
+  100% {
+    transform: rotateZ(15deg) rotateY(20deg);
+  }
+}
+
+/* Letter appear/grow animation */
+.flying-letter.growing {
+  animation: letterGrow 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes letterGrow {
+  0% {
+    transform: scale(0.05);
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Sparkle trail effect - cyan energy particles */
+.letter-sparkle {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  background: radial-gradient(circle,
+      rgba(79, 209, 197, 1) 0%,
+      rgba(147, 51, 234, 0.8) 40%,
+      rgba(79, 209, 197, 0.4) 70%,
+      transparent 100%);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: sparkleTrail 0.8s ease-out forwards;
+  z-index: 2998;
+}
+
+@keyframes sparkleTrail {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(0.2) translateY(15px);
+  }
+}
+
+/* Glow around letter as it flies - dual color aura */
+.flying-letter-glow {
+  position: absolute;
+  inset: -25px;
+  background: radial-gradient(ellipse at center,
+      rgba(79, 209, 197, 0.4) 0%,
+      rgba(147, 51, 234, 0.3) 40%,
+      transparent 70%);
+  animation: letterGlowPulse 0.5s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+@keyframes letterGlowPulse {
+  0% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1.3);
+  }
+}
+
+/* Moon arrival flash */
+.moon-flash {
+  position: fixed;
+  border-radius: 50%;
+  background: radial-gradient(circle,
+      rgba(255, 255, 255, 0.9) 0%,
+      rgba(255, 200, 230, 0.6) 30%,
+      rgba(255, 150, 200, 0.3) 60%,
+      transparent 100%);
+  pointer-events: none;
+  z-index: 2999;
+  animation: moonFlash 0.8s ease-out forwards;
+}
+
+@keyframes moonFlash {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+
+  30% {
+    opacity: 1;
+    transform: scale(1.5);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(3);
+  }
+}
+
+/* =============== CALENDAR VIEW =============== */
+.calendar-view {
+  display: none;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  /* Critical for flex children to scroll */
+  overflow: hidden;
+  padding: 0 10px 10px;
+  animation: calendarFadeIn 0.3s ease-out;
+}
+
+.calendar-view.active {
+  display: flex;
+}
+
+@keyframes calendarFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Hide month cards when calendar is shown */
+.sidebar-content.hidden {
+  display: none;
+}
+
+/* Calendar Header */
+.calendar-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 6px;
+  margin-bottom: 8px;
+}
+
+.calendar-back {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 200, 230, 0.1);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.calendar-back:hover {
+  background: rgba(255, 200, 230, 0.2);
+  transform: translateX(-2px);
+}
+
+.calendar-back svg {
+  width: 18px;
+  height: 18px;
+  color: rgba(255, 220, 240, 0.8);
+}
+
+.calendar-title {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.calendar-month {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: rgba(255, 240, 250, 0.95);
+  letter-spacing: 1px;
+}
+
+.calendar-year {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 13px;
+  color: rgba(255, 200, 230, 0.6);
+  letter-spacing: 2px;
+}
+
+/* Weekday Labels */
+.calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+  padding: 12px 8px;
+  border-bottom: 1px solid rgba(255, 180, 220, 0.15);
+  margin-bottom: 12px;
+}
+
+.calendar-weekdays span {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255, 200, 230, 0.6);
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+/* Calendar Grid */
+.calendar-grid {
+  flex: 1;
+  min-height: 0;
+  /* Critical for scrolling in flex container */
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 12px;
+  padding: 8px 4px;
+  align-content: start;
+}
+
+/* Custom scrollbar for calendar */
+.calendar-grid::-webkit-scrollbar {
+  width: 4px;
+}
+
+.calendar-grid::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.calendar-grid::-webkit-scrollbar-thumb {
+  background: rgba(255, 180, 220, 0.25);
+  border-radius: 4px;
+}
+
+.calendar-grid::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 180, 220, 0.4);
+}
+
+/* Day Bubbles - Glossy Glass Orbs */
+.calendar-day {
+  aspect-ratio: 1;
+  min-width: 32px;
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: rgba(255, 240, 250, 0.95);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+
+  /* Glassy gradient background */
+  background: linear-gradient(160deg,
+      rgba(255, 220, 240, 0.2) 0%,
+      rgba(200, 150, 200, 0.12) 30%,
+      rgba(160, 100, 160, 0.15) 60%,
+      rgba(180, 120, 180, 0.18) 100%);
+
+  /* Glass border */
+  border: 1px solid rgba(255, 200, 230, 0.25);
+
+  /* 3D glass effect with multiple shadows */
+  box-shadow:
+    0 4px 12px rgba(80, 30, 60, 0.25),
+    0 2px 4px rgba(0, 0, 0, 0.1),
+    inset 0 2px 4px rgba(255, 255, 255, 0.2),
+    inset 0 -2px 6px rgba(100, 40, 80, 0.15);
+}
+
+/* Glossy highlight reflection */
+.calendar-day::before {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 15%;
+  width: 50%;
+  height: 35%;
+  background: linear-gradient(180deg,
+      rgba(255, 255, 255, 0.35) 0%,
+      rgba(255, 255, 255, 0.1) 50%,
+      transparent 100%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.calendar-day:hover {
+  background: linear-gradient(160deg,
+      rgba(255, 220, 240, 0.35) 0%,
+      rgba(220, 170, 220, 0.25) 30%,
+      rgba(180, 130, 180, 0.28) 60%,
+      rgba(200, 150, 200, 0.32) 100%);
+  border-color: rgba(255, 200, 230, 0.4);
+  transform: scale(1.15) translateY(-2px);
+  box-shadow:
+    0 8px 20px rgba(255, 150, 200, 0.35),
+    0 4px 8px rgba(80, 30, 60, 0.2),
+    inset 0 2px 6px rgba(255, 255, 255, 0.3),
+    inset 0 -2px 8px rgba(100, 40, 80, 0.1);
+  z-index: 2;
+}
+
+.calendar-day:active {
+  transform: scale(1.08) translateY(0);
+}
+
+/* Empty day (padding for week alignment) */
+.calendar-day.empty {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  cursor: default;
+}
+
+.calendar-day.empty::before {
+  display: none;
+}
+
+.calendar-day.empty:hover {
+  transform: none;
+  background: transparent;
+}
+
+/* Other month days (previous/next month) */
+.calendar-day.other-month {
+  color: rgba(255, 200, 230, 0.35);
+  background: linear-gradient(160deg,
+      rgba(255, 220, 240, 0.06) 0%,
+      rgba(200, 150, 200, 0.04) 50%,
+      rgba(180, 120, 180, 0.06) 100%);
+  border-color: rgba(255, 200, 230, 0.1);
+  box-shadow:
+    0 2px 6px rgba(80, 30, 60, 0.1),
+    inset 0 1px 2px rgba(255, 255, 255, 0.08);
+}
+
+.calendar-day.other-month::before {
+  opacity: 0.3;
+}
+
+.calendar-day.other-month:hover {
+  color: rgba(255, 200, 230, 0.6);
+  background: linear-gradient(160deg,
+      rgba(255, 220, 240, 0.12) 0%,
+      rgba(200, 150, 200, 0.08) 50%,
+      rgba(180, 120, 180, 0.12) 100%);
+  transform: scale(1.1) translateY(-1px);
+}
+
+/* Today's date */
+.calendar-day.today {
+  background: linear-gradient(160deg,
+      rgba(192, 160, 252, 0.4) 0%,
+      rgba(170, 130, 220, 0.35) 30%,
+      rgba(150, 110, 200, 0.38) 60%,
+      rgba(180, 140, 230, 0.42) 100%);
+  border-color: rgba(192, 132, 252, 0.5);
+  color: rgba(255, 250, 255, 1);
+  font-weight: 700;
+  box-shadow:
+    0 0 25px rgba(192, 132, 252, 0.4),
+    0 6px 16px rgba(160, 100, 200, 0.3),
+    inset 0 2px 4px rgba(255, 255, 255, 0.25),
+    inset 0 -2px 6px rgba(140, 80, 180, 0.15);
+}
+
+.calendar-day.today::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid rgba(192, 132, 252, 0.4);
+  animation: todayPulse 2s ease-in-out infinite;
+}
+
+@keyframes todayPulse {
+
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+
+/* Day with dreams recorded */
+.calendar-day.has-dream {
+  background: linear-gradient(160deg,
+      rgba(255, 200, 220, 0.35) 0%,
+      rgba(240, 160, 200, 0.28) 30%,
+      rgba(220, 140, 180, 0.32) 60%,
+      rgba(240, 170, 210, 0.38) 100%);
+  border-color: rgba(255, 180, 220, 0.4);
+  box-shadow:
+    0 4px 12px rgba(255, 150, 200, 0.3),
+    0 2px 4px rgba(80, 30, 60, 0.15),
+    inset 0 2px 4px rgba(255, 255, 255, 0.2),
+    inset 0 -2px 6px rgba(200, 100, 150, 0.15),
+    0 0 20px rgba(255, 180, 220, 0.2);
+}
+
+/* Weekend days subtle styling */
+.calendar-day.weekend {
+  color: rgba(255, 210, 235, 0.85);
+}
+
+/* Responsive calendar */
+@media (max-width: 520px) {
+  .calendar-day {
+    font-size: 13px;
+    min-width: 28px;
+    min-height: 28px;
+  }
+
+  .calendar-grid {
+    gap: 8px;
+  }
+
+  .calendar-month {
+    font-size: 18px;
+  }
+}
+
+/* =============== TAROT CARD DREAM VIEW =============== */
+.tarot-overlay {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at center,
+      rgba(20, 10, 25, 0.85) 0%,
+      rgba(10, 5, 15, 0.95) 100%);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 2500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tarot-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Mystical background effects */
+.tarot-mystical-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.tarot-stars {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(2px 2px at 20px 30px, rgba(212, 175, 55, 0.6), transparent),
+    radial-gradient(2px 2px at 40px 70px, rgba(212, 175, 55, 0.4), transparent),
+    radial-gradient(1px 1px at 90px 40px, rgba(212, 175, 55, 0.5), transparent),
+    radial-gradient(2px 2px at 130px 80px, rgba(212, 175, 55, 0.6), transparent),
+    radial-gradient(1px 1px at 160px 120px, rgba(212, 175, 55, 0.4), transparent),
+    radial-gradient(2px 2px at 200px 50px, rgba(212, 175, 55, 0.5), transparent),
+    radial-gradient(1px 1px at 250px 90px, rgba(212, 175, 55, 0.6), transparent),
+    radial-gradient(2px 2px at 300px 60px, rgba(212, 175, 55, 0.4), transparent),
+    radial-gradient(1px 1px at 350px 110px, rgba(212, 175, 55, 0.5), transparent),
+    radial-gradient(2px 2px at 400px 30px, rgba(212, 175, 55, 0.6), transparent);
+  background-size: 450px 150px;
+  animation: twinkleStars 4s ease-in-out infinite;
+}
+
+@keyframes twinkleStars {
+
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+.tarot-rays {
+  position: absolute;
+  inset: 0;
+  background:
+    conic-gradient(from 0deg at 50% 50%,
+      transparent 0deg,
+      rgba(212, 175, 55, 0.03) 10deg,
+      transparent 20deg,
+      transparent 30deg,
+      rgba(212, 175, 55, 0.02) 40deg,
+      transparent 50deg);
+  animation: rotateRays 60s linear infinite;
+}
+
+@keyframes rotateRays {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Tarot Card Main Container */
+.tarot-card {
+  position: relative;
+  width: 360px;
+  max-width: 90vw;
+  min-height: 520px;
+  max-height: 85vh;
+  transform: scale(0.85) rotateY(90deg);
+  transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  perspective: 1000px;
+}
+
+.tarot-overlay.active .tarot-card {
+  transform: scale(1) rotateY(0deg);
+}
+
+.tarot-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 520px;
+  background: linear-gradient(165deg,
+      #1a1420 0%,
+      #0f0a14 40%,
+      #120d18 70%,
+      #1a1420 100%);
+  border-radius: 20px;
+  border: 2px solid;
+  border-image: linear-gradient(160deg,
+      rgba(212, 175, 55, 0.8) 0%,
+      rgba(184, 134, 11, 0.4) 25%,
+      rgba(212, 175, 55, 0.6) 50%,
+      rgba(184, 134, 11, 0.4) 75%,
+      rgba(212, 175, 55, 0.8) 100%) 1;
+  box-shadow:
+    0 0 40px rgba(212, 175, 55, 0.15),
+    0 25px 60px rgba(0, 0, 0, 0.6),
+    inset 0 0 60px rgba(212, 175, 55, 0.05);
+  padding: 30px 24px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Ornate corner decorations */
+.tarot-corner {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  pointer-events: none;
+}
+
+.tarot-corner::before,
+.tarot-corner::after {
+  content: '';
+  position: absolute;
+  background: rgba(212, 175, 55, 0.7);
+}
+
+.tarot-corner::before {
+  width: 20px;
+  height: 2px;
+}
+
+.tarot-corner::after {
+  width: 2px;
+  height: 20px;
+}
+
+.tarot-corner.top-left {
+  top: 12px;
+  left: 12px;
+}
+
+.tarot-corner.top-left::before {
+  top: 0;
+  left: 0;
+}
+
+.tarot-corner.top-left::after {
+  top: 0;
+  left: 0;
+}
+
+.tarot-corner.top-right {
+  top: 12px;
+  right: 12px;
+}
+
+.tarot-corner.top-right::before {
+  top: 0;
+  right: 0;
+}
+
+.tarot-corner.top-right::after {
+  top: 0;
+  right: 0;
+}
+
+.tarot-corner.bottom-left {
+  bottom: 12px;
+  left: 12px;
+}
+
+.tarot-corner.bottom-left::before {
+  bottom: 0;
+  left: 0;
+}
+
+.tarot-corner.bottom-left::after {
+  bottom: 0;
+  left: 0;
+}
+
+.tarot-corner.bottom-right {
+  bottom: 12px;
+  right: 12px;
+}
+
+.tarot-corner.bottom-right::before {
+  bottom: 0;
+  right: 0;
+}
+
+.tarot-corner.bottom-right::after {
+  bottom: 0;
+  right: 0;
+}
+
+/* Small diamond at each corner */
+.tarot-corner::after {
+  content: '◇';
+  position: absolute;
+  width: auto;
+  height: auto;
+  background: none;
+  color: rgba(212, 175, 55, 0.6);
+  font-size: 10px;
+}
+
+.tarot-corner.top-left::after {
+  top: 4px;
+  left: 4px;
+}
+
+.tarot-corner.top-right::after {
+  top: 4px;
+  right: 4px;
+}
+
+.tarot-corner.bottom-left::after {
+  bottom: 4px;
+  left: 4px;
+}
+
+.tarot-corner.bottom-right::after {
+  bottom: 4px;
+  right: 4px;
+}
+
+/* Close button */
+.tarot-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 50%;
+  background: rgba(212, 175, 55, 0.08);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.tarot-close:hover {
+  background: rgba(212, 175, 55, 0.2);
+  border-color: rgba(212, 175, 55, 0.6);
+  transform: rotate(90deg);
+}
+
+.tarot-close svg {
+  width: 16px;
+  height: 16px;
+  color: rgba(212, 175, 55, 0.8);
+}
+
+/* Moon phases header */
+.tarot-moon-phases {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.moon-phase {
+  font-size: 16px;
+  opacity: 0.5;
+  filter: grayscale(1) sepia(1) saturate(0.3) hue-rotate(10deg);
+  transition: all 0.3s ease;
+}
+
+.moon-phase.main {
+  font-size: 28px;
+  opacity: 1;
+  filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.5));
+}
+
+/* Sun burst decoration */
+.tarot-sun-burst {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sun-circle {
+  position: absolute;
+  width: 35px;
+  height: 35px;
+  border: 2px solid rgba(212, 175, 55, 0.6);
+  border-radius: 50%;
+  background: radial-gradient(circle at center,
+      rgba(212, 175, 55, 0.15) 0%,
+      transparent 70%);
+}
+
+.sun-rays {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  background:
+    repeating-conic-gradient(from 0deg,
+      transparent 0deg 6deg,
+      rgba(212, 175, 55, 0.4) 6deg 8deg,
+      transparent 8deg 15deg);
+  animation: sunPulse 4s ease-in-out infinite;
+}
+
+@keyframes sunPulse {
+
+  0%,
+  100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+/* Main content area */
+.tarot-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 0;
+}
+
+/* Mood icon */
+.tarot-mood-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+  filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.4));
+  animation: moodFloat 3s ease-in-out infinite;
+}
+
+@keyframes moodFloat {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+/* Dream title */
+.tarot-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 26px;
+  font-weight: 600;
+  color: rgba(212, 175, 55, 1);
+  text-align: center;
+  margin: 0 0 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  text-shadow:
+    0 0 20px rgba(212, 175, 55, 0.4),
+    0 2px 4px rgba(0, 0, 0, 0.3);
+  line-height: 1.3;
+}
+
+/* Decorative divider */
+.tarot-divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.tarot-divider::before,
+.tarot-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(212, 175, 55, 0.5) 20%,
+      rgba(212, 175, 55, 0.5) 80%,
+      transparent);
+}
+
+.divider-star {
+  color: rgba(212, 175, 55, 0.8);
+  font-size: 12px;
+}
+
+/* Dream content */
+.tarot-dream-content {
+  flex: 1;
+  width: 100%;
+  overflow-y: auto;
+  padding: 0 4px;
+  margin-bottom: 16px;
+  max-height: 180px;
+}
+
+.tarot-dream-content::-webkit-scrollbar {
+  width: 4px;
+}
+
+.tarot-dream-content::-webkit-scrollbar-track {
+  background: rgba(212, 175, 55, 0.05);
+  border-radius: 4px;
+}
+
+.tarot-dream-content::-webkit-scrollbar-thumb {
+  background: rgba(212, 175, 55, 0.3);
+  border-radius: 4px;
+}
+
+.tarot-dream-content p {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 16px;
+  font-style: italic;
+  color: rgba(255, 250, 240, 0.85);
+  line-height: 1.7;
+  text-align: center;
+  margin: 0;
+}
+
+/* Date footer */
+.tarot-date {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: auto;
+}
+
+.date-star {
+  color: rgba(212, 175, 55, 0.6);
+  font-size: 12px;
+}
+
+.date-text {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 13px;
+  color: rgba(212, 175, 55, 0.7);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* Bottom ornament */
+.tarot-bottom-ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(212, 175, 55, 0.15);
+}
+
+.ornament-dot {
+  width: 4px;
+  height: 4px;
+  background: rgba(212, 175, 55, 0.6);
+  border-radius: 50%;
+}
+
+.ornament-line {
+  width: 30px;
+  height: 1px;
+  background: rgba(212, 175, 55, 0.4);
+}
+
+.ornament-diamond {
+  color: rgba(212, 175, 55, 0.7);
+  font-size: 14px;
+}
+
+/* Tarot glow effect */
+.tarot-glow {
+  position: absolute;
+  inset: -50px;
+  background: radial-gradient(ellipse at center,
+      rgba(212, 175, 55, 0.1) 0%,
+      transparent 60%);
+  pointer-events: none;
+  animation: cardGlow 3s ease-in-out infinite;
+}
+
+@keyframes cardGlow {
+
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Responsive tarot card */
+@media (max-width: 400px) {
+  .tarot-card {
+    width: 320px;
+    min-height: 480px;
+  }
+
+  .tarot-card-inner {
+    padding: 24px 18px;
+  }
+
+  .tarot-title {
+    font-size: 22px;
+  }
+
+  .tarot-mood-icon {
+    font-size: 40px;
+  }
+
+  .tarot-sun-burst {
+    width: 60px;
+    height: 60px;
+  }
+
+  .sun-circle {
+    width: 28px;
+    height: 28px;
+  }
+
+  .sun-rays {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+/* =============== MONTHLY TAROT THEMES =============== */
+
+/* January - Frost Crystal ❄️ */
+.tarot-overlay.month-january .tarot-card-inner {
+  background: linear-gradient(165deg, #0c1929 0%, #1e3a5f 40%, #2d5a87 70%, #0c1929 100%);
+  border-color: rgba(165, 243, 252, 0.6);
+  box-shadow: 0 0 40px rgba(34, 211, 238, 0.2), 0 25px 60px rgba(0, 0, 0, 0.6), inset 0 0 60px rgba(165, 243, 252, 0.05);
+}
+
+.tarot-overlay.month-january .tarot-corner::after,
+.tarot-overlay.month-january .ornament-diamond {
+  color: rgba(165, 243, 252, 0.7);
+}
+
+.tarot-overlay.month-january .tarot-corner::before {
+  background: rgba(165, 243, 252, 0.7);
+}
+
+.tarot-overlay.month-january .tarot-close {
+  border-color: rgba(165, 243, 252, 0.3);
+}
+
+.tarot-overlay.month-january .tarot-close:hover {
+  background: rgba(165, 243, 252, 0.2);
+  border-color: rgba(165, 243, 252, 0.6);
+}
+
+.tarot-overlay.month-january .tarot-close svg {
+  color: rgba(165, 243, 252, 0.8);
+}
+
+.tarot-overlay.month-january .moon-phase.main {
+  filter: drop-shadow(0 0 8px rgba(165, 243, 252, 0.6));
+}
+
+.tarot-overlay.month-january .sun-circle {
+  border-color: rgba(165, 243, 252, 0.6);
+  background: radial-gradient(circle, rgba(165, 243, 252, 0.15) 0%, transparent 70%);
+}
+
+.tarot-overlay.month-january .sun-rays {
+  background: repeating-conic-gradient(from 0deg, transparent 0deg 6deg, rgba(165, 243, 252, 0.4) 6deg 8deg, transparent 8deg 15deg);
+}
+
+.tarot-overlay.month-january .tarot-mood-icon {
+  filter: drop-shadow(0 0 10px rgba(165, 243, 252, 0.5));
+}
+
+.tarot-overlay.month-january .tarot-title {
+  color: rgba(165, 243, 252, 1);
+  text-shadow: 0 0 20px rgba(165, 243, 252, 0.5), 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.tarot-overlay.month-january .tarot-divider::before,
+.tarot-overlay.month-january .tarot-divider::after {
+  background: linear-gradient(90deg, transparent, rgba(165, 243, 252, 0.5) 20%, rgba(165, 243, 252, 0.5) 80%, transparent);
+}
+
+.tarot-overlay.month-january .divider-star {
+  color: rgba(165, 243, 252, 0.8);
+}
+
+.tarot-overlay.month-january .date-star {
+  color: rgba(165, 243, 252, 0.6);
+}
+
+.tarot-overlay.month-january .date-text {
+  color: rgba(165, 243, 252, 0.7);
+}
+
+.tarot-overlay.month-january .ornament-dot {
+  background: rgba(165, 243, 252, 0.6);
+}
+
+.tarot-overlay.month-january .ornament-line {
+  background: rgba(165, 243, 252, 0.4);
+}
+
+.tarot-overlay.month-january .tarot-bottom-ornament {
+  border-top-color: rgba(165, 243, 252, 0.15);
+}
+
+.tarot-overlay.month-january .tarot-glow {
+  background: radial-gradient(ellipse at center, rgba(165, 243, 252, 0.15) 0%, transparent 60%);
+}
+
+.tarot-overlay.month-january .tarot-stars {
+  background-image: radial-gradient(2px 2px at 20px 30px, rgba(165, 243, 252, 0.6), transparent), radial-gradient(2px 2px at 40px 70px, rgba(255, 255, 255, 0.5), transparent), radial-gradient(1px 1px at 90px 40px, rgba(165, 243, 252, 0.5), transparent), radial-gradient(2px 2px at 130px 80px, rgba(255, 255, 255, 0.6), transparent), radial-gradient(1px 1px at 160px 120px, rgba(165, 243, 252, 0.4), transparent);
+  background-size: 200px 150px;
+}
+
+.tarot-overlay.month-january .tarot-rays {
+  background: conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(165, 243, 252, 0.04) 10deg, transparent 20deg);
+}
+
+/* February - Rose Enchantment 💕 */
+.tarot-overlay.month-february .tarot-card-inner {
+  background: linear-gradient(165deg, #2d0a1a 0%, #4c0519 40%, #7f1d1d 70%, #2d0a1a 100%);
+  border-color: rgba(253, 164, 175, 0.6);
+  box-shadow: 0 0 40px rgba(225, 29, 72, 0.25), 0 25px 60px rgba(0, 0, 0, 0.6), inset 0 0 60px rgba(253, 164, 175, 0.05);
+}
+
+.tarot-overlay.month-february .tarot-corner::after,
+.tarot-overlay.month-february .ornament-diamond {
+  color: rgba(253, 164, 175, 0.7);
+}
+
+.tarot-overlay.month-february .tarot-corner::before {
+  background: rgba(253, 164, 175, 0.7);
+}
+
+.tarot-overlay.month-february .tarot-close {
+  border-color: rgba(253, 164, 175, 0.3);
+}
+
+.tarot-overlay.month-february .tarot-close:hover {
+  background: rgba(253, 164, 175, 0.2);
+}
+
+.tarot-overlay.month-february .tarot-close svg {
+  color: rgba(253, 164, 175, 0.8);
+}
+
+.tarot-overlay.month-february .moon-phase.main {
+  filter: drop-shadow(0 0 8px rgba(253, 164, 175, 0.6));
+}
+
+.tarot-overlay.month-february .sun-circle {
+  border-color: rgba(253, 164, 175, 0.6);
+  background: radial-gradient(circle, rgba(253, 164, 175, 0.15) 0%, transparent 70%);
+}
+
+.tarot-overlay.month-february .sun-rays {
+  background: repeating-conic-gradient(from 0deg, transparent 0deg 6deg, rgba(253, 164, 175, 0.4) 6deg 8deg, transparent 8deg 15deg);
+}
+
+.tarot-overlay.month-february .tarot-mood-icon {
+  filter: drop-shadow(0 0 10px rgba(253, 164, 175, 0.5));
+}
+
+.tarot-overlay.month-february .tarot-title {
+  color: rgba(253, 164, 175, 1);
+  text-shadow: 0 0 20px rgba(253, 164, 175, 0.5), 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.tarot-overlay.month-february .tarot-divider::before,
+.tarot-overlay.month-february .tarot-divider::after {
+  background: linear-gradient(90deg, transparent, rgba(253, 164, 175, 0.5) 20%, rgba(253, 164, 175, 0.5) 80%, transparent);
+}
+
+.tarot-overlay.month-february .divider-star {
+  color: rgba(253, 164, 175, 0.8);
+}
+
+.tarot-overlay.month-february .date-star {
+  color: rgba(253, 164, 175, 0.6);
+}
+
+.tarot-overlay.month-february .date-text {
+  color: rgba(253, 164, 175, 0.7);
+}
+
+.tarot-overlay.month-february .ornament-dot {
+  background: rgba(253, 164, 175, 0.6);
+}
+
+.tarot-overlay.month-february .ornament-line {
+  background: rgba(253, 164, 175, 0.4);
+}
+
+.tarot-overlay.month-february .tarot-bottom-ornament {
+  border-top-color: rgba(253, 164, 175, 0.15);
+}
+
+.tarot-overlay.month-february .tarot-glow {
+  background: radial-gradient(ellipse at center, rgba(253, 164, 175, 0.15) 0%, transparent 60%);
+}
+
+.tarot-overlay.month-february .tarot-stars {
+  background-image: radial-gradient(3px 3px at 20px 30px, rgba(253, 164, 175, 0.6), transparent), radial-gradient(2px 2px at 60px 80px, rgba(253, 164, 175, 0.4), transparent), radial-gradient(2px 2px at 120px 50px, rgba(253, 164, 175, 0.5), transparent);
+  background-size: 180px 120px;
+}
+
+.tarot-overlay.month-february .tarot-rays {
+  background: conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(253, 164, 175, 0.04) 10deg, transparent 20deg);
+}
+
+/* March - Spring Awakening 🌸 */
+.tarot-overlay.month-march .tarot-card-inner {
+  background: linear-gradient(165deg, #0f1f14 0%, #14532d 40%, #166534 70%, #0f1f14 100%);
+  border-color: rgba(134, 239, 172, 0.6);
+  box-shadow: 0 0 40px rgba(34, 197, 94, 0.2), 0 25px 60px rgba(0, 0, 0, 0.6), inset 0 0 60px rgba(134, 239, 172, 0.05);
+}
+
+.tarot-overlay.month-march .tarot-corner::after,
+.tarot-overlay.month-march .ornament-diamond {
+  color: rgba(134, 239, 172, 0.7);
+}
+
+.tarot-overlay.month-march .tarot-corner::before {
+  background: rgba(134, 239, 172, 0.7);
+}
+
+.tarot-overlay.month-march .tarot-close {
+  border-color: rgba(134, 239, 172, 0.3);
+}
+
+.tarot-overlay.month-march .tarot-close:hover {
+  background: rgba(134, 239, 172, 0.2);
+}
+
+.tarot-overlay.month-march .tarot-close svg {
+  color: rgba(134, 239, 172, 0.8);
+}
+
+.tarot-overlay.month-march .moon-phase.main {
+  filter: drop-shadow(0 0 8px rgba(134, 239, 172, 0.6));
+}
+
+.tarot-overlay.month-march .sun-circle {
+  border-color: rgba(249, 168, 212, 0.6);
+  background: radial-gradient(circle, rgba(249, 168, 212, 0.15) 0%, transparent 70%);
+}
+
+.tarot-overlay.month-march .sun-rays {
+  background: repeating-conic-gradient(from 0deg, transparent 0deg 6deg, rgba(249, 168, 212, 0.4) 6deg 8deg, transparent 8deg 15deg);
+}
+
+.tarot-overlay.month-march .tarot-mood-icon {
+  filter: drop-shadow(0 0 10px rgba(249, 168, 212, 0.5));
+}
+
+.tarot-overlay.month-march .tarot-title {
+  color: rgba(249, 168, 212, 1);
+  text-shadow: 0 0 20px rgba(134, 239, 172, 0.4), 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.tarot-overlay.month-march .tarot-divider::before,
+.tarot-overlay.month-march .tarot-divider::after {
+  background: linear-gradient(90deg, transparent, rgba(134, 239, 172, 0.5) 20%, rgba(249, 168, 212, 0.5) 80%, transparent);
+}
+
+.tarot-overlay.month-march .divider-star {
+  color: rgba(249, 168, 212, 0.8);
+}
+
+.tarot-overlay.month-march .date-star {
+  color: rgba(134, 239, 172, 0.6);
+}
+
+.tarot-overlay.month-march .date-text {
+  color: rgba(249, 168, 212, 0.7);
+}
+
+.tarot-overlay.month-march .ornament-dot {
+  background: rgba(134, 239, 172, 0.6);
+}
+
+.tarot-overlay.month-march .ornament-line {
+  background: rgba(249, 168, 212, 0.4);
+}
+
+.tarot-overlay.month-march .tarot-bottom-ornament {
+  border-top-color: rgba(134, 239, 172, 0.15);
+}
+
+.tarot-overlay.month-march .tarot-glow {
+  background: radial-gradient(ellipse at center, rgba(134, 239, 172, 0.1) 0%, rgba(249, 168, 212, 0.1) 40%, transparent 60%);
+}
+
+.tarot-overlay.month-march .tarot-stars {
+  background-image: radial-gradient(3px 3px at 30px 40px, rgba(249, 168, 212, 0.6), transparent), radial-gradient(2px 2px at 80px 60px, rgba(134, 239, 172, 0.5), transparent), radial-gradient(2px 2px at 140px 90px, rgba(249, 168, 212, 0.4), transparent);
+  background-size: 200px 140px;
+}
+
+/* April - Storm Caller ⛈️ */
+.tarot-overlay.month-april .tarot-card-inner {
+  background: linear-gradient(165deg, #1a0a2e 0%, #3b0764 40%, #581c87 70%, #1a0a2e 100%);
+  border-color: rgba(168, 85, 247, 0.6);
+  box-shadow: 0 0 40px rgba(124, 58, 237, 0.3), 0 25px 60px rgba(0, 0, 0, 0.6), inset 0 0 60px rgba(168, 85, 247, 0.08);
+}
+
+.tarot-overlay.month-april .tarot-corner::after,
+.tarot-overlay.month-april .ornament-diamond {
+  color: rgba(168, 85, 247, 0.7);
+}
+
+.tarot-overlay.month-april .tarot-corner::before {
+  background: rgba(168, 85, 247, 0.7);
+}
+
+.tarot-overlay.month-april .tarot-close {
+  border-color: rgba(168, 85, 247, 0.3);
+}
+
+.tarot-overlay.month-april .tarot-close:hover {
+  background: rgba(168, 85, 247, 0.2);
+}
+
+.tarot-overlay.month-april .tarot-close svg {
+  color: rgba(168, 85, 247, 0.8);
+}
+
+.tarot-overlay.month-april .moon-phase.main {
+  filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.6));
+}
+
+.tarot-overlay.month-april .sun-circle {
+  border-color: rgba(255, 255, 255, 0.6);
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.2) 0%, transparent 70%);
+}
+
+.tarot-overlay.month-april .sun-rays {
+  background: repeating-conic-gradient(from 0deg, transparent 0deg 4deg, rgba(255, 255, 255, 0.6) 4deg 5deg, transparent 5deg 12deg);
+}
+
+.tarot-overlay.month-april .tarot-mood-icon {
+  filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.5));
+}
+
+.tarot-overlay.month-april .tarot-title {
+  color: rgba(233, 213, 255, 1);
+  text-shadow: 0 0 20px rgba(168, 85, 247, 0.5), 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.tarot-overlay.month-april .tarot-divider::before,
+.tarot-overlay.month-april .tarot-divider::after {
+  background: linear-gradient(90deg, transparent, rgba(168, 85, 247, 0.5) 20%, rgba(168, 85, 247, 0.5) 80%, transparent);
+}
+
+.tarot-overlay.month-april .divider-star {
+  color: rgba(233, 213, 255, 0.8);
+}
+
+.tarot-overlay.month-april .date-star {
+  color: rgba(168, 85, 247, 0.6);
+}
+
+.tarot-overlay.month-april .date-text {
+  color: rgba(233, 213, 255, 0.7);
+}
+
+.tarot-overlay.month-april .ornament-dot {
+  background: rgba(168, 85, 247, 0.6);
+}
+
+.tarot-overlay.month-april .ornament-line {
+  background: rgba(168, 85, 247, 0.4);
+}
+
+.tarot-overlay.month-april .tarot-bottom-ornament {
+  border-top-color: rgba(168, 85, 247, 0.15);
+}
+
+.tarot-overlay.month-april .tarot-glow {
+  background: radial-gradient(ellipse at center, rgba(168, 85, 247, 0.2) 0%, transparent 60%);
+}
+
+.tarot-overlay.month-april .tarot-stars {
+  background-image: radial-gradient(2px 2px at 25px 35px, rgba(255, 255, 255, 0.8), transparent), radial-gradient(1px 1px at 70px 55px, rgba(168, 85, 247, 0.6), transparent), radial-gradient(2px 2px at 150px 80px, rgba(255, 255, 255, 0.7), transparent);
+  background-size: 200px 120px;
+}
+
+.tarot-overlay.month-april .tarot-rays {
+  background: conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(168, 85, 247, 0.06) 8deg, transparent 16deg);
+}
+
+/* May - Wildflower Witch 🌺 */
+.tarot-overlay.month-may .tarot-card-inner {
+  background: linear-gradient(165deg, #1a1a2e 0%, #16213e 40%, #0f3460 70%, #1a1a2e 100%);
+  border-color: rgba(251, 146, 60, 0.6);
+  box-shadow: 0 0 40px rgba(236, 72, 153, 0.2), 0 25px 60px rgba(0, 0, 0, 0.6), inset 0 0 60px rgba(251, 146, 60, 0.05);
+}
+
+.tarot-overlay.month-may .tarot-corner::after,
+.tarot-overlay.month-may .ornament-diamond {
+  color: rgba(251, 146, 60, 0.7);
+}
+
+.tarot-overlay.month-may .tarot-corner::before {
+  background: rgba(236, 72, 153, 0.7);
+}
+
+.tarot-overlay.month-may .tarot-close {
+  border-color: rgba(251, 146, 60, 0.3);
+}
+
+.tarot-overlay.month-may .tarot-close:hover {
+  background: rgba(251, 146, 60, 0.2);
+}
+
+.tarot-overlay.month-may .tarot-close svg {
+  color: rgba(251, 146, 60, 0.8);
+}
+
+.tarot-overlay.month-may .moon-phase.main {
+  filter: drop-shadow(0 0 8px rgba(236, 72, 153, 0.6));
+}
+
+.tarot-overlay.month-may .sun-circle {
+  border-color: rgba(34, 211, 238, 0.6);
+  background: radial-gradient(circle, rgba(251, 146, 60, 0.15) 0%, transparent 70%);
+}
+
+.tarot-overlay.month-may .sun-rays {
+  background: repeating-conic-gradient(from 0deg, transparent 0deg 5deg, rgba(236, 72, 153, 0.3) 5deg 7deg, transparent 7deg 10deg, rgba(34, 211, 238, 0.3) 10deg 12deg, transparent 12deg 15deg);
+}
+
+.tarot-overlay.month-may .tarot-mood-icon {
+  filter: drop-shadow(0 0 10px rgba(251, 146, 60, 0.5));
+}
+
+.tarot-overlay.month-may .tarot-title {
+  color: rgba(251, 146, 60, 1);
+  text-shadow: 0 0 20px rgba(236, 72, 153, 0.4), 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.tarot-overlay.month-may .tarot-divider::before,
+.tarot-overlay.month-may .tarot-divider::after {
+  background: linear-gradient(90deg, transparent, rgba(236, 72, 153, 0.5) 20%, rgba(34, 211, 238, 0.5) 80%, transparent);
+}
+
+.tarot-overlay.month-may .divider-star {
+  color: rgba(251, 146, 60, 0.8);
+}
+
+.tarot-overlay.month-may .date-star {
+  color: rgba(236, 72, 153, 0.6);
+}
+
+.tarot-overlay.month-may .date-text {
+  color: rgba(34, 211, 238, 0.7);
+}
+
+.tarot-overlay.month-may .ornament-dot {
+  background: rgba(236, 72, 153, 0.6);
+}
+
+.tarot-overlay.month-may .ornament-line {
+  background: rgba(34, 211, 238, 0.4);
+}
+
+.tarot-overlay.month-may .tarot-bottom-ornament {
+  border-top-color: rgba(251, 146, 60, 0.15);
+}
+
+.tarot-overlay.month-may .tarot-glow {
+  background: radial-gradient(ellipse at center, rgba(236, 72, 153, 0.1) 0%, rgba(34, 211, 238, 0.1) 40%, transparent 60%);
+}
+
+.tarot-overlay.month-may .tarot-stars {
+  background-image: radial-gradient(3px 3px at 20px 25px, rgba(251, 146, 60, 0.6), transparent), radial-gradient(2px 2px at 60px 70px, rgba(236, 72, 153, 0.5), transparent), radial-gradient(3px 3px at 120px 40px, rgba(34, 211, 238, 0.5), transparent);
+  background-size: 180px 100px;
+}
+
+/* June - Solar Priestess ☀️ */
+.tarot-overlay.month-june .tarot-card-inner {
+  background: linear-gradient(165deg, #1c1310 0%, #422006 40%, #713f12 70%, #1c1310 100%);
+  border-color: rgba(251, 191, 36, 0.6);
+  box-shadow: 0 0 40px rgba(245, 158, 11, 0.3), 0 25px 60px rgba(0, 0, 0, 0.6), inset 0 0 60px rgba(251, 191, 36, 0.08);
+}
+
+.tarot-overlay.month-june .tarot-corner::after,
+.tarot-overlay.month-june .ornament-diamond {
+  color: rgba(251, 191, 36, 0.7);
+}
+
+.tarot-overlay.month-june .tarot-corner::before {
+  background: rgba(251, 191, 36, 0.7);
+}
+
+.tarot-overlay.month-june .tarot-close {
+  border-color: rgba(251, 191, 36, 0.3);
+}
+
+.tarot-overlay.month-june .tarot-close:hover {
+  background: rgba(251, 191, 36, 0.2);
+}
+
+.tarot-overlay.month-june .tarot-close svg {
+  color: rgba(251, 191, 36, 0.8);
+}
+
+.tarot-overlay.month-june .moon-phase.main {
+  filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.6)) brightness(1.2);
+}
+
+.tarot-overlay.month-june .sun-circle {
+  border-color: rgba(251, 191, 36, 0.8);
+  background: radial-gradient(circle, rgba(251, 191, 36, 0.25) 0%, transparent 70%);
+}
+
+.tarot-overlay.month-june .sun-rays {
+  background: repeating-conic-gradient(from 0deg, transparent 0deg 5deg, rgba(251, 191, 36, 0.5) 5deg 7deg, transparent 7deg 15deg);
+}
+
+.tarot-overlay.month-june .tarot-mood-icon {
+  filter: drop-shadow(0 0 15px rgba(251, 191, 36, 0.6));
+}
+
+.tarot-overlay.month-june .tarot-title {
+  color: rgba(251, 191, 36, 1);
+  text-shadow: 0 0 25px rgba(251, 191, 36, 0.5), 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.tarot-overlay.month-june .tarot-divider::before,
+.tarot-overlay.month-june .tarot-divider::after {
+  background: linear-gradient(90deg, transparent, rgba(251, 191, 36, 0.6) 20%, rgba(251, 191, 36, 0.6) 80%, transparent);
+}
+
+.tarot-overlay.month-june .divider-star {
+  color: rgba(251, 191, 36, 0.9);
+}
+
+.tarot-overlay.month-june .date-star {
+  color: rgba(251, 191, 36, 0.6);
+}
+
+.tarot-overlay.month-june .date-text {
+  color: rgba(251, 191, 36, 0.8);
+}
+
+.tarot-overlay.month-june .ornament-dot {
+  background: rgba(251, 191, 36, 0.6);
+}
+
+.tarot-overlay.month-june .ornament-line {
+  background: rgba(251, 191, 36, 0.4);
+}
+
+.tarot-overlay.month-june .tarot-bottom-ornament {
+  border-top-color: rgba(251, 191, 36, 0.2);
+}
+
+.tarot-overlay.month-june .tarot-glow {
+  background: radial-gradient(ellipse at center, rgba(251, 191, 36, 0.2) 0%, rgba(245, 158, 11, 0.1) 40%, transparent 60%);
+}
+
+.tarot-overlay.month-june .tarot-stars {
+  background-image: radial-gradient(2px 2px at 30px 40px, rgba(251, 191, 36, 0.7), transparent), radial-gradient(3px 3px at 90px 60px, rgba(255, 255, 255, 0.5), transparent), radial-gradient(2px 2px at 160px 30px, rgba(251, 191, 36, 0.6), transparent);
+  background-size: 220px 100px;
+}
+
+.tarot-overlay.month-june .tarot-rays {
+  background: conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(251, 191, 36, 0.08) 8deg, transparent 16deg);
+}
+
+/* July - Ocean Siren 🌊 */
+.tarot-overlay.month-july .tarot-card-inner {
+  background: linear-gradient(165deg, #0c1426 0%, #0c4a6e 40%, #075985 70%, #0c1426 100%);
+  border-color: rgba(14, 165, 233, 0.6);
+  box-shadow: 0 0 40px rgba(6, 182, 212, 0.25), 0 25px 60px rgba(0, 0, 0, 0.6), inset 0 0 60px rgba(14, 165, 233, 0.05);
+}
+
+.tarot-overlay.month-july .tarot-corner::after,
+.tarot-overlay.month-july .ornament-diamond {
+  color: rgba(14, 165, 233, 0.7);
+}
+
+.tarot-overlay.month-july .tarot-corner::before {
+  background: rgba(14, 165, 233, 0.7);
+}
+
+.tarot-overlay.month-july .tarot-close {
+  border-color: rgba(14, 165, 233, 0.3);
+}
+
+.tarot-overlay.month-july .tarot-close:hover {
+  background: rgba(14, 165, 233, 0.2);
+}
+
+.tarot-overlay.month-july .tarot-close svg {
+  color: rgba(14, 165, 233, 0.8);
+}
+
+.tarot-overlay.month-july .moon-phase.main {
+  filter: drop-shadow(0 0 8px rgba(6, 182, 212, 0.6));
+}
+
+.tarot-overlay.month-july .sun-circle {
+  border-color: rgba(186, 230, 253, 0.6);
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.15) 0%, transparent 70%);
+}
+
+.tarot-overlay.month-july .sun-rays {
+  background: repeating-conic-gradient(from 0deg, transparent 0deg 6deg, rgba(186, 230, 253, 0.35) 6deg 8deg, transparent 8deg 15deg);
+}
+
+.tarot-overlay.month-july .tarot-mood-icon {
+  filter: drop-shadow(0 0 10px rgba(14, 165, 233, 0.5));
+}
+
+.tarot-overlay.month-july .tarot-title {
+  color: rgba(186, 230, 253, 1);
+  text-shadow: 0 0 20px rgba(14, 165, 233, 0.5), 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.tarot-overlay.month-july .tarot-divider::before,
+.tarot-overlay.month-july .tarot-divider::after {
+  background: linear-gradient(90deg, transparent, rgba(14, 165, 233, 0.5) 20%, rgba(6, 182, 212, 0.5) 80%, transparent);
+}
+
+.tarot-overlay.month-july .divider-star {
+  color: rgba(186, 230, 253, 0.8);
+}
+
+.tarot-overlay.month-july .date-star {
+  color: rgba(14, 165, 233, 0.6);
+}
+
+.tarot-overlay.month-july .date-text {
+  color: rgba(186, 230, 253, 0.7);
+}
+
+.tarot-overlay.month-july .ornament-dot {
+  background: rgba(14, 165, 233, 0.6);
+}
+
+.tarot-overlay.month-july .ornament-line {
+  background: rgba(6, 182, 212, 0.4);
+}
+
+.tarot-overlay.month-july .tarot-bottom-ornament {
+  border-top-color: rgba(14, 165, 233, 0.15);
+}
+
+.tarot-overlay.month-july .tarot-glow {
+  background: radial-gradient(ellipse at center, rgba(14, 165, 233, 0.15) 0%, rgba(6, 182, 212, 0.1) 40%, transparent 60%);
+}
+
+.tarot-overlay.month-july .tarot-stars {
+  background-image: radial-gradient(2px 2px at 25px 35px, rgba(186, 230, 253, 0.6), transparent), radial-gradient(1px 1px at 75px 55px, rgba(14, 165, 233, 0.5), transparent), radial-gradient(2px 2px at 140px 75px, rgba(6, 182, 212, 0.4), transparent);
+  background-size: 200px 120px;
+}
+
+.tarot-overlay.month-july .tarot-rays {
+  background: conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(14, 165, 233, 0.04) 10deg, transparent 20deg);
+}
+
+/* August - Celestial Dreams 🌌 */
+.tarot-overlay.month-august .tarot-card-inner {
+  background: linear-gradient(165deg, #0a0514 0%, #1e1b4b 40%, #312e81 70%, #0a0514 100%);
+  border-color: rgba(139, 92, 246, 0.6);
+  box-shadow: 0 0 40px rgba(124, 58, 237, 0.3), 0 25px 60px rgba(0, 0, 0, 0.6), inset 0 0 60px rgba(139, 92, 246, 0.08);
+}
+
+.tarot-overlay.month-august .tarot-corner::after,
+.tarot-overlay.month-august .ornament-diamond {
+  color: rgba(196, 181, 253, 0.7);
+}
+
+.tarot-overlay.month-august .tarot-corner::before {
+  background: rgba(139, 92, 246, 0.7);
+}
+
+.tarot-overlay.month-august .tarot-close {
+  border-color: rgba(139, 92, 246, 0.3);
+}
+
+.tarot-overlay.month-august .tarot-close:hover {
+  background: rgba(139, 92, 246, 0.2);
+}
+
+.tarot-overlay.month-august .tarot-close svg {
+  color: rgba(196, 181, 253, 0.8);
+}
+
+.tarot-overlay.month-august .moon-phase.main {
+  filter: drop-shadow(0 0 10px rgba(236, 72, 153, 0.5)) drop-shadow(0 0 20px rgba(139, 92, 246, 0.4));
+}
+
+.tarot-overlay.month-august .sun-circle {
+  border-color: rgba(236, 72, 153, 0.5);
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.2) 0%, transparent 70%);
+}
+
+.tarot-overlay.month-august .sun-rays {
+  background: repeating-conic-gradient(from 0deg, transparent 0deg 4deg, rgba(236, 72, 153, 0.3) 4deg 5deg, transparent 5deg 8deg, rgba(139, 92, 246, 0.3) 8deg 9deg, transparent 9deg 12deg);
+}
+
+.tarot-overlay.month-august .tarot-mood-icon {
+  filter: drop-shadow(0 0 10px rgba(236, 72, 153, 0.4)) drop-shadow(0 0 20px rgba(139, 92, 246, 0.3));
+}
+
+.tarot-overlay.month-august .tarot-title {
+  color: rgba(196, 181, 253, 1);
+  text-shadow: 0 0 20px rgba(139, 92, 246, 0.5), 0 0 40px rgba(236, 72, 153, 0.3), 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.tarot-overlay.month-august .tarot-divider::before,
+.tarot-overlay.month-august .tarot-divider::after {
+  background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.5) 20%, rgba(236, 72, 153, 0.5) 80%, transparent);
+}
+
+.tarot-overlay.month-august .divider-star {
+  color: rgba(196, 181, 253, 0.8);
+}
+
+.tarot-overlay.month-august .date-star {
+  color: rgba(236, 72, 153, 0.6);
+}
+
+.tarot-overlay.month-august .date-text {
+  color: rgba(196, 181, 253, 0.7);
+}
+
+.tarot-overlay.month-august .ornament-dot {
+  background: rgba(236, 72, 153, 0.6);
+}
+
+.tarot-overlay.month-august .ornament-line {
+  background: rgba(139, 92, 246, 0.4);
+}
+
+.tarot-overlay.month-august .tarot-bottom-ornament {
+  border-top-color: rgba(139, 92, 246, 0.15);
+}
+
+.tarot-overlay.month-august .tarot-glow {
+  background: radial-gradient(ellipse at center, rgba(139, 92, 246, 0.15) 0%, rgba(236, 72, 153, 0.1) 40%, transparent 60%);
+}
+
+.tarot-overlay.month-august .tarot-stars {
+  background-image: radial-gradient(2px 2px at 15px 25px, rgba(255, 255, 255, 0.9), transparent), radial-gradient(1px 1px at 45px 55px, rgba(236, 72, 153, 0.7), transparent), radial-gradient(3px 3px at 85px 35px, rgba(139, 92, 246, 0.6), transparent), radial-gradient(1px 1px at 125px 65px, rgba(255, 255, 255, 0.8), transparent), radial-gradient(2px 2px at 165px 45px, rgba(196, 181, 253, 0.7), transparent);
+  background-size: 200px 100px;
+}
+
+.tarot-overlay.month-august .tarot-rays {
+  background: conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(139, 92, 246, 0.05) 6deg, transparent 12deg, rgba(236, 72, 153, 0.04) 18deg, transparent 24deg);
+}
+
+/* September - Harvest Moon 🍂 */
+.tarot-overlay.month-september .tarot-card-inner {
+  background: linear-gradient(165deg, #1c1008 0%, #451a03 40%, #78350f 70%, #1c1008 100%);
+  border-color: rgba(217, 119, 6, 0.6);
+  box-shadow: 0 0 40px rgba(180, 83, 9, 0.3), 0 25px 60px rgba(0, 0, 0, 0.6), inset 0 0 60px rgba(217, 119, 6, 0.08);
+}
+
+.tarot-overlay.month-september .tarot-corner::after,
+.tarot-overlay.month-september .ornament-diamond {
+  color: rgba(217, 119, 6, 0.7);
+}
+
+.tarot-overlay.month-september .tarot-corner::before {
+  background: rgba(217, 119, 6, 0.7);
+}
+
+.tarot-overlay.month-september .tarot-close {
+  border-color: rgba(217, 119, 6, 0.3);
+}
+
+.tarot-overlay.month-september .tarot-close:hover {
+  background: rgba(217, 119, 6, 0.2);
+}
+
+.tarot-overlay.month-september .tarot-close svg {
+  color: rgba(254, 215, 170, 0.8);
+}
+
+.tarot-overlay.month-september .moon-phase.main {
+  filter: drop-shadow(0 0 8px rgba(217, 119, 6, 0.6)) sepia(0.3);
+}
+
+.tarot-overlay.month-september .sun-circle {
+  border-color: rgba(217, 119, 6, 0.6);
+  background: radial-gradient(circle, rgba(217, 119, 6, 0.2) 0%, transparent 70%);
+}
+
+.tarot-overlay.month-september .sun-rays {
+  background: repeating-conic-gradient(from 0deg, transparent 0deg 5deg, rgba(217, 119, 6, 0.45) 5deg 7deg, transparent 7deg 15deg);
+}
+
+.tarot-overlay.month-september .tarot-mood-icon {
+  filter: drop-shadow(0 0 10px rgba(217, 119, 6, 0.5));
+}
+
+.tarot-overlay.month-september .tarot-title {
+  color: rgba(254, 215, 170, 1);
+  text-shadow: 0 0 20px rgba(217, 119, 6, 0.5), 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.tarot-overlay.month-september .tarot-divider::before,
+.tarot-overlay.month-september .tarot-divider::after {
+  background: linear-gradient(90deg, transparent, rgba(217, 119, 6, 0.5) 20%, rgba(180, 83, 9, 0.5) 80%, transparent);
+}
+
+.tarot-overlay.month-september .divider-star {
+  color: rgba(254, 215, 170, 0.8);
+}
+
+.tarot-overlay.month-september .date-star {
+  color: rgba(217, 119, 6, 0.6);
+}
+
+.tarot-overlay.month-september .date-text {
+  color: rgba(254, 215, 170, 0.7);
+}
+
+.tarot-overlay.month-september .ornament-dot {
+  background: rgba(217, 119, 6, 0.6);
+}
+
+.tarot-overlay.month-september .ornament-line {
+  background: rgba(180, 83, 9, 0.4);
+}
+
+.tarot-overlay.month-september .tarot-bottom-ornament {
+  border-top-color: rgba(217, 119, 6, 0.15);
+}
+
+.tarot-overlay.month-september .tarot-glow {
+  background: radial-gradient(ellipse at center, rgba(217, 119, 6, 0.15) 0%, rgba(180, 83, 9, 0.1) 40%, transparent 60%);
+}
+
+.tarot-overlay.month-september .tarot-stars {
+  background-image: radial-gradient(2px 2px at 30px 40px, rgba(254, 215, 170, 0.6), transparent), radial-gradient(2px 2px at 80px 60px, rgba(217, 119, 6, 0.5), transparent), radial-gradient(1px 1px at 140px 35px, rgba(254, 215, 170, 0.5), transparent);
+  background-size: 200px 100px;
+}
+
+.tarot-overlay.month-september .tarot-rays {
+  background: conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(217, 119, 6, 0.06) 10deg, transparent 20deg);
+}
+
+/* October - Shadow Veil 🎃 */
+.tarot-overlay.month-october .tarot-card-inner {
+  background: linear-gradient(165deg, #0a0a0a 0%, #14140a 40%, #1a1a0f 70%, #0a0a0a 100%);
+  border-color: rgba(74, 222, 128, 0.5);
+  box-shadow: 0 0 40px rgba(34, 197, 94, 0.2), 0 0 60px rgba(251, 146, 60, 0.15), 0 25px 60px rgba(0, 0, 0, 0.7), inset 0 0 60px rgba(74, 222, 128, 0.03);
+}
+
+.tarot-overlay.month-october .tarot-corner::after,
+.tarot-overlay.month-october .ornament-diamond {
+  color: rgba(74, 222, 128, 0.6);
+}
+
+.tarot-overlay.month-october .tarot-corner::before {
+  background: rgba(251, 146, 60, 0.6);
+}
+
+.tarot-overlay.month-october .tarot-close {
+  border-color: rgba(74, 222, 128, 0.3);
+}
+
+.tarot-overlay.month-october .tarot-close:hover {
+  background: rgba(74, 222, 128, 0.2);
+}
+
+.tarot-overlay.month-october .tarot-close svg {
+  color: rgba(74, 222, 128, 0.8);
+}
+
+.tarot-overlay.month-october .moon-phase.main {
+  filter: drop-shadow(0 0 8px rgba(251, 146, 60, 0.6));
+}
+
+.tarot-overlay.month-october .sun-circle {
+  border-color: rgba(251, 146, 60, 0.5);
+  background: radial-gradient(circle, rgba(74, 222, 128, 0.1) 0%, transparent 70%);
+}
+
+.tarot-overlay.month-october .sun-rays {
+  background: repeating-conic-gradient(from 0deg, transparent 0deg 6deg, rgba(74, 222, 128, 0.3) 6deg 8deg, transparent 8deg 12deg, rgba(251, 146, 60, 0.25) 12deg 14deg, transparent 14deg 18deg);
+}
+
+.tarot-overlay.month-october .tarot-mood-icon {
+  filter: drop-shadow(0 0 10px rgba(74, 222, 128, 0.4)) drop-shadow(0 0 20px rgba(251, 146, 60, 0.3));
+}
+
+.tarot-overlay.month-october .tarot-title {
+  color: rgba(74, 222, 128, 1);
+  text-shadow: 0 0 20px rgba(74, 222, 128, 0.4), 0 0 40px rgba(251, 146, 60, 0.3), 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.tarot-overlay.month-october .tarot-divider::before,
+.tarot-overlay.month-october .tarot-divider::after {
+  background: linear-gradient(90deg, transparent, rgba(74, 222, 128, 0.4) 20%, rgba(251, 146, 60, 0.4) 80%, transparent);
+}
+
+.tarot-overlay.month-october .divider-star {
+  color: rgba(251, 146, 60, 0.8);
+}
+
+.tarot-overlay.month-october .date-star {
+  color: rgba(74, 222, 128, 0.6);
+}
+
+.tarot-overlay.month-october .date-text {
+  color: rgba(251, 146, 60, 0.7);
+}
+
+.tarot-overlay.month-october .ornament-dot {
+  background: rgba(74, 222, 128, 0.6);
+}
+
+.tarot-overlay.month-october .ornament-line {
+  background: rgba(251, 146, 60, 0.4);
+}
+
+.tarot-overlay.month-october .tarot-bottom-ornament {
+  border-top-color: rgba(74, 222, 128, 0.12);
+}
+
+.tarot-overlay.month-october .tarot-glow {
+  background: radial-gradient(ellipse at center, rgba(74, 222, 128, 0.1) 0%, rgba(251, 146, 60, 0.08) 40%, transparent 60%);
+}
+
+.tarot-overlay.month-october .tarot-stars {
+  background-image: radial-gradient(2px 2px at 20px 30px, rgba(74, 222, 128, 0.5), transparent), radial-gradient(2px 2px at 70px 50px, rgba(251, 146, 60, 0.4), transparent), radial-gradient(1px 1px at 130px 70px, rgba(74, 222, 128, 0.4), transparent);
+  background-size: 180px 100px;
+}
+
+.tarot-overlay.month-october .tarot-rays {
+  background: conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(74, 222, 128, 0.03) 8deg, transparent 16deg, rgba(251, 146, 60, 0.03) 24deg, transparent 32deg);
+}
+
+/* November - Enchanted Forest 🍄 */
+.tarot-overlay.month-november .tarot-card-inner {
+  background: linear-gradient(165deg, #0f1a0f 0%, #14532d 40%, #15803d 70%, #0f1a0f 100%);
+  border-color: rgba(134, 239, 172, 0.5);
+  box-shadow: 0 0 40px rgba(74, 222, 128, 0.2), 0 0 60px rgba(168, 85, 247, 0.15), 0 25px 60px rgba(0, 0, 0, 0.6), inset 0 0 60px rgba(134, 239, 172, 0.03);
+}
+
+.tarot-overlay.month-november .tarot-corner::after,
+.tarot-overlay.month-november .ornament-diamond {
+  color: rgba(168, 85, 247, 0.6);
+}
+
+.tarot-overlay.month-november .tarot-corner::before {
+  background: rgba(134, 239, 172, 0.6);
+}
+
+.tarot-overlay.month-november .tarot-close {
+  border-color: rgba(134, 239, 172, 0.3);
+}
+
+.tarot-overlay.month-november .tarot-close:hover {
+  background: rgba(134, 239, 172, 0.2);
+}
+
+.tarot-overlay.month-november .tarot-close svg {
+  color: rgba(134, 239, 172, 0.8);
+}
+
+.tarot-overlay.month-november .moon-phase.main {
+  filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.5));
+}
+
+.tarot-overlay.month-november .sun-circle {
+  border-color: rgba(168, 85, 247, 0.5);
+  background: radial-gradient(circle, rgba(134, 239, 172, 0.1) 0%, transparent 70%);
+}
+
+.tarot-overlay.month-november .sun-rays {
+  background: repeating-conic-gradient(from 0deg, transparent 0deg 6deg, rgba(134, 239, 172, 0.25) 6deg 8deg, transparent 8deg 12deg, rgba(168, 85, 247, 0.2) 12deg 14deg, transparent 14deg 18deg);
+}
+
+.tarot-overlay.month-november .tarot-mood-icon {
+  filter: drop-shadow(0 0 10px rgba(134, 239, 172, 0.4)) drop-shadow(0 0 20px rgba(168, 85, 247, 0.3));
+}
+
+.tarot-overlay.month-november .tarot-title {
+  color: rgba(187, 247, 208, 1);
+  text-shadow: 0 0 20px rgba(134, 239, 172, 0.4), 0 0 40px rgba(168, 85, 247, 0.2), 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.tarot-overlay.month-november .tarot-divider::before,
+.tarot-overlay.month-november .tarot-divider::after {
+  background: linear-gradient(90deg, transparent, rgba(134, 239, 172, 0.4) 20%, rgba(168, 85, 247, 0.4) 80%, transparent);
+}
+
+.tarot-overlay.month-november .divider-star {
+  color: rgba(168, 85, 247, 0.8);
+}
+
+.tarot-overlay.month-november .date-star {
+  color: rgba(134, 239, 172, 0.6);
+}
+
+.tarot-overlay.month-november .date-text {
+  color: rgba(187, 247, 208, 0.7);
+}
+
+.tarot-overlay.month-november .ornament-dot {
+  background: rgba(168, 85, 247, 0.6);
+}
+
+.tarot-overlay.month-november .ornament-line {
+  background: rgba(134, 239, 172, 0.4);
+}
+
+.tarot-overlay.month-november .tarot-bottom-ornament {
+  border-top-color: rgba(134, 239, 172, 0.12);
+}
+
+.tarot-overlay.month-november .tarot-glow {
+  background: radial-gradient(ellipse at center, rgba(134, 239, 172, 0.1) 0%, rgba(168, 85, 247, 0.08) 40%, transparent 60%);
+}
+
+.tarot-overlay.month-november .tarot-stars {
+  background-image: radial-gradient(2px 2px at 25px 35px, rgba(134, 239, 172, 0.5), transparent), radial-gradient(3px 3px at 75px 55px, rgba(168, 85, 247, 0.4), transparent), radial-gradient(2px 2px at 135px 40px, rgba(134, 239, 172, 0.4), transparent);
+  background-size: 190px 100px;
+}
+
+.tarot-overlay.month-november .tarot-rays {
+  background: conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(134, 239, 172, 0.03) 8deg, transparent 16deg, rgba(168, 85, 247, 0.03) 24deg, transparent 32deg);
+}
+
+/* December - Golden Mystic ✨ (DEFAULT - uses base styles, no overrides needed) */
