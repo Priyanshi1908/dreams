@@ -1288,6 +1288,56 @@ render();
 
 console.log("[scene] Moonlit lake scene initialized");
 
+// =============== ONBOARDING ===============
+const USER_NAME_KEY = 'dreamJournalUserName';
+const onboardingOverlay = document.getElementById('onboardingOverlay');
+const onboardingNameInput = document.getElementById('onboardingName');
+const onboardingStartBtn = document.getElementById('onboardingStart');
+const profileNameEl = document.getElementById('profileName');
+
+function completeOnboarding(name) {
+  localStorage.setItem(USER_NAME_KEY, name);
+  if (profileNameEl) profileNameEl.textContent = name;
+  if (onboardingOverlay) {
+    onboardingOverlay.classList.add('hidden');
+    setTimeout(() => onboardingOverlay.remove(), 700);
+  }
+}
+
+// Check if user has already onboarded
+const savedUserName = localStorage.getItem(USER_NAME_KEY);
+if (savedUserName) {
+  // Already onboarded — hide overlay immediately, set name
+  if (profileNameEl) profileNameEl.textContent = savedUserName;
+  if (onboardingOverlay) {
+    onboardingOverlay.style.display = 'none';
+  }
+} else {
+  // Show onboarding
+  if (onboardingStartBtn) {
+    onboardingStartBtn.addEventListener('click', () => {
+      const name = onboardingNameInput.value.trim();
+      if (name) {
+        completeOnboarding(name);
+      } else {
+        onboardingNameInput.focus();
+        onboardingNameInput.style.borderColor = 'rgba(255, 120, 160, 0.5)';
+        setTimeout(() => onboardingNameInput.style.borderColor = '', 1500);
+      }
+    });
+  }
+  if (onboardingNameInput) {
+    onboardingNameInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        const name = onboardingNameInput.value.trim();
+        if (name) completeOnboarding(name);
+      }
+    });
+  }
+}
+
+console.log("[onboarding] Onboarding system initialized");
+
 // =============== DREAM DIALOG ===============
 // Animated characters stored locally for reliable fast loading
 const dreamCompanions = [
@@ -1338,14 +1388,157 @@ const btnClear = document.getElementById('btnClear');
 const btnSave = document.getElementById('btnSave');
 const dreamDate = document.getElementById('dreamDate');
 
+// Custom Mood Dropdown Logic
+const moodDropdown = document.getElementById('moodDropdown');
+const moodTrigger = document.getElementById('moodTrigger');
+const moodOptions = document.getElementById('moodOptions');
+const moodHiddenInput = document.getElementById('dreamMood');
+const moodTriggerText = moodTrigger?.querySelector('.trigger-text');
+
+function updateMoodDropdown(value, text) {
+  if (moodHiddenInput) moodHiddenInput.value = value;
+  if (moodTriggerText) moodTriggerText.textContent = text;
+
+  // Update selection styling
+  document.querySelectorAll('#moodOptions .dropdown-option').forEach(opt => {
+    opt.classList.toggle('selected', opt.dataset.value === value);
+  });
+}
+
+if (moodTrigger) {
+  moodTrigger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    moodDropdown.classList.toggle('active');
+  });
+}
+
+document.querySelectorAll('#moodOptions .dropdown-option').forEach(option => {
+  option.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const value = option.dataset.value;
+    const text = option.dataset.text;
+    updateMoodDropdown(value, text);
+    moodDropdown.classList.remove('active');
+  });
+});
+
+// Close dropdown when clicking outside
+document.addEventListener('click', (e) => {
+  if (!moodDropdown?.contains(e.target)) {
+    moodDropdown?.classList.remove('active');
+  }
+  if (!document.getElementById('dreamDatePicker')?.contains(e.target)) {
+    document.getElementById('dreamDatePicker')?.classList.remove('active');
+  }
+});
+
+// Custom Date Picker Logic
+const datePicker = document.getElementById('dreamDatePicker');
+const dateTrigger = document.getElementById('dateTrigger');
+const dateDisplay = document.getElementById('dateDisplay');
+const dateHiddenInput = document.getElementById('dreamDate');
+const calendarEl = document.getElementById('datepickerCalendar');
+const daysGrid = document.getElementById('calendarDaysGrid');
+const monthDisplay = document.getElementById('calendarMonthDisplay');
+const prevBtn = document.getElementById('prevMonth');
+const nextBtn = document.getElementById('nextMonth');
+
+let currentViewDate = new Date();
+let selectedDate = new Date();
+
+function formatDateForDisplay(date) {
+  const today = new Date();
+  if (date.toDateString() === today.toDateString()) return 'Today';
+
+  const options = { month: 'short', day: 'numeric', year: 'numeric' };
+  return date.toLocaleDateString('en-US', options);
+}
+
+function formatDateForInput(date) {
+  return date.toISOString().split('T')[0];
+}
+
+function updateDreamDate(date) {
+  selectedDate = new Date(date);
+  if (dateHiddenInput) dateHiddenInput.value = formatDateForInput(selectedDate);
+  if (dateDisplay) dateDisplay.textContent = formatDateForDisplay(selectedDate);
+  renderCalendar();
+}
+
+function renderCalendar() {
+  if (!daysGrid || !monthDisplay) return;
+
+  const year = currentViewDate.getFullYear();
+  const month = currentViewDate.getMonth();
+
+  monthDisplay.textContent = new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric' }).format(currentViewDate);
+
+  daysGrid.innerHTML = '';
+
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+  // Empty slots for previous month
+  for (let i = 0; i < firstDay; i++) {
+    const empty = document.createElement('div');
+    empty.className = 'calendar-day empty';
+    daysGrid.appendChild(empty);
+  }
+
+  const today = new Date();
+
+  for (let d = 1; d <= daysInMonth; d++) {
+    const dayEl = document.createElement('div');
+    dayEl.className = 'calendar-day';
+    dayEl.textContent = d;
+
+    const dateAtD = new Date(year, month, d);
+
+    if (dateAtD.toDateString() === today.toDateString()) dayEl.classList.add('today');
+    if (dateAtD.toDateString() === selectedDate.toDateString()) dayEl.classList.add('selected');
+
+    dayEl.addEventListener('click', (e) => {
+      e.stopPropagation();
+      updateDreamDate(dateAtD);
+      datePicker.classList.remove('active');
+    });
+
+    daysGrid.appendChild(dayEl);
+  }
+}
+
+if (dateTrigger) {
+  dateTrigger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    datePicker.classList.toggle('active');
+    if (datePicker.classList.contains('active')) {
+      currentViewDate = new Date(selectedDate);
+      renderCalendar();
+    }
+  });
+}
+
+prevBtn?.addEventListener('click', (e) => {
+  e.stopPropagation();
+  currentViewDate.setMonth(currentViewDate.getMonth() - 1);
+  renderCalendar();
+});
+
+nextBtn?.addEventListener('click', (e) => {
+  e.stopPropagation();
+  currentViewDate.setMonth(currentViewDate.getMonth() + 1);
+  renderCalendar();
+});
+
+// Initialize date
+updateDreamDate(new Date());
+
 // LocalStorage key for draft
 const DREAM_DRAFT_KEY = 'dreamJournalDraft';
 
 // Set today's date as default
-if (dreamDate) {
-  const today = new Date().toISOString().split('T')[0];
-  dreamDate.value = today;
-}
+// Set today's date as default
+// (Handled by custom date picker initialization)
 
 // Get a random companion (different from last one if possible)
 let lastCompanionIndex = -1;
@@ -1367,7 +1560,7 @@ function saveDreamDraft() {
   const draft = {
     title: document.getElementById('dreamTitle').value,
     content: document.getElementById('dreamContent').value,
-    mood: document.getElementById('dreamMood').value,
+    mood: moodHiddenInput.value,
     date: document.getElementById('dreamDate').value,
     companionIndex: lastCompanionIndex // Save the current companion
   };
@@ -1408,15 +1601,17 @@ function openDreamDialog() {
     // Restore from saved draft
     document.getElementById('dreamTitle').value = draft.title || '';
     document.getElementById('dreamContent').value = draft.content || '';
-    document.getElementById('dreamMood').value = draft.mood || 'peaceful';
-    if (dreamDate) {
-      dreamDate.value = draft.date || new Date().toISOString().split('T')[0];
+    const savedMood = draft.mood || 'peaceful';
+    const moodOption = Array.from(document.querySelectorAll('#moodOptions .dropdown-option')).find(opt => opt.dataset.value === savedMood);
+    updateMoodDropdown(savedMood, moodOption ? moodOption.dataset.text : 'Peaceful');
+    if (dateHiddenInput) {
+      updateDreamDate(draft.date || new Date());
     }
   } else {
     // Reset form to defaults
     document.getElementById('dreamTitle').value = '';
     document.getElementById('dreamContent').value = '';
-    document.getElementById('dreamMood').value = 'peaceful';
+    updateMoodDropdown('peaceful', 'Peaceful');
     if (dreamDate) {
       dreamDate.value = new Date().toISOString().split('T')[0];
     }
@@ -1440,13 +1635,49 @@ function openDreamDialogForDate(dateStr) {
   // Reset form with the specific date
   document.getElementById('dreamTitle').value = '';
   document.getElementById('dreamContent').value = '';
-  document.getElementById('dreamMood').value = 'peaceful';
-  if (dreamDate) {
-    dreamDate.value = dateStr;
+  updateMoodDropdown('peaceful', 'Peaceful');
+  if (dateHiddenInput) {
+    updateDreamDate(new Date(dateStr + 'T00:00:00'));
   }
 
   dialogOverlay.classList.add('active');
   document.body.style.overflow = 'hidden';
+}
+
+// Generate randomized stars for the tarot background
+function generateRandomStars() {
+  const container = document.querySelector('.tarot-stars');
+  if (!container) return;
+
+  // Clear existing stars
+  container.innerHTML = '';
+
+  const starCount = 60;
+
+  for (let i = 0; i < starCount; i++) {
+    const star = document.createElement('div');
+    star.className = 'tarot-star-particle';
+
+    // Randomize position
+    const top = Math.random() * 100;
+    const left = Math.random() * 100;
+
+    // Randomize size (mixed small and medium stars)
+    const size = Math.random() * 2 + 1; // 1px to 3px
+
+    // Randomize twinkle animation
+    const delay = Math.random() * 5;
+    const duration = 2 + Math.random() * 3;
+
+    star.style.top = `${top}%`;
+    star.style.left = `${left}%`;
+    star.style.width = `${size}px`;
+    star.style.height = `${size}px`;
+    star.style.setProperty('--twinkle-delay', `${delay}s`);
+    star.style.setProperty('--twinkle-duration', `${duration}s`);
+
+    container.appendChild(star);
+  }
 }
 
 // Show a saved dream in tarot card view
@@ -1508,6 +1739,9 @@ function showDreamView(dream) {
   // Show the tarot overlay
   tarotOverlay.classList.add('active');
   document.body.style.overflow = 'hidden';
+
+  // Generate randomized stars in the background
+  generateRandomStars();
 }
 
 // Close tarot card view
@@ -1625,6 +1859,11 @@ if (btnSave) {
       console.log('Dream saved:', dream);
       console.log('Total dreams:', allDreams.length);
 
+      // Add essence for this mood (Alchemy system)
+      if (typeof addEssence === 'function') {
+        addEssence(mood);
+      }
+
       // Clear the draft since we're saving
       clearDreamDraft();
 
@@ -1714,6 +1953,22 @@ function startLetterToMoonAnimation() {
           overlay.classList.remove('active');
           overlay.style.opacity = '';
           document.body.style.overflow = '';
+
+          // Refresh month counts and calendar after saving
+          if (typeof updateMonthCounts === 'function') {
+            updateMonthCounts();
+          }
+          // Refresh calendar if it's currently visible
+          if (calendarView && calendarView.classList.contains('active')) {
+            const monthText = document.getElementById('calendarMonth');
+            const yearText = document.getElementById('calendarYear');
+            if (monthText && yearText) {
+              const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+              const mi = monthNames.indexOf(monthText.textContent);
+              const yr = parseInt(yearText.textContent);
+              if (mi >= 0 && !isNaN(yr)) generateCalendar(mi, yr);
+            }
+          }
         }, 300);
       });
     }, 600); // Wait for letter grow animation
@@ -1835,6 +2090,16 @@ const calendarYearEl = document.getElementById('calendarYear');
 const calendarGrid = document.getElementById('calendarGrid');
 const sidebarContent = document.querySelector('.sidebar-content');
 const monthCards = document.querySelectorAll('.month-card');
+const sidebar = document.querySelector('.sidebar');
+const sidebarToggle = document.querySelector('.profile-menu');
+
+// Sidebar toggle functionality
+if (sidebarToggle && sidebar) {
+  sidebarToggle.addEventListener('click', (e) => {
+    e.stopPropagation(); // Prevent bubble clicks if cards are children
+    sidebar.classList.toggle('collapsed');
+  });
+}
 
 // Generate calendar for a specific month (0-indexed month, year)
 function generateCalendar(month, year) {
@@ -1950,4 +2215,616 @@ if (calendarBack) {
   calendarBack.addEventListener('click', hideCalendar);
 }
 
+// Update month counts from localStorage
+function updateMonthCounts() {
+  const dreams = getSavedDreams();
+  const year = new Date().getFullYear();
+  const counts = new Array(12).fill(0);
+  dreams.forEach(d => {
+    if (d.date) {
+      const dateObj = new Date(d.date + 'T00:00:00');
+      if (dateObj.getFullYear() === year) {
+        counts[dateObj.getMonth()]++;
+      }
+    }
+  });
+  monthCards.forEach((card, i) => {
+    const countEl = card.querySelector('.month-count');
+    if (countEl) countEl.textContent = counts[i];
+  });
+}
+
+// Initialize month counts on page load
+updateMonthCounts();
+
 console.log("[calendar] Calendar view initialized");
+
+// =============== DREAM ALCHEMY SYSTEM ===============
+const ESSENCES_KEY = 'dreamJournalEssences';
+const UNLOCKED_RECIPES_KEY = 'dreamJournalUnlockedRecipes';
+const ACTIVE_THEME_KEY = 'dreamJournalActiveTheme';
+
+// Mood icons for display
+const MOOD_DATA = {
+  peaceful: { icon: '🌙', name: 'Peaceful', color: '#64c8ff' },
+  adventurous: { icon: '⚔️', name: 'Adventure', color: '#ffb464' },
+  mysterious: { icon: '🔮', name: 'Mysterious', color: '#b464ff' },
+  scary: { icon: '👁️', name: 'Scary', color: '#c83250' },
+  happy: { icon: '✨', name: 'Happy', color: '#ffdc64' },
+  sad: { icon: '💧', name: 'Sad', color: '#6496c8' }
+};
+
+// Recipe definitions
+const ALCHEMY_RECIPES = [
+  {
+    id: 'aurora_sky',
+    name: 'Aurora Borealis',
+    icon: '🌌',
+    description: 'Northern lights dance across the sky',
+    cost: { peaceful: 3, happy: 2 },
+    type: 'sky_theme'
+  },
+  {
+    id: 'blood_moon',
+    name: 'Blood Moon',
+    icon: '🔴',
+    description: 'A crimson moon rises over the lake',
+    cost: { scary: 3, mysterious: 2 },
+    type: 'sky_theme'
+  },
+  {
+    id: 'golden_shimmer',
+    name: 'Golden Lake',
+    icon: '✨',
+    description: 'The lake shimmers with golden light',
+    cost: { happy: 4, adventurous: 2 },
+    type: 'sky_theme'
+  },
+  {
+    id: 'starfall',
+    name: 'Meteor Shower',
+    icon: '☄️',
+    description: 'Shooting stars streak across the night',
+    cost: { adventurous: 3, mysterious: 2 },
+    type: 'sky_theme'
+  },
+  {
+    id: 'melancholy_mist',
+    name: 'Melancholy Mist',
+    icon: '🌫️',
+    description: 'A soft mist blankets the scene',
+    cost: { sad: 4, peaceful: 2 },
+    type: 'sky_theme'
+  }
+];
+
+// Get essences from localStorage
+function getEssences() {
+  const saved = localStorage.getItem(ESSENCES_KEY);
+  if (saved) {
+    return JSON.parse(saved);
+  }
+  // Default empty essences
+  return {
+    peaceful: 0,
+    adventurous: 0,
+    mysterious: 0,
+    scary: 0,
+    happy: 0,
+    sad: 0
+  };
+}
+
+// Save essences to localStorage
+function saveEssences(essences) {
+  localStorage.setItem(ESSENCES_KEY, JSON.stringify(essences));
+}
+
+// Add essence for a mood
+function addEssence(mood) {
+  const essences = getEssences();
+  if (essences.hasOwnProperty(mood)) {
+    essences[mood] += 1;
+    saveEssences(essences);
+    updateAlchemyBadge();
+    console.log(`[alchemy] Added 1 ${mood} essence. Total: ${essences[mood]}`);
+  }
+  return essences;
+}
+
+// Get total essence count
+function getTotalEssences() {
+  const essences = getEssences();
+  return Object.values(essences).reduce((sum, count) => sum + count, 0);
+}
+
+// Update the alchemy orb badge
+function updateAlchemyBadge() {
+  const badge = document.getElementById('alchemyBadge');
+  if (badge) {
+    const total = getTotalEssences();
+    badge.textContent = total;
+    badge.style.display = total > 0 ? 'flex' : 'none';
+  }
+}
+
+// Get unlocked recipes from localStorage
+function getUnlockedRecipes() {
+  const saved = localStorage.getItem(UNLOCKED_RECIPES_KEY);
+  return saved ? JSON.parse(saved) : [];
+}
+
+// Save unlocked recipes
+function saveUnlockedRecipes(recipes) {
+  localStorage.setItem(UNLOCKED_RECIPES_KEY, JSON.stringify(recipes));
+}
+
+// Get active theme
+function getActiveTheme() {
+  return localStorage.getItem(ACTIVE_THEME_KEY) || 'default';
+}
+
+// Set active theme
+function setActiveTheme(themeId) {
+  localStorage.setItem(ACTIVE_THEME_KEY, themeId);
+  applyTheme(themeId);
+  updateActiveThemeDisplay();
+}
+
+// Check if user can afford a recipe
+function canAffordRecipe(recipe) {
+  const essences = getEssences();
+  for (const [mood, amount] of Object.entries(recipe.cost)) {
+    if (!essences[mood] || essences[mood] < amount) {
+      return false;
+    }
+  }
+  return true;
+}
+
+// Spend essences for a recipe
+function spendEssences(recipe) {
+  const essences = getEssences();
+  for (const [mood, amount] of Object.entries(recipe.cost)) {
+    essences[mood] -= amount;
+  }
+  saveEssences(essences);
+  updateAlchemyBadge();
+}
+
+// Craft a recipe
+function craftRecipe(recipeId) {
+  const recipe = ALCHEMY_RECIPES.find(r => r.id === recipeId);
+  if (!recipe) return false;
+
+  const unlocked = getUnlockedRecipes();
+  if (unlocked.includes(recipeId)) return false; // Already unlocked
+
+  if (!canAffordRecipe(recipe)) return false;
+
+  // Spend the essences
+  spendEssences(recipe);
+
+  // Unlock the recipe
+  unlocked.push(recipeId);
+  saveUnlockedRecipes(unlocked);
+
+  // Set as active theme
+  setActiveTheme(recipeId);
+
+  // Play craft animation
+  playCraftAnimation();
+
+  // Refresh the UI
+  renderAlchemyLab();
+
+  console.log(`[alchemy] Crafted: ${recipe.name}`);
+  return true;
+}
+
+// Render the beaker shelf with draggable flasks
+function renderBeakerShelf() {
+  const shelf = document.getElementById('shelfBeakers');
+  if (!shelf) return;
+
+  const essences = getEssences();
+  shelf.innerHTML = '';
+
+  // Show only 3 main beakers like the mockup: Peaceful, Happy, Mysterious
+  const displayMoods = ['peaceful', 'happy', 'mysterious'];
+  const letters = { peaceful: 'P', happy: 'H', mysterious: 'M' };
+
+  for (const mood of displayMoods) {
+    const count = essences[mood] || 0;
+    const moodInfo = MOOD_DATA[mood];
+    const fillPercent = Math.min(count * 10, 100);
+
+    const flask = document.createElement('div');
+    flask.className = 'shelf-flask';
+    flask.setAttribute('data-mood', mood);
+    flask.setAttribute('draggable', 'true');
+
+    flask.innerHTML = `
+      <div class="beaker-container">
+        <div class="beaker-handle"></div>
+        <div class="beaker-neck"></div>
+        <div class="beaker-body">
+          <div class="beaker-liquid" style="height: ${fillPercent}%">
+            <div class="beaker-bubbles">
+              <span class="bubble"></span>
+              <span class="bubble"></span>
+              <span class="bubble"></span>
+            </div>
+          </div>
+          <div class="beaker-highlight"></div>
+          <div class="beaker-shine"></div>
+        </div>
+      </div>
+      <div class="beaker-label">
+        <div class="beaker-letter">${letters[mood]}</div>
+        <div class="beaker-name">${moodInfo.name}</div>
+        <div class="beaker-count">×${count}</div>
+      </div>
+    `;
+
+    // Drag events
+    flask.addEventListener('dragstart', (e) => {
+      flask.classList.add('dragging');
+      e.dataTransfer.setData('text/plain', mood);
+      e.dataTransfer.effectAllowed = 'copy';
+    });
+
+    flask.addEventListener('dragend', () => {
+      flask.classList.remove('dragging');
+    });
+
+    shelf.appendChild(flask);
+  }
+
+  // Setup cauldron drop zone
+  setupCauldronDropZone();
+}
+
+// Setup cauldron as drop zone for mixing
+function setupCauldronDropZone() {
+  const cauldron = document.getElementById('cauldronContainer');
+  if (!cauldron) return;
+
+  cauldron.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'copy';
+    cauldron.classList.add('drag-over');
+  });
+
+  cauldron.addEventListener('dragleave', () => {
+    cauldron.classList.remove('drag-over');
+  });
+
+  cauldron.addEventListener('drop', (e) => {
+    e.preventDefault();
+    cauldron.classList.remove('drag-over');
+    const mood = e.dataTransfer.getData('text/plain');
+    addToCauldron(mood);
+  });
+}
+
+// Track ingredients in cauldron
+let cauldronIngredients = [];
+
+function addToCauldron(mood) {
+  const essences = getEssences();
+  if (essences[mood] <= 0) {
+    showBrewResult(`Not enough ${MOOD_DATA[mood].name} essence!`, false);
+    return;
+  }
+
+  // Spend 1 essence
+  essences[mood] -= 1;
+  saveEssences(essences);
+  cauldronIngredients.push(mood);
+
+  // Update liquid color based on ingredients
+  updateCauldronLiquid();
+  renderBeakerShelf();
+  updateAlchemyBadge();
+
+  // Check if we can craft something
+  checkRecipeMatch();
+}
+
+function updateCauldronLiquid() {
+  const liquid = document.getElementById('cauldronLiquid');
+  if (!liquid || cauldronIngredients.length === 0) return;
+
+  const colors = {
+    peaceful: 'rgba(100,220,255,0.7)',
+    happy: 'rgba(255,220,100,0.7)',
+    mysterious: 'rgba(180,100,255,0.7)',
+    adventurous: 'rgba(255,160,80,0.7)',
+    scary: 'rgba(200,50,80,0.7)',
+    sad: 'rgba(100,150,200,0.7)'
+  };
+
+  const ingredientColors = cauldronIngredients.map(m => colors[m] || 'rgba(150,100,200,0.7)');
+  liquid.style.background = `linear-gradient(135deg, ${ingredientColors.join(', ')})`;
+}
+
+function checkRecipeMatch() {
+  // Count ingredients
+  const counts = {};
+  for (const ing of cauldronIngredients) {
+    counts[ing] = (counts[ing] || 0) + 1;
+  }
+
+  // Check against recipes
+  for (const recipe of ALCHEMY_RECIPES) {
+    const unlocked = getUnlockedRecipes();
+    if (unlocked.includes(recipe.id)) continue;
+
+    let matches = true;
+    for (const [mood, needed] of Object.entries(recipe.cost)) {
+      if ((counts[mood] || 0) < needed) {
+        matches = false;
+        break;
+      }
+    }
+
+    if (matches) {
+      // Craft the recipe!
+      unlocked.push(recipe.id);
+      saveUnlockedRecipes(unlocked);
+      setActiveTheme(recipe.id);
+      playCraftAnimation();
+      showBrewResult(`✨ Crafted: ${recipe.name}! ✨`, true);
+      cauldronIngredients = [];
+      updateCauldronLiquid();
+      renderAlchemyLab();
+      return;
+    }
+  }
+
+  // Show current cauldron status
+  if (cauldronIngredients.length > 0) {
+    const summary = Object.entries(counts).map(([m, c]) => `${MOOD_DATA[m].icon}×${c}`).join(' ');
+    showBrewResult(`Mixing: ${summary}`, false);
+  }
+}
+
+function showBrewResult(message, success) {
+  const result = document.getElementById('brewResult');
+  const content = document.getElementById('resultContent');
+  if (!result || !content) return;
+
+  result.classList.add('active');
+  content.textContent = message;
+  content.style.color = success ? 'rgba(100,255,150,0.9)' : 'rgba(255,200,230,0.8)';
+
+  if (success) {
+    setTimeout(() => {
+      result.classList.remove('active');
+      content.textContent = '';
+    }, 3000);
+  }
+}
+
+// Render the recipe list
+function renderRecipeList() {
+  const list = document.getElementById('recipeList');
+  if (!list) return;
+
+  const essences = getEssences();
+  const unlocked = getUnlockedRecipes();
+  const activeTheme = getActiveTheme();
+
+  list.innerHTML = '';
+
+  for (const recipe of ALCHEMY_RECIPES) {
+    const isUnlocked = unlocked.includes(recipe.id);
+    const canAfford = canAffordRecipe(recipe);
+    const isActive = activeTheme === recipe.id;
+
+    const card = document.createElement('div');
+    card.className = `recipe-card ${isUnlocked ? 'unlocked' : ''} ${!canAfford && !isUnlocked ? 'locked' : ''}`;
+    card.setAttribute('data-recipe', recipe.id);
+
+    // Build cost display
+    let costHtml = '';
+    for (const [mood, amount] of Object.entries(recipe.cost)) {
+      const moodInfo = MOOD_DATA[mood];
+      const hasSufficient = essences[mood] >= amount;
+      const statusClass = isUnlocked ? '' : (hasSufficient ? 'sufficient' : 'insufficient');
+      costHtml += `<span class="recipe-cost-item ${statusClass}">${moodInfo.icon}×${amount}</span>`;
+    }
+
+    // Button state
+    let buttonHtml = '';
+    if (isUnlocked) {
+      if (isActive) {
+        buttonHtml = `<button class="craft-btn owned">Active</button>`;
+      } else {
+        buttonHtml = `<button class="craft-btn available" onclick="setActiveTheme('${recipe.id}')">Equip</button>`;
+      }
+    } else if (canAfford) {
+      buttonHtml = `<button class="craft-btn available" onclick="craftRecipe('${recipe.id}')">Craft</button>`;
+    } else {
+      buttonHtml = `<button class="craft-btn locked">Locked</button>`;
+    }
+
+    card.innerHTML = `
+      <span class="recipe-icon">${recipe.icon}</span>
+      <div class="recipe-info">
+        <div class="recipe-name">${recipe.name}</div>
+        <div class="recipe-cost">${costHtml}</div>
+      </div>
+      <div class="recipe-action">${buttonHtml}</div>
+    `;
+
+    list.appendChild(card);
+  }
+}
+
+// Update active theme display
+function updateActiveThemeDisplay() {
+  const display = document.getElementById('activeTheme');
+  if (!display) return;
+
+  const activeId = getActiveTheme();
+  let icon = '🌙';
+  let name = 'Default Moonlit Lake';
+
+  if (activeId !== 'default') {
+    const recipe = ALCHEMY_RECIPES.find(r => r.id === activeId);
+    if (recipe) {
+      icon = recipe.icon;
+      name = recipe.name;
+    }
+  }
+
+  display.innerHTML = `
+    <span class="active-theme-icon">${icon}</span>
+    <span class="active-theme-name">${name}</span>
+    <button class="craft-btn available" onclick="setActiveTheme('default')" style="margin-left: auto; padding: 6px 12px; font-size: 11px;">Reset</button>
+  `;
+}
+
+// Render the entire alchemy lab
+function renderAlchemyLab() {
+  renderBeakerShelf();
+  renderRecipeList();
+  updateActiveThemeDisplay();
+}
+
+// Play craft success animation
+function playCraftAnimation() {
+  const flash = document.createElement('div');
+  flash.className = 'craft-flash';
+  document.body.appendChild(flash);
+  setTimeout(() => flash.remove(), 600);
+}
+
+// Apply a theme to the scene (modifies Three.js colors)
+function applyTheme(themeId) {
+  // Theme color palettes
+  const themes = {
+    default: {
+      skyTop: '#4a1840',
+      skyMid: '#803058',
+      skyHorizon: '#b06878',
+      horizonGlow: '#c88088',
+      moonColor: 0xE396A2
+    },
+    aurora_sky: {
+      skyTop: '#0a2840',
+      skyMid: '#1a5060',
+      skyHorizon: '#30a080',
+      horizonGlow: '#80ffc0',
+      moonColor: 0x90ffb0
+    },
+    blood_moon: {
+      skyTop: '#1a0808',
+      skyMid: '#401020',
+      skyHorizon: '#802040',
+      horizonGlow: '#c04060',
+      moonColor: 0xff4040
+    },
+    golden_shimmer: {
+      skyTop: '#2a1800',
+      skyMid: '#604020',
+      skyHorizon: '#c08040',
+      horizonGlow: '#ffc060',
+      moonColor: 0xffd080
+    },
+    starfall: {
+      skyTop: '#0a0820',
+      skyMid: '#201848',
+      skyHorizon: '#503080',
+      horizonGlow: '#8050c0',
+      moonColor: 0xc0a0ff
+    },
+    melancholy_mist: {
+      skyTop: '#1a2030',
+      skyMid: '#304050',
+      skyHorizon: '#506070',
+      horizonGlow: '#8090a0',
+      moonColor: 0xa0b0c0
+    }
+  };
+
+  const theme = themes[themeId] || themes.default;
+
+  // Apply to Three.js scene if sky material exists
+  // Find sky mesh and update uniforms
+  if (window.scene) {
+    window.scene.traverse((obj) => {
+      if (obj.material && obj.material.uniforms) {
+        const u = obj.material.uniforms;
+        if (u.skyTop && u.skyMid && u.skyHorizon && u.horizonGlow) {
+          u.skyTop.value.set(theme.skyTop);
+          u.skyMid.value.set(theme.skyMid);
+          u.skyHorizon.value.set(theme.skyHorizon);
+          u.horizonGlow.value.set(theme.horizonGlow);
+        }
+      }
+    });
+  }
+
+  console.log(`[alchemy] Applied theme: ${themeId}`);
+}
+
+// Alchemy Lab open/close
+const alchemyOrb = document.getElementById('alchemyOrb');
+const alchemyOverlay = document.getElementById('alchemyOverlay');
+const alchemyClose = document.getElementById('alchemyClose');
+
+function openAlchemyLab() {
+  renderAlchemyLab();
+  alchemyOverlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeAlchemyLab() {
+  alchemyOverlay.classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+if (alchemyOrb) {
+  alchemyOrb.addEventListener('click', openAlchemyLab);
+}
+
+if (alchemyClose) {
+  alchemyClose.addEventListener('click', closeAlchemyLab);
+}
+
+if (alchemyOverlay) {
+  alchemyOverlay.addEventListener('click', (e) => {
+    if (e.target === alchemyOverlay) {
+      closeAlchemyLab();
+    }
+  });
+}
+
+// Keyboard support for alchemy overlay
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && alchemyOverlay && alchemyOverlay.classList.contains('active')) {
+    closeAlchemyLab();
+  }
+});
+
+// Make functions globally accessible for onclick handlers
+window.craftRecipe = craftRecipe;
+window.setActiveTheme = setActiveTheme;
+
+// Initialize alchemy system
+updateAlchemyBadge();
+
+// Apply saved theme on load
+const savedTheme = getActiveTheme();
+if (savedTheme && savedTheme !== 'default') {
+  // Delay to ensure Three.js scene is ready
+  setTimeout(() => applyTheme(savedTheme), 1000);
+}
+
+// Store scene reference globally for theme application
+window.scene = scene;
+
+console.log("[alchemy] Dream Alchemy system initialized");

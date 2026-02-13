@@ -38,7 +38,7 @@
         <div class="avatar-glow"></div>
       </div>
       <div class="profile-info">
-        <span class="profile-name">Priyanshi</span>
+        <span class="profile-name" id="profileName">Dreamer</span>
         <span class="profile-status"><span class="status-dot"></span>Dreaming...</span>
       </div>
       <button class="profile-menu">
@@ -54,84 +54,84 @@
           <span class="icon-inner">&#10052;</span>
         </div>
         <span class="month-name">January</span>
-        <span class="month-count">3</span>
+        <span class="month-count">0</span>
       </div>
       <div class="month-card">
         <div class="month-icon february">
           <span class="icon-inner">&#10084;</span>
         </div>
         <span class="month-name">February</span>
-        <span class="month-count">5</span>
+        <span class="month-count">0</span>
       </div>
       <div class="month-card">
         <div class="month-icon march">
           <span class="icon-inner">&#127800;</span>
         </div>
         <span class="month-name">March</span>
-        <span class="month-count">2</span>
+        <span class="month-count">0</span>
       </div>
       <div class="month-card">
         <div class="month-icon april">
           <span class="icon-inner">&#127782;</span>
         </div>
         <span class="month-name">April</span>
-        <span class="month-count">7</span>
+        <span class="month-count">0</span>
       </div>
       <div class="month-card">
         <div class="month-icon may">
           <span class="icon-inner">&#127803;</span>
         </div>
         <span class="month-name">May</span>
-        <span class="month-count">4</span>
+        <span class="month-count">0</span>
       </div>
       <div class="month-card">
         <div class="month-icon june">
           <span class="icon-inner">&#9728;</span>
         </div>
         <span class="month-name">June</span>
-        <span class="month-count">6</span>
+        <span class="month-count">0</span>
       </div>
       <div class="month-card">
         <div class="month-icon july">
           <span class="icon-inner">&#127774;</span>
         </div>
         <span class="month-name">July</span>
-        <span class="month-count">8</span>
+        <span class="month-count">0</span>
       </div>
       <div class="month-card">
         <div class="month-icon august">
           <span class="icon-inner">&#11088;</span>
         </div>
         <span class="month-name">August</span>
-        <span class="month-count">3</span>
+        <span class="month-count">0</span>
       </div>
       <div class="month-card">
         <div class="month-icon september">
           <span class="icon-inner">&#127810;</span>
         </div>
         <span class="month-name">September</span>
-        <span class="month-count">5</span>
+        <span class="month-count">0</span>
       </div>
       <div class="month-card">
         <div class="month-icon october">
           <span class="icon-inner">&#127875;</span>
         </div>
         <span class="month-name">October</span>
-        <span class="month-count">9</span>
+        <span class="month-count">0</span>
       </div>
       <div class="month-card">
         <div class="month-icon november">
           <span class="icon-inner">&#127811;</span>
         </div>
         <span class="month-name">November</span>
-        <span class="month-count">4</span>
+        <span class="month-count">0</span>
       </div>
       <div class="month-card">
         <div class="month-icon december">
           <span class="icon-inner">&#127876;</span>
         </div>
         <span class="month-name">December</span>
-        <span class="month-count">6</span>
+        <span class="month-count">0</span>
       </div>
     </div>
 
@@ -164,7 +164,7 @@
     <div class="sidebar-footer">
       <button class="add-dream-btn">
         <span class="btn-highlight"></span>
-        <span class="btn-text">Add Dream</span>
+        <span class="btn-text">Add Today's Dream</span>
       </button>
     </div>
   </div>
@@ -201,19 +201,50 @@
           <div class="form-row">
             <div class="form-group">
               <label for="dreamMood">Mood</label>
-              <select id="dreamMood">
-                <option value="peaceful">Peaceful</option>
-                <option value="adventurous">Adventurous</option>
-                <option value="mysterious">Mysterious</option>
-                <option value="scary">Scary</option>
-                <option value="happy">Happy</option>
-                <option value="sad">Sad</option>
-              </select>
+              <div class="custom-dropdown" id="moodDropdown">
+                <button type="button" class="dropdown-trigger" id="moodTrigger">
+                  <span class="trigger-text">Peaceful</span>
+                  <svg class="trigger-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6" />
+                  </svg>
+                </button>
+                <div class="dropdown-options" id="moodOptions">
+                  <div class="dropdown-option" data-value="peaceful" data-text="Peaceful">Peaceful</div>
+                  <div class="dropdown-option" data-value="adventurous" data-text="Adventurous">Adventurous</div>
+                  <div class="dropdown-option" data-value="mysterious" data-text="Mysterious">Mysterious</div>
+                  <div class="dropdown-option" data-value="scary" data-text="Scary">Scary</div>
+                  <div class="dropdown-option" data-value="happy" data-text="Happy">Happy</div>
+                  <div class="dropdown-option" data-value="sad" data-text="Sad">Sad</div>
+                </div>
+                <input type="hidden" id="dreamMood" value="peaceful" />
+              </div>
             </div>
 
             <div class="form-group">
               <label for="dreamDate">Date</label>
-              <input type="date" id="dreamDate" />
+              <div class="custom-datepicker" id="dreamDatePicker">
+                <button type="button" class="datepicker-trigger" id="dateTrigger">
+                  <span class="trigger-text" id="dateDisplay">Today</span>
+                  <svg class="trigger-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                    <line x1="16" y1="2" x2="16" y2="6" />
+                    <line x1="8" y1="2" x2="8" y2="6" />
+                    <line x1="3" y1="10" x2="21" y2="10" />
+                  </svg>
+                </button>
+                <div class="datepicker-calendar" id="datepickerCalendar">
+                  <div class="calendar-nav">
+                    <button type="button" class="nav-btn prev" id="prevMonth">&lt;</button>
+                    <span class="current-month" id="calendarMonthDisplay">Month Year</span>
+                    <button type="button" class="nav-btn next" id="nextMonth">&gt;</button>
+                  </div>
+                  <div class="calendar-weekdays">
+                    <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+                  </div>
+                  <div class="calendar-days" id="calendarDaysGrid"></div>
+                </div>
+                <input type="hidden" id="dreamDate" />
+              </div>
             </div>
           </div>
         </div>
@@ -303,6 +334,156 @@
 
       <!-- Subtle glow effect -->
       <div class="tarot-glow"></div>
+    </div>
+  </div>
+
+  <!-- Alchemy Orb (Floating Button - Right Side) -->
+  <button class="alchemy-orb" id="alchemyOrb" title="Dream Alchemy Lab" style="display:none">
+    <div class="alchemy-orb-glow"></div>
+    <div class="alchemy-orb-inner">
+      <span class="alchemy-orb-icon">⚗️</span>
+      <div class="alchemy-orb-bubbles">
+        <span class="bubble"></span>
+        <span class="bubble"></span>
+        <span class="bubble"></span>
+      </div>
+    </div>
+    <span class="alchemy-orb-badge" id="alchemyBadge">0</span>
+  </button>
+
+  <!-- Alchemy Lab Overlay -->
+  <div class="alchemy-overlay" id="alchemyOverlay" style="display:none">
+    <div class="alchemy-lab">
+      <!-- Ornate Frame -->
+      <div class="alchemy-frame">
+        <div class="frame-corner top-left"></div>
+        <div class="frame-corner top-right"></div>
+        <div class="frame-corner bottom-left"></div>
+        <div class="frame-corner bottom-right"></div>
+        <div class="frame-border top"></div>
+        <div class="frame-border bottom"></div>
+        <div class="frame-border left"></div>
+        <div class="frame-border right"></div>
+      </div>
+
+      <!-- Close button -->
+      <button class="alchemy-close" id="alchemyClose">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12" />
+        </svg>
+      </button>
+
+      <!-- Header with ornate title bar -->
+      <div class="alchemy-header">
+        <div class="alchemy-title-bar">
+          <div class="title-ornament left">◆</div>
+          <h2 class="alchemy-title">Dream Alchemy Lab</h2>
+          <div class="title-ornament right">◆</div>
+        </div>
+        <div class="alchemy-moon">🌙</div>
+      </div>
+
+      <!-- Decorative swirls -->
+      <div class="alchemy-swirls">
+        <div class="swirl left"></div>
+        <div class="swirl right"></div>
+      </div>
+
+      <!-- Beaker Shelf Section -->
+      <div class="alchemy-shelf-section">
+        <div class="beaker-shelf">
+          <div class="shelf-glow"></div>
+          <!-- Beakers on shelf -->
+          <div class="shelf-beakers" id="shelfBeakers">
+            <!-- Beakers will be generated by JavaScript -->
+          </div>
+          <div class="shelf-platform">
+            <div class="shelf-shine"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Witchy Cauldron Section -->
+      <div class="cauldron-section">
+        <div class="cauldron-container" id="cauldronContainer">
+          <!-- Magical swirl effects -->
+          <div class="cauldron-magic">
+            <div class="magic-swirl"></div>
+            <div class="magic-sparkles">
+              <span class="sparkle"></span>
+              <span class="sparkle"></span>
+              <span class="sparkle"></span>
+              <span class="sparkle"></span>
+              <span class="sparkle"></span>
+            </div>
+          </div>
+          <!-- The cauldron -->
+          <div class="witchy-cauldron" id="witchyCauldron">
+            <div class="cauldron-rim"></div>
+            <div class="cauldron-body">
+              <div class="cauldron-liquid" id="cauldronLiquid">
+                <div class="liquid-swirl"></div>
+                <div class="liquid-bubbles">
+                  <span class="bubble"></span>
+                  <span class="bubble"></span>
+                  <span class="bubble"></span>
+                </div>
+              </div>
+              <div class="cauldron-shine"></div>
+            </div>
+            <div class="cauldron-legs">
+              <div class="leg left"></div>
+              <div class="leg center"></div>
+              <div class="leg right"></div>
+            </div>
+          </div>
+          <!-- Rune circle under cauldron -->
+          <div class="rune-circle">
+            <div class="rune-text">✧ᚱᚢᚾᛖ✧ᛊᛈᛖᛚᛚ✧ᛗᚨᚷᛁᚲ✧</div>
+          </div>
+        </div>
+        <p class="cauldron-hint">Drag beakers here to mix potions</p>
+      </div>
+
+      <!-- Brew Result Area -->
+      <div class="brew-result" id="brewResult">
+        <div class="result-content" id="resultContent"></div>
+      </div>
+
+      <!-- Recipes Section (collapsible) -->
+      <div class="alchemy-section recipes-section">
+        <h3 class="alchemy-section-title">Discovered Recipes</h3>
+        <div class="recipe-list" id="recipeList">
+          <!-- Recipes will be generated by JavaScript -->
+        </div>
+      </div>
+
+      <!-- Active Theme Section -->
+      <div class="alchemy-section">
+        <h3 class="alchemy-section-title">Active Theme</h3>
+        <div class="active-theme" id="activeTheme">
+          <span class="active-theme-icon">🌙</span>
+          <span class="active-theme-name">Default Moonlit Lake</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Onboarding Overlay -->
+  <div class="onboarding-overlay" id="onboardingOverlay">
+    <div class="onboarding-card">
+      <div class="onboarding-glow"></div>
+      <div class="onboarding-moon">🌙</div>
+      <h1 class="onboarding-title">Welcome to Astral</h1>
+      <p class="onboarding-subtitle">Your celestial dream journal awaits</p>
+      <div class="onboarding-form">
+        <label for="onboardingName">What shall we call you?</label>
+        <input type="text" id="onboardingName" placeholder="Enter your name..." maxlength="30" autocomplete="off" />
+      </div>
+      <button class="onboarding-start" id="onboardingStart">
+        <span class="btn-highlight"></span>
+        <span>Begin Dreaming</span>
+      </button>
     </div>
   </div>
 

@@ -55,6 +55,15 @@ body {
   flex-direction: column;
   overflow: hidden;
   z-index: 1000;
+  transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
+    padding 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
+    left 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.sidebar.collapsed {
+  width: 76px;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 /* Profile Section */
@@ -63,6 +72,14 @@ body {
   align-items: center;
   padding: 18px 16px;
   gap: 12px;
+  transition: padding 0.6s ease, gap 0.6s ease;
+}
+
+.sidebar.collapsed .sidebar-profile {
+  padding: 18px 0;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0;
 }
 
 .profile-avatar {
@@ -185,6 +202,16 @@ body {
   display: flex;
   flex-direction: column;
   gap: 3px;
+  transition: opacity 0.3s ease, transform 0.4s ease, width 0.4s ease;
+}
+
+.sidebar.collapsed .profile-info {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  overflow: hidden;
+  transform: translateX(-10px);
 }
 
 .profile-name {
@@ -236,7 +263,19 @@ body {
   display: flex;
   flex-direction: column;
   gap: 3px;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.sidebar.collapsed .profile-menu {
+  position: absolute;
+  top: 12px;
+  right: 50%;
+  transform: translateX(50%);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.sidebar.collapsed .profile-avatar {
+  margin-top: 40px;
 }
 
 .profile-menu:hover {
@@ -248,7 +287,7 @@ body {
   height: 2px;
   background: rgba(255, 200, 230, 0.7);
   border-radius: 2px;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
 }
 
 .profile-menu:hover span {
@@ -264,6 +303,12 @@ body {
       rgba(255, 180, 220, 0.2) 80%,
       transparent);
   margin: 0 16px;
+  transition: opacity 0.4s ease, margin 0.6s ease;
+}
+
+.sidebar.collapsed .sidebar-divider {
+  margin: 0 8px;
+  opacity: 0.5;
 }
 
 /* Content area */
@@ -274,6 +319,12 @@ body {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  transition: padding 0.6s ease;
+}
+
+.sidebar.collapsed .sidebar-content {
+  padding: 12px 5px;
+  align-items: center;
 }
 
 /* Custom scrollbar */
@@ -298,13 +349,22 @@ body {
 .month-card {
   display: flex;
   align-items: center;
-  padding: 10px 12px;
+  padding: 12px 14px;
   gap: 12px;
   border-radius: 14px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   background: rgba(255, 200, 230, 0.03);
   border: 1px solid transparent;
+}
+
+.sidebar.collapsed .month-card {
+  padding: 8px;
+  gap: 0;
+  justify-content: center;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
 }
 
 .month-card:hover {
@@ -320,8 +380,8 @@ body {
 
 /* Month icons - prettier glass orbs */
 .month-icon {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -411,12 +471,22 @@ body {
 /* Month info */
 .month-name {
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 600;
   color: rgba(255, 240, 250, 0.95);
   letter-spacing: 2px;
   text-transform: uppercase;
   flex: 1;
+  transition: opacity 0.3s ease, transform 0.4s ease, width 0.4s ease;
+}
+
+.sidebar.collapsed .month-name,
+.sidebar.collapsed .month-count {
+  opacity: 0;
+  width: 0;
+  pointer-events: none;
+  position: absolute;
+  transform: translateX(10px);
 }
 
 /* Month count badge */
@@ -426,6 +496,7 @@ body {
   font-weight: 500;
   color: rgba(255, 200, 230, 0.5);
   flex-shrink: 0;
+  transition: opacity 0.3s ease;
 }
 
 /* Footer with beautiful 3D button */
@@ -451,8 +522,35 @@ body {
     0 6px 0 #3d1530,
     0 8px 16px rgba(60, 20, 50, 0.5),
     inset 0 1px 0 rgba(255, 180, 220, 0.25);
-  transition: all 0.1s ease;
+  transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
+    height 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
+    border-radius 0.6s ease,
+    padding 0.6s ease,
+    background 0.2s ease,
+    transform 0.1s ease;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar.collapsed .add-dream-btn {
+  width: 50px;
+  height: 50px;
+  padding: 0;
+  border-radius: 50%;
+}
+
+.sidebar.collapsed .add-dream-btn .btn-text {
+  display: none;
+}
+
+.sidebar.collapsed .add-dream-btn::before {
+  content: '+';
+  font-size: 24px;
+  color: white;
+  position: absolute;
+  z-index: 2;
 }
 
 .add-dream-btn:hover {
@@ -661,7 +759,7 @@ body {
 
 .dialog-subtitle {
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 14px;
+  font-size: 16px;
   font-style: italic;
   color: rgba(255, 200, 230, 0.7);
   text-align: center;
@@ -683,7 +781,7 @@ body {
 
 .form-group label {
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
   color: rgba(255, 220, 240, 0.8);
   letter-spacing: 1px;
@@ -691,8 +789,7 @@ body {
 }
 
 .form-group input,
-.form-group textarea,
-.form-group select {
+.form-group textarea {
   width: 100%;
   padding: 12px 16px;
   border: 1px solid rgba(255, 180, 220, 0.15);
@@ -700,10 +797,11 @@ body {
   background: rgba(255, 200, 230, 0.06);
   backdrop-filter: blur(4px);
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 15px;
+  font-size: 17px;
   color: rgba(255, 240, 250, 0.95);
   transition: all 0.2s ease;
   outline: none;
+  color-scheme: dark;
 }
 
 .form-group input::placeholder,
@@ -713,8 +811,7 @@ body {
 }
 
 .form-group input:focus,
-.form-group textarea:focus,
-.form-group select:focus {
+.form-group textarea:focus {
   border-color: rgba(255, 180, 220, 0.35);
   background: rgba(255, 200, 230, 0.1);
   box-shadow: 0 0 20px rgba(255, 150, 200, 0.15);
@@ -725,18 +822,256 @@ body {
   min-height: 100px;
 }
 
-.form-group select {
-  cursor: pointer;
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ffb8d4' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 14px center;
-  padding-right: 40px;
+/* Custom Dropdown Styles */
+.custom-dropdown {
+  position: relative;
+  width: 100%;
+  z-index: 100;
 }
 
-.form-group select option {
-  background: #4a1840;
+.dropdown-trigger {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid rgba(255, 180, 220, 0.15);
+  border-radius: 14px;
+  background: rgba(255, 200, 230, 0.08);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 17px;
+  color: rgba(255, 240, 250, 0.95);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-trigger:hover {
+  background: rgba(255, 200, 230, 0.15);
+  border-color: rgba(255, 180, 220, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(180, 80, 150, 0.2);
+}
+
+.dropdown-trigger:active {
+  transform: translateY(0);
+}
+
+.trigger-arrow {
+  width: 16px;
+  height: 16px;
+  color: rgba(255, 180, 220, 0.7);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.custom-dropdown.active .trigger-arrow {
+  transform: rotate(180deg);
+}
+
+.dropdown-options {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 0;
+  width: 100%;
+  background: linear-gradient(165deg,
+      rgba(60, 20, 50, 0.95) 0%,
+      rgba(40, 10, 40, 0.98) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 180, 220, 0.2);
+  border-radius: 18px;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px) scale(0.95);
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 -20px 50px rgba(0, 0, 0, 0.5);
+  z-index: 1001;
+}
+
+.custom-dropdown.active .dropdown-options {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+.dropdown-option {
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 16px;
+  color: rgba(255, 240, 250, 0.9);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.dropdown-option:last-child {
+  border-bottom: none;
+}
+
+.dropdown-option:hover {
+  background: rgba(255, 180, 220, 0.15);
   color: #fff;
+  padding-left: 20px;
+}
+
+.dropdown-option.selected {
+  background: linear-gradient(90deg, rgba(139, 58, 110, 0.4), transparent);
+  color: #ffb8d4;
+  font-weight: 600;
+}
+
+/* Custom Date Picker Styles */
+.custom-datepicker {
+  position: relative;
+  width: 100%;
+}
+
+.datepicker-trigger {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid rgba(255, 180, 220, 0.15);
+  border-radius: 14px;
+  background: rgba(255, 200, 230, 0.08);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 17px;
+  color: rgba(255, 240, 250, 0.95);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.datepicker-trigger:hover {
+  background: rgba(255, 200, 230, 0.15);
+  border-color: rgba(255, 180, 220, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(180, 80, 150, 0.2);
+}
+
+.trigger-calendar {
+  width: 18px;
+  height: 18px;
+  color: rgba(255, 180, 220, 0.7);
+}
+
+.datepicker-calendar {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  right: 0;
+  width: 280px;
+  background: linear-gradient(165deg,
+      rgba(60, 20, 50, 0.98) 0%,
+      rgba(40, 10, 40, 1) 100%);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border: 1px solid rgba(255, 180, 220, 0.2);
+  border-radius: 20px;
+  padding: 16px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px) scale(0.95);
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.6);
+  z-index: 1001;
+}
+
+.custom-datepicker.active .datepicker-calendar {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+.calendar-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.nav-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.nav-btn:hover {
+  background: rgba(255, 180, 220, 0.2);
+}
+
+.current-month {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: #ffb8d4;
+  letter-spacing: 1px;
+}
+
+.calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.calendar-weekdays span {
+  font-size: 12px;
+  color: rgba(255, 180, 220, 0.5);
+  font-weight: 600;
+}
+
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.calendar-day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.calendar-day:hover:not(.empty) {
+  background: rgba(255, 180, 220, 0.15);
+  color: #fff;
+  transform: scale(1.1);
+}
+
+.calendar-day.today {
+  color: #ffb8d4;
+  font-weight: bold;
+  box-shadow: inset 0 0 0 1px rgba(255, 180, 220, 0.3);
+}
+
+.calendar-day.selected {
+  background: linear-gradient(145deg, #8b3a6e, #6d2854);
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(139, 58, 110, 0.4);
+}
+
+.calendar-day.empty {
+  cursor: default;
 }
 
 .form-row {
@@ -759,7 +1094,7 @@ body {
   border-radius: 14px;
   background: rgba(255, 200, 230, 0.06);
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 600;
   color: rgba(255, 220, 240, 0.8);
   cursor: pointer;
@@ -782,7 +1117,7 @@ body {
       #7d3260 50%,
       #6a2850 100%);
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 600;
   color: rgba(255, 240, 250, 0.95);
   cursor: pointer;
@@ -1543,30 +1878,26 @@ body {
 .tarot-stars {
   position: absolute;
   inset: 0;
-  background-image:
-    radial-gradient(2px 2px at 20px 30px, rgba(212, 175, 55, 0.6), transparent),
-    radial-gradient(2px 2px at 40px 70px, rgba(212, 175, 55, 0.4), transparent),
-    radial-gradient(1px 1px at 90px 40px, rgba(212, 175, 55, 0.5), transparent),
-    radial-gradient(2px 2px at 130px 80px, rgba(212, 175, 55, 0.6), transparent),
-    radial-gradient(1px 1px at 160px 120px, rgba(212, 175, 55, 0.4), transparent),
-    radial-gradient(2px 2px at 200px 50px, rgba(212, 175, 55, 0.5), transparent),
-    radial-gradient(1px 1px at 250px 90px, rgba(212, 175, 55, 0.6), transparent),
-    radial-gradient(2px 2px at 300px 60px, rgba(212, 175, 55, 0.4), transparent),
-    radial-gradient(1px 1px at 350px 110px, rgba(212, 175, 55, 0.5), transparent),
-    radial-gradient(2px 2px at 400px 30px, rgba(212, 175, 55, 0.6), transparent);
-  background-size: 450px 150px;
-  animation: twinkleStars 4s ease-in-out infinite;
+  pointer-events: none;
 }
 
-@keyframes twinkleStars {
+.tarot-star-particle {
+  position: absolute;
+  background-color: var(--star-color, #fff);
+  border-radius: 50%;
+  opacity: 0;
+  animation: tarotTwinkle var(--twinkle-duration, 3s) ease-in-out var(--twinkle-delay, 0s) infinite alternate;
+}
 
-  0%,
-  100% {
-    opacity: 0.5;
+@keyframes tarotTwinkle {
+  0% {
+    opacity: 0.1;
+    transform: scale(0.8);
   }
 
-  50% {
-    opacity: 1;
+  100% {
+    opacity: 0.8;
+    transform: scale(1.2);
   }
 }
 
@@ -1597,9 +1928,9 @@ body {
 /* Tarot Card Main Container */
 .tarot-card {
   position: relative;
-  width: 360px;
+  width: 420px;
   max-width: 90vw;
-  min-height: 520px;
+  min-height: 600px;
   max-height: 85vh;
   transform: scale(0.85) rotateY(90deg);
   transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -1614,7 +1945,7 @@ body {
   position: relative;
   width: 100%;
   height: 100%;
-  min-height: 520px;
+  min-height: 600px;
   background: linear-gradient(165deg,
       #1a1420 0%,
       #0f0a14 40%,
@@ -1801,7 +2132,7 @@ body {
 }
 
 .moon-phase.main {
-  font-size: 28px;
+  font-size: 34px;
   opacity: 1;
   filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.5));
 }
@@ -1865,7 +2196,7 @@ body {
 
 /* Mood icon */
 .tarot-mood-icon {
-  font-size: 48px;
+  font-size: 56px;
   margin-bottom: 12px;
   filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.4));
   animation: moodFloat 3s ease-in-out infinite;
@@ -1886,7 +2217,7 @@ body {
 /* Dream title */
 .tarot-title {
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 26px;
+  font-size: 32px;
   font-weight: 600;
   color: rgba(212, 175, 55, 1);
   text-align: center;
@@ -1951,7 +2282,7 @@ body {
 
 .tarot-dream-content p {
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 16px;
+  font-size: 19px;
   font-style: italic;
   color: rgba(255, 250, 240, 0.85);
   line-height: 1.7;
@@ -1975,7 +2306,7 @@ body {
 
 .date-text {
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 13px;
+  font-size: 16px;
   color: rgba(212, 175, 55, 0.7);
   letter-spacing: 2px;
   text-transform: uppercase;
@@ -2036,8 +2367,8 @@ body {
 /* Responsive tarot card */
 @media (max-width: 400px) {
   .tarot-card {
-    width: 320px;
-    min-height: 480px;
+    width: 340px;
+    min-height: 540px;
   }
 
   .tarot-card-inner {
@@ -2152,11 +2483,7 @@ body {
 
 .tarot-overlay.month-january .tarot-glow {
   background: radial-gradient(ellipse at center, rgba(165, 243, 252, 0.15) 0%, transparent 60%);
-}
-
-.tarot-overlay.month-january .tarot-stars {
-  background-image: radial-gradient(2px 2px at 20px 30px, rgba(165, 243, 252, 0.6), transparent), radial-gradient(2px 2px at 40px 70px, rgba(255, 255, 255, 0.5), transparent), radial-gradient(1px 1px at 90px 40px, rgba(165, 243, 252, 0.5), transparent), radial-gradient(2px 2px at 130px 80px, rgba(255, 255, 255, 0.6), transparent), radial-gradient(1px 1px at 160px 120px, rgba(165, 243, 252, 0.4), transparent);
-  background-size: 200px 150px;
+  --star-color: rgba(165, 243, 252, 0.8);
 }
 
 .tarot-overlay.month-january .tarot-rays {
@@ -2244,192 +2571,186 @@ body {
 
 .tarot-overlay.month-february .tarot-glow {
   background: radial-gradient(ellipse at center, rgba(253, 164, 175, 0.15) 0%, transparent 60%);
-}
-
-.tarot-overlay.month-february .tarot-stars {
-  background-image: radial-gradient(3px 3px at 20px 30px, rgba(253, 164, 175, 0.6), transparent), radial-gradient(2px 2px at 60px 80px, rgba(253, 164, 175, 0.4), transparent), radial-gradient(2px 2px at 120px 50px, rgba(253, 164, 175, 0.5), transparent);
-  background-size: 180px 120px;
+  --star-color: rgba(253, 164, 175, 0.8);
 }
 
 .tarot-overlay.month-february .tarot-rays {
   background: conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(253, 164, 175, 0.04) 10deg, transparent 20deg);
 }
 
-/* March - Spring Awakening 🌸 */
+/* March - Sylvan Gold 🌿 */
 .tarot-overlay.month-march .tarot-card-inner {
-  background: linear-gradient(165deg, #0f1f14 0%, #14532d 40%, #166534 70%, #0f1f14 100%);
-  border-color: rgba(134, 239, 172, 0.6);
-  box-shadow: 0 0 40px rgba(34, 197, 94, 0.2), 0 25px 60px rgba(0, 0, 0, 0.6), inset 0 0 60px rgba(134, 239, 172, 0.05);
+  background: linear-gradient(165deg, #0a0f0a 0%, #1a2818 40%, #1f3320 70%, #0a0f0a 100%);
+  border-color: rgba(212, 175, 55, 0.5);
+  box-shadow: 0 0 40px rgba(212, 175, 55, 0.15), 0 25px 60px rgba(0, 0, 0, 0.7), inset 0 0 60px rgba(212, 175, 55, 0.03);
 }
 
 .tarot-overlay.month-march .tarot-corner::after,
 .tarot-overlay.month-march .ornament-diamond {
-  color: rgba(134, 239, 172, 0.7);
+  color: rgba(212, 175, 55, 0.7);
 }
 
 .tarot-overlay.month-march .tarot-corner::before {
-  background: rgba(134, 239, 172, 0.7);
+  background: rgba(110, 160, 120, 0.6);
 }
 
 .tarot-overlay.month-march .tarot-close {
-  border-color: rgba(134, 239, 172, 0.3);
+  border-color: rgba(212, 175, 55, 0.3);
 }
 
 .tarot-overlay.month-march .tarot-close:hover {
-  background: rgba(134, 239, 172, 0.2);
+  background: rgba(212, 175, 55, 0.15);
 }
 
 .tarot-overlay.month-march .tarot-close svg {
-  color: rgba(134, 239, 172, 0.8);
+  color: rgba(212, 175, 55, 0.8);
 }
 
 .tarot-overlay.month-march .moon-phase.main {
-  filter: drop-shadow(0 0 8px rgba(134, 239, 172, 0.6));
+  filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.5));
 }
 
 .tarot-overlay.month-march .sun-circle {
-  border-color: rgba(249, 168, 212, 0.6);
-  background: radial-gradient(circle, rgba(249, 168, 212, 0.15) 0%, transparent 70%);
+  border-color: rgba(212, 175, 55, 0.6);
+  background: radial-gradient(circle, rgba(110, 160, 120, 0.15) 0%, transparent 70%);
 }
 
 .tarot-overlay.month-march .sun-rays {
-  background: repeating-conic-gradient(from 0deg, transparent 0deg 6deg, rgba(249, 168, 212, 0.4) 6deg 8deg, transparent 8deg 15deg);
+  background: repeating-conic-gradient(from 0deg, transparent 0deg 6deg, rgba(212, 175, 55, 0.35) 6deg 8deg, transparent 8deg 15deg);
 }
 
 .tarot-overlay.month-march .tarot-mood-icon {
-  filter: drop-shadow(0 0 10px rgba(249, 168, 212, 0.5));
+  filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.5));
 }
 
 .tarot-overlay.month-march .tarot-title {
-  color: rgba(249, 168, 212, 1);
-  text-shadow: 0 0 20px rgba(134, 239, 172, 0.4), 0 2px 4px rgba(0, 0, 0, 0.3);
+  color: rgba(254, 215, 170, 1);
+  text-shadow: 0 0 20px rgba(212, 175, 55, 0.4), 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .tarot-overlay.month-march .tarot-divider::before,
 .tarot-overlay.month-march .tarot-divider::after {
-  background: linear-gradient(90deg, transparent, rgba(134, 239, 172, 0.5) 20%, rgba(249, 168, 212, 0.5) 80%, transparent);
+  background: linear-gradient(90deg, transparent, rgba(110, 160, 120, 0.4) 20%, rgba(212, 175, 55, 0.4) 80%, transparent);
 }
 
 .tarot-overlay.month-march .divider-star {
-  color: rgba(249, 168, 212, 0.8);
+  color: rgba(212, 175, 55, 0.8);
 }
 
 .tarot-overlay.month-march .date-star {
-  color: rgba(134, 239, 172, 0.6);
+  color: rgba(110, 160, 120, 0.6);
 }
 
 .tarot-overlay.month-march .date-text {
-  color: rgba(249, 168, 212, 0.7);
+  color: rgba(254, 215, 170, 0.75);
 }
 
 .tarot-overlay.month-march .ornament-dot {
-  background: rgba(134, 239, 172, 0.6);
+  background: rgba(110, 160, 120, 0.6);
 }
 
 .tarot-overlay.month-march .ornament-line {
-  background: rgba(249, 168, 212, 0.4);
+  background: rgba(212, 175, 55, 0.3);
 }
 
 .tarot-overlay.month-march .tarot-bottom-ornament {
-  border-top-color: rgba(134, 239, 172, 0.15);
+  border-top-color: rgba(212, 175, 55, 0.15);
 }
 
 .tarot-overlay.month-march .tarot-glow {
-  background: radial-gradient(ellipse at center, rgba(134, 239, 172, 0.1) 0%, rgba(249, 168, 212, 0.1) 40%, transparent 60%);
+  background: radial-gradient(ellipse at center, rgba(110, 160, 120, 0.08) 0%, rgba(212, 175, 55, 0.1) 40%, transparent 60%);
+  --star-color: rgba(212, 175, 55, 0.8);
 }
 
-.tarot-overlay.month-march .tarot-stars {
-  background-image: radial-gradient(3px 3px at 30px 40px, rgba(249, 168, 212, 0.6), transparent), radial-gradient(2px 2px at 80px 60px, rgba(134, 239, 172, 0.5), transparent), radial-gradient(2px 2px at 140px 90px, rgba(249, 168, 212, 0.4), transparent);
-  background-size: 200px 140px;
+
+.tarot-overlay.month-march .tarot-rays {
+  background: conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(212, 175, 55, 0.04) 10deg, transparent 20deg);
 }
 
 /* April - Storm Caller ⛈️ */
 .tarot-overlay.month-april .tarot-card-inner {
-  background: linear-gradient(165deg, #1a0a2e 0%, #3b0764 40%, #581c87 70%, #1a0a2e 100%);
-  border-color: rgba(168, 85, 247, 0.6);
-  box-shadow: 0 0 40px rgba(124, 58, 237, 0.3), 0 25px 60px rgba(0, 0, 0, 0.6), inset 0 0 60px rgba(168, 85, 247, 0.08);
+  background: linear-gradient(165deg, #0d0517 0%, #24043d 40%, #351152 70%, #0d0517 100%);
+  border-color: rgba(168, 85, 247, 0.4);
+  box-shadow: 0 0 40px rgba(124, 58, 237, 0.2), 0 25px 60px rgba(0, 0, 0, 0.7), inset 0 0 60px rgba(168, 85, 247, 0.05);
 }
 
 .tarot-overlay.month-april .tarot-corner::after,
 .tarot-overlay.month-april .ornament-diamond {
-  color: rgba(168, 85, 247, 0.7);
+  color: rgba(168, 85, 247, 0.6);
 }
 
 .tarot-overlay.month-april .tarot-corner::before {
-  background: rgba(168, 85, 247, 0.7);
+  background: rgba(168, 85, 247, 0.6);
 }
 
 .tarot-overlay.month-april .tarot-close {
-  border-color: rgba(168, 85, 247, 0.3);
+  border-color: rgba(168, 85, 247, 0.2);
 }
 
 .tarot-overlay.month-april .tarot-close:hover {
-  background: rgba(168, 85, 247, 0.2);
+  background: rgba(168, 85, 247, 0.15);
 }
 
 .tarot-overlay.month-april .tarot-close svg {
-  color: rgba(168, 85, 247, 0.8);
+  color: rgba(168, 85, 247, 0.7);
 }
 
 .tarot-overlay.month-april .moon-phase.main {
-  filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.6));
+  filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.5));
 }
 
 .tarot-overlay.month-april .sun-circle {
-  border-color: rgba(255, 255, 255, 0.6);
-  background: radial-gradient(circle, rgba(168, 85, 247, 0.2) 0%, transparent 70%);
+  border-color: rgba(255, 255, 255, 0.5);
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.15) 0%, transparent 70%);
 }
 
 .tarot-overlay.month-april .sun-rays {
-  background: repeating-conic-gradient(from 0deg, transparent 0deg 4deg, rgba(255, 255, 255, 0.6) 4deg 5deg, transparent 5deg 12deg);
+  background: repeating-conic-gradient(from 0deg, transparent 0deg 4deg, rgba(255, 255, 255, 0.4) 4deg 5deg, transparent 5deg 12deg);
 }
 
 .tarot-overlay.month-april .tarot-mood-icon {
-  filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.5));
+  filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.4));
 }
 
 .tarot-overlay.month-april .tarot-title {
-  color: rgba(233, 213, 255, 1);
-  text-shadow: 0 0 20px rgba(168, 85, 247, 0.5), 0 2px 4px rgba(0, 0, 0, 0.3);
+  color: rgba(233, 213, 255, 0.9);
+  text-shadow: 0 0 20px rgba(168, 85, 247, 0.4), 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 .tarot-overlay.month-april .tarot-divider::before,
 .tarot-overlay.month-april .tarot-divider::after {
-  background: linear-gradient(90deg, transparent, rgba(168, 85, 247, 0.5) 20%, rgba(168, 85, 247, 0.5) 80%, transparent);
+  background: linear-gradient(90deg, transparent, rgba(168, 85, 247, 0.4) 20%, rgba(168, 85, 247, 0.4) 80%, transparent);
 }
 
 .tarot-overlay.month-april .divider-star {
-  color: rgba(233, 213, 255, 0.8);
-}
-
-.tarot-overlay.month-april .date-star {
-  color: rgba(168, 85, 247, 0.6);
-}
-
-.tarot-overlay.month-april .date-text {
   color: rgba(233, 213, 255, 0.7);
 }
 
+.tarot-overlay.month-april .date-star {
+  color: rgba(168, 85, 247, 0.5);
+}
+
+.tarot-overlay.month-april .date-text {
+  color: rgba(233, 213, 255, 0.65);
+}
+
 .tarot-overlay.month-april .ornament-dot {
-  background: rgba(168, 85, 247, 0.6);
+  background: rgba(168, 85, 247, 0.5);
 }
 
 .tarot-overlay.month-april .ornament-line {
-  background: rgba(168, 85, 247, 0.4);
+  background: rgba(168, 85, 247, 0.35);
 }
 
 .tarot-overlay.month-april .tarot-bottom-ornament {
-  border-top-color: rgba(168, 85, 247, 0.15);
+  border-top-color: rgba(168, 85, 247, 0.12);
 }
 
 .tarot-overlay.month-april .tarot-glow {
-  background: radial-gradient(ellipse at center, rgba(168, 85, 247, 0.2) 0%, transparent 60%);
+  background: radial-gradient(ellipse at center, rgba(168, 85, 247, 0.12) 0%, transparent 60%);
+  --star-color: rgba(233, 213, 255, 0.7);
 }
 
-.tarot-overlay.month-april .tarot-stars {
-  background-image: radial-gradient(2px 2px at 25px 35px, rgba(255, 255, 255, 0.8), transparent), radial-gradient(1px 1px at 70px 55px, rgba(168, 85, 247, 0.6), transparent), radial-gradient(2px 2px at 150px 80px, rgba(255, 255, 255, 0.7), transparent);
-  background-size: 200px 120px;
-}
 
 .tarot-overlay.month-april .tarot-rays {
   background: conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(168, 85, 247, 0.06) 8deg, transparent 16deg);
@@ -2437,91 +2758,90 @@ body {
 
 /* May - Wildflower Witch 🌺 */
 .tarot-overlay.month-may .tarot-card-inner {
-  background: linear-gradient(165deg, #1a1a2e 0%, #16213e 40%, #0f3460 70%, #1a1a2e 100%);
-  border-color: rgba(251, 146, 60, 0.6);
-  box-shadow: 0 0 40px rgba(236, 72, 153, 0.2), 0 25px 60px rgba(0, 0, 0, 0.6), inset 0 0 60px rgba(251, 146, 60, 0.05);
+  background: linear-gradient(165deg, #05070a 0%, #0c1428 40%, #152a4a 70%, #05070a 100%);
+  border-color: rgba(148, 163, 184, 0.3);
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.8), 0 25px 60px rgba(0, 0, 0, 0.8), inset 0 0 60px rgba(148, 163, 184, 0.03);
 }
 
 .tarot-overlay.month-may .tarot-corner::after,
 .tarot-overlay.month-may .ornament-diamond {
-  color: rgba(251, 146, 60, 0.7);
+  color: rgba(148, 163, 184, 0.5);
 }
 
 .tarot-overlay.month-may .tarot-corner::before {
-  background: rgba(236, 72, 153, 0.7);
+  background: rgba(100, 116, 139, 0.4);
 }
 
 .tarot-overlay.month-may .tarot-close {
-  border-color: rgba(251, 146, 60, 0.3);
+  border-color: rgba(148, 163, 184, 0.2);
 }
 
 .tarot-overlay.month-may .tarot-close:hover {
-  background: rgba(251, 146, 60, 0.2);
+  background: rgba(148, 163, 184, 0.1);
 }
 
 .tarot-overlay.month-may .tarot-close svg {
-  color: rgba(251, 146, 60, 0.8);
+  color: rgba(203, 213, 225, 0.6);
 }
 
 .tarot-overlay.month-may .moon-phase.main {
-  filter: drop-shadow(0 0 8px rgba(236, 72, 153, 0.6));
+  filter: drop-shadow(0 0 12px rgba(100, 116, 139, 0.3)) grayscale(0.2);
 }
 
 .tarot-overlay.month-may .sun-circle {
-  border-color: rgba(34, 211, 238, 0.6);
-  background: radial-gradient(circle, rgba(251, 146, 60, 0.15) 0%, transparent 70%);
+  border-color: rgba(148, 163, 184, 0.4);
+  background: radial-gradient(circle, rgba(148, 163, 184, 0.08) 0%, transparent 70%);
 }
 
 .tarot-overlay.month-may .sun-rays {
-  background: repeating-conic-gradient(from 0deg, transparent 0deg 5deg, rgba(236, 72, 153, 0.3) 5deg 7deg, transparent 7deg 10deg, rgba(34, 211, 238, 0.3) 10deg 12deg, transparent 12deg 15deg);
+  background: repeating-conic-gradient(from 0deg, transparent 0deg 5deg, rgba(148, 163, 184, 0.2) 5deg 6deg, transparent 6deg 12deg);
 }
 
 .tarot-overlay.month-may .tarot-mood-icon {
-  filter: drop-shadow(0 0 10px rgba(251, 146, 60, 0.5));
+  filter: drop-shadow(0 0 15px rgba(100, 116, 139, 0.3));
 }
 
 .tarot-overlay.month-may .tarot-title {
-  color: rgba(251, 146, 60, 1);
-  text-shadow: 0 0 20px rgba(236, 72, 153, 0.4), 0 2px 4px rgba(0, 0, 0, 0.3);
+  color: rgba(203, 213, 225, 0.9);
+  text-shadow: 0 0 15px rgba(148, 163, 184, 0.3), 0 2px 4px rgba(0, 0, 0, 0.5);
+  letter-spacing: 0.15em;
 }
 
 .tarot-overlay.month-may .tarot-divider::before,
 .tarot-overlay.month-may .tarot-divider::after {
-  background: linear-gradient(90deg, transparent, rgba(236, 72, 153, 0.5) 20%, rgba(34, 211, 238, 0.5) 80%, transparent);
+  background: linear-gradient(90deg, transparent, rgba(148, 163, 184, 0.3) 20%, rgba(148, 163, 184, 0.3) 80%, transparent);
 }
 
 .tarot-overlay.month-may .divider-star {
-  color: rgba(251, 146, 60, 0.8);
+  color: rgba(203, 213, 225, 0.5);
 }
 
 .tarot-overlay.month-may .date-star {
-  color: rgba(236, 72, 153, 0.6);
+  color: rgba(100, 116, 139, 0.4);
 }
 
 .tarot-overlay.month-may .date-text {
-  color: rgba(34, 211, 238, 0.7);
+  color: rgba(148, 163, 184, 0.6);
+  letter-spacing: 0.1em;
 }
 
 .tarot-overlay.month-may .ornament-dot {
-  background: rgba(236, 72, 153, 0.6);
+  background: rgba(148, 163, 184, 0.4);
 }
 
 .tarot-overlay.month-may .ornament-line {
-  background: rgba(34, 211, 238, 0.4);
+  background: rgba(148, 163, 184, 0.2);
 }
 
 .tarot-overlay.month-may .tarot-bottom-ornament {
-  border-top-color: rgba(251, 146, 60, 0.15);
+  border-top-color: rgba(148, 163, 184, 0.1);
 }
 
 .tarot-overlay.month-may .tarot-glow {
-  background: radial-gradient(ellipse at center, rgba(236, 72, 153, 0.1) 0%, rgba(34, 211, 238, 0.1) 40%, transparent 60%);
+  background: radial-gradient(ellipse at center, rgba(100, 116, 139, 0.08) 0%, transparent 70%);
+  --star-color: rgba(203, 213, 225, 0.6);
 }
 
-.tarot-overlay.month-may .tarot-stars {
-  background-image: radial-gradient(3px 3px at 20px 25px, rgba(251, 146, 60, 0.6), transparent), radial-gradient(2px 2px at 60px 70px, rgba(236, 72, 153, 0.5), transparent), radial-gradient(3px 3px at 120px 40px, rgba(34, 211, 238, 0.5), transparent);
-  background-size: 180px 100px;
-}
 
 /* June - Solar Priestess ☀️ */
 .tarot-overlay.month-june .tarot-card-inner {
@@ -2604,12 +2924,9 @@ body {
 
 .tarot-overlay.month-june .tarot-glow {
   background: radial-gradient(ellipse at center, rgba(251, 191, 36, 0.2) 0%, rgba(245, 158, 11, 0.1) 40%, transparent 60%);
+  --star-color: rgba(251, 191, 36, 0.8);
 }
 
-.tarot-overlay.month-june .tarot-stars {
-  background-image: radial-gradient(2px 2px at 30px 40px, rgba(251, 191, 36, 0.7), transparent), radial-gradient(3px 3px at 90px 60px, rgba(255, 255, 255, 0.5), transparent), radial-gradient(2px 2px at 160px 30px, rgba(251, 191, 36, 0.6), transparent);
-  background-size: 220px 100px;
-}
 
 .tarot-overlay.month-june .tarot-rays {
   background: conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(251, 191, 36, 0.08) 8deg, transparent 16deg);
@@ -2696,12 +3013,9 @@ body {
 
 .tarot-overlay.month-july .tarot-glow {
   background: radial-gradient(ellipse at center, rgba(14, 165, 233, 0.15) 0%, rgba(6, 182, 212, 0.1) 40%, transparent 60%);
+  --star-color: rgba(186, 230, 253, 0.8);
 }
 
-.tarot-overlay.month-july .tarot-stars {
-  background-image: radial-gradient(2px 2px at 25px 35px, rgba(186, 230, 253, 0.6), transparent), radial-gradient(1px 1px at 75px 55px, rgba(14, 165, 233, 0.5), transparent), radial-gradient(2px 2px at 140px 75px, rgba(6, 182, 212, 0.4), transparent);
-  background-size: 200px 120px;
-}
 
 .tarot-overlay.month-july .tarot-rays {
   background: conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(14, 165, 233, 0.04) 10deg, transparent 20deg);
@@ -2788,12 +3102,9 @@ body {
 
 .tarot-overlay.month-august .tarot-glow {
   background: radial-gradient(ellipse at center, rgba(139, 92, 246, 0.15) 0%, rgba(236, 72, 153, 0.1) 40%, transparent 60%);
+  --star-color: rgba(196, 181, 253, 0.8);
 }
 
-.tarot-overlay.month-august .tarot-stars {
-  background-image: radial-gradient(2px 2px at 15px 25px, rgba(255, 255, 255, 0.9), transparent), radial-gradient(1px 1px at 45px 55px, rgba(236, 72, 153, 0.7), transparent), radial-gradient(3px 3px at 85px 35px, rgba(139, 92, 246, 0.6), transparent), radial-gradient(1px 1px at 125px 65px, rgba(255, 255, 255, 0.8), transparent), radial-gradient(2px 2px at 165px 45px, rgba(196, 181, 253, 0.7), transparent);
-  background-size: 200px 100px;
-}
 
 .tarot-overlay.month-august .tarot-rays {
   background: conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(139, 92, 246, 0.05) 6deg, transparent 12deg, rgba(236, 72, 153, 0.04) 18deg, transparent 24deg);
@@ -2880,199 +3191,1936 @@ body {
 
 .tarot-overlay.month-september .tarot-glow {
   background: radial-gradient(ellipse at center, rgba(217, 119, 6, 0.15) 0%, rgba(180, 83, 9, 0.1) 40%, transparent 60%);
+  --star-color: rgba(254, 215, 170, 0.8);
 }
 
-.tarot-overlay.month-september .tarot-stars {
-  background-image: radial-gradient(2px 2px at 30px 40px, rgba(254, 215, 170, 0.6), transparent), radial-gradient(2px 2px at 80px 60px, rgba(217, 119, 6, 0.5), transparent), radial-gradient(1px 1px at 140px 35px, rgba(254, 215, 170, 0.5), transparent);
-  background-size: 200px 100px;
-}
 
 .tarot-overlay.month-september .tarot-rays {
   background: conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(217, 119, 6, 0.06) 10deg, transparent 20deg);
 }
 
-/* October - Shadow Veil 🎃 */
+/* October - Autumn Ember 🍁 */
 .tarot-overlay.month-october .tarot-card-inner {
-  background: linear-gradient(165deg, #0a0a0a 0%, #14140a 40%, #1a1a0f 70%, #0a0a0a 100%);
-  border-color: rgba(74, 222, 128, 0.5);
-  box-shadow: 0 0 40px rgba(34, 197, 94, 0.2), 0 0 60px rgba(251, 146, 60, 0.15), 0 25px 60px rgba(0, 0, 0, 0.7), inset 0 0 60px rgba(74, 222, 128, 0.03);
+  background: linear-gradient(165deg, #1a0d0a 0%, #3d1a10 40%, #5c2915 70%, #1a0d0a 100%);
+  border-color: rgba(234, 88, 12, 0.5);
+  box-shadow: 0 0 40px rgba(180, 83, 9, 0.25), 0 0 60px rgba(153, 27, 27, 0.2), 0 25px 60px rgba(0, 0, 0, 0.7), inset 0 0 60px rgba(234, 88, 12, 0.05);
 }
 
 .tarot-overlay.month-october .tarot-corner::after,
 .tarot-overlay.month-october .ornament-diamond {
-  color: rgba(74, 222, 128, 0.6);
+  color: rgba(251, 191, 36, 0.7);
 }
 
 .tarot-overlay.month-october .tarot-corner::before {
-  background: rgba(251, 146, 60, 0.6);
+  background: rgba(234, 88, 12, 0.6);
 }
 
 .tarot-overlay.month-october .tarot-close {
-  border-color: rgba(74, 222, 128, 0.3);
+  border-color: rgba(251, 191, 36, 0.3);
 }
 
 .tarot-overlay.month-october .tarot-close:hover {
-  background: rgba(74, 222, 128, 0.2);
+  background: rgba(234, 88, 12, 0.2);
 }
 
 .tarot-overlay.month-october .tarot-close svg {
-  color: rgba(74, 222, 128, 0.8);
+  color: rgba(251, 191, 36, 0.8);
 }
 
 .tarot-overlay.month-october .moon-phase.main {
-  filter: drop-shadow(0 0 8px rgba(251, 146, 60, 0.6));
+  filter: drop-shadow(0 0 8px rgba(234, 88, 12, 0.6)) sepia(0.2);
 }
 
 .tarot-overlay.month-october .sun-circle {
-  border-color: rgba(251, 146, 60, 0.5);
-  background: radial-gradient(circle, rgba(74, 222, 128, 0.1) 0%, transparent 70%);
+  border-color: rgba(251, 191, 36, 0.5);
+  background: radial-gradient(circle, rgba(234, 88, 12, 0.15) 0%, transparent 70%);
 }
 
 .tarot-overlay.month-october .sun-rays {
-  background: repeating-conic-gradient(from 0deg, transparent 0deg 6deg, rgba(74, 222, 128, 0.3) 6deg 8deg, transparent 8deg 12deg, rgba(251, 146, 60, 0.25) 12deg 14deg, transparent 14deg 18deg);
+  background: repeating-conic-gradient(from 0deg, transparent 0deg 5deg, rgba(251, 191, 36, 0.35) 5deg 7deg, transparent 7deg 12deg, rgba(234, 88, 12, 0.3) 12deg 14deg, transparent 14deg 18deg);
 }
 
 .tarot-overlay.month-october .tarot-mood-icon {
-  filter: drop-shadow(0 0 10px rgba(74, 222, 128, 0.4)) drop-shadow(0 0 20px rgba(251, 146, 60, 0.3));
+  filter: drop-shadow(0 0 10px rgba(234, 88, 12, 0.5)) drop-shadow(0 0 20px rgba(251, 191, 36, 0.3));
 }
 
 .tarot-overlay.month-october .tarot-title {
-  color: rgba(74, 222, 128, 1);
-  text-shadow: 0 0 20px rgba(74, 222, 128, 0.4), 0 0 40px rgba(251, 146, 60, 0.3), 0 2px 4px rgba(0, 0, 0, 0.4);
+  color: rgba(251, 191, 36, 1);
+  text-shadow: 0 0 20px rgba(234, 88, 12, 0.5), 0 0 40px rgba(180, 83, 9, 0.3), 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 .tarot-overlay.month-october .tarot-divider::before,
 .tarot-overlay.month-october .tarot-divider::after {
-  background: linear-gradient(90deg, transparent, rgba(74, 222, 128, 0.4) 20%, rgba(251, 146, 60, 0.4) 80%, transparent);
+  background: linear-gradient(90deg, transparent, rgba(234, 88, 12, 0.5) 20%, rgba(251, 191, 36, 0.5) 80%, transparent);
 }
 
 .tarot-overlay.month-october .divider-star {
-  color: rgba(251, 146, 60, 0.8);
+  color: rgba(251, 191, 36, 0.8);
 }
 
 .tarot-overlay.month-october .date-star {
-  color: rgba(74, 222, 128, 0.6);
+  color: rgba(234, 88, 12, 0.6);
 }
 
 .tarot-overlay.month-october .date-text {
-  color: rgba(251, 146, 60, 0.7);
+  color: rgba(254, 215, 170, 0.75);
 }
 
 .tarot-overlay.month-october .ornament-dot {
-  background: rgba(74, 222, 128, 0.6);
+  background: rgba(234, 88, 12, 0.6);
 }
 
 .tarot-overlay.month-october .ornament-line {
-  background: rgba(251, 146, 60, 0.4);
+  background: rgba(251, 191, 36, 0.4);
 }
 
 .tarot-overlay.month-october .tarot-bottom-ornament {
-  border-top-color: rgba(74, 222, 128, 0.12);
+  border-top-color: rgba(234, 88, 12, 0.15);
 }
 
 .tarot-overlay.month-october .tarot-glow {
-  background: radial-gradient(ellipse at center, rgba(74, 222, 128, 0.1) 0%, rgba(251, 146, 60, 0.08) 40%, transparent 60%);
+  background: radial-gradient(ellipse at center, rgba(234, 88, 12, 0.12) 0%, rgba(251, 191, 36, 0.08) 40%, transparent 60%);
+  --star-color: rgba(251, 191, 36, 0.8);
 }
 
-.tarot-overlay.month-october .tarot-stars {
-  background-image: radial-gradient(2px 2px at 20px 30px, rgba(74, 222, 128, 0.5), transparent), radial-gradient(2px 2px at 70px 50px, rgba(251, 146, 60, 0.4), transparent), radial-gradient(1px 1px at 130px 70px, rgba(74, 222, 128, 0.4), transparent);
-  background-size: 180px 100px;
-}
 
 .tarot-overlay.month-october .tarot-rays {
-  background: conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(74, 222, 128, 0.03) 8deg, transparent 16deg, rgba(251, 146, 60, 0.03) 24deg, transparent 32deg);
+  background: conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(234, 88, 12, 0.04) 8deg, transparent 16deg, rgba(251, 191, 36, 0.03) 24deg, transparent 32deg);
 }
 
-/* November - Enchanted Forest 🍄 */
+/* November - Midnight Coven 🦇 */
 .tarot-overlay.month-november .tarot-card-inner {
-  background: linear-gradient(165deg, #0f1a0f 0%, #14532d 40%, #15803d 70%, #0f1a0f 100%);
-  border-color: rgba(134, 239, 172, 0.5);
-  box-shadow: 0 0 40px rgba(74, 222, 128, 0.2), 0 0 60px rgba(168, 85, 247, 0.15), 0 25px 60px rgba(0, 0, 0, 0.6), inset 0 0 60px rgba(134, 239, 172, 0.03);
+  background: linear-gradient(165deg, #0a0812 0%, #1e1b3a 40%, #2d2850 70%, #0a0812 100%);
+  border-color: rgba(192, 192, 220, 0.4);
+  box-shadow: 0 0 40px rgba(99, 102, 241, 0.2), 0 0 60px rgba(139, 92, 246, 0.15), 0 25px 60px rgba(0, 0, 0, 0.7), inset 0 0 60px rgba(192, 192, 220, 0.03);
 }
 
 .tarot-overlay.month-november .tarot-corner::after,
 .tarot-overlay.month-november .ornament-diamond {
-  color: rgba(168, 85, 247, 0.6);
+  color: rgba(192, 192, 220, 0.6);
 }
 
 .tarot-overlay.month-november .tarot-corner::before {
-  background: rgba(134, 239, 172, 0.6);
+  background: rgba(139, 92, 246, 0.5);
 }
 
 .tarot-overlay.month-november .tarot-close {
-  border-color: rgba(134, 239, 172, 0.3);
+  border-color: rgba(192, 192, 220, 0.3);
 }
 
 .tarot-overlay.month-november .tarot-close:hover {
-  background: rgba(134, 239, 172, 0.2);
+  background: rgba(139, 92, 246, 0.2);
 }
 
 .tarot-overlay.month-november .tarot-close svg {
-  color: rgba(134, 239, 172, 0.8);
+  color: rgba(192, 192, 220, 0.8);
 }
 
 .tarot-overlay.month-november .moon-phase.main {
-  filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.5));
+  filter: drop-shadow(0 0 10px rgba(192, 192, 220, 0.5)) brightness(1.1);
 }
 
 .tarot-overlay.month-november .sun-circle {
-  border-color: rgba(168, 85, 247, 0.5);
-  background: radial-gradient(circle, rgba(134, 239, 172, 0.1) 0%, transparent 70%);
+  border-color: rgba(139, 92, 246, 0.4);
+  background: radial-gradient(circle, rgba(192, 192, 220, 0.1) 0%, transparent 70%);
 }
 
 .tarot-overlay.month-november .sun-rays {
-  background: repeating-conic-gradient(from 0deg, transparent 0deg 6deg, rgba(134, 239, 172, 0.25) 6deg 8deg, transparent 8deg 12deg, rgba(168, 85, 247, 0.2) 12deg 14deg, transparent 14deg 18deg);
+  background: repeating-conic-gradient(from 0deg, transparent 0deg 5deg, rgba(192, 192, 220, 0.25) 5deg 7deg, transparent 7deg 12deg, rgba(139, 92, 246, 0.2) 12deg 14deg, transparent 14deg 18deg);
 }
 
 .tarot-overlay.month-november .tarot-mood-icon {
-  filter: drop-shadow(0 0 10px rgba(134, 239, 172, 0.4)) drop-shadow(0 0 20px rgba(168, 85, 247, 0.3));
+  filter: drop-shadow(0 0 10px rgba(192, 192, 220, 0.4)) drop-shadow(0 0 20px rgba(139, 92, 246, 0.3));
 }
 
 .tarot-overlay.month-november .tarot-title {
-  color: rgba(187, 247, 208, 1);
-  text-shadow: 0 0 20px rgba(134, 239, 172, 0.4), 0 0 40px rgba(168, 85, 247, 0.2), 0 2px 4px rgba(0, 0, 0, 0.3);
+  color: rgba(224, 224, 240, 1);
+  text-shadow: 0 0 20px rgba(139, 92, 246, 0.4), 0 0 40px rgba(192, 192, 220, 0.2), 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 .tarot-overlay.month-november .tarot-divider::before,
 .tarot-overlay.month-november .tarot-divider::after {
-  background: linear-gradient(90deg, transparent, rgba(134, 239, 172, 0.4) 20%, rgba(168, 85, 247, 0.4) 80%, transparent);
+  background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.4) 20%, rgba(192, 192, 220, 0.4) 80%, transparent);
 }
 
 .tarot-overlay.month-november .divider-star {
-  color: rgba(168, 85, 247, 0.8);
+  color: rgba(192, 192, 220, 0.8);
 }
 
 .tarot-overlay.month-november .date-star {
-  color: rgba(134, 239, 172, 0.6);
+  color: rgba(139, 92, 246, 0.6);
 }
 
 .tarot-overlay.month-november .date-text {
-  color: rgba(187, 247, 208, 0.7);
+  color: rgba(192, 192, 220, 0.7);
 }
 
 .tarot-overlay.month-november .ornament-dot {
-  background: rgba(168, 85, 247, 0.6);
+  background: rgba(139, 92, 246, 0.6);
 }
 
 .tarot-overlay.month-november .ornament-line {
-  background: rgba(134, 239, 172, 0.4);
+  background: rgba(192, 192, 220, 0.35);
 }
 
 .tarot-overlay.month-november .tarot-bottom-ornament {
-  border-top-color: rgba(134, 239, 172, 0.12);
+  border-top-color: rgba(139, 92, 246, 0.12);
 }
 
 .tarot-overlay.month-november .tarot-glow {
-  background: radial-gradient(ellipse at center, rgba(134, 239, 172, 0.1) 0%, rgba(168, 85, 247, 0.08) 40%, transparent 60%);
+  background: radial-gradient(ellipse at center, rgba(139, 92, 246, 0.1) 0%, rgba(192, 192, 220, 0.08) 40%, transparent 60%);
+  --star-color: rgba(192, 192, 220, 0.8);
 }
 
-.tarot-overlay.month-november .tarot-stars {
-  background-image: radial-gradient(2px 2px at 25px 35px, rgba(134, 239, 172, 0.5), transparent), radial-gradient(3px 3px at 75px 55px, rgba(168, 85, 247, 0.4), transparent), radial-gradient(2px 2px at 135px 40px, rgba(134, 239, 172, 0.4), transparent);
-  background-size: 190px 100px;
-}
 
 .tarot-overlay.month-november .tarot-rays {
-  background: conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(134, 239, 172, 0.03) 8deg, transparent 16deg, rgba(168, 85, 247, 0.03) 24deg, transparent 32deg);
+  background: conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(192, 192, 220, 0.03) 8deg, transparent 16deg, rgba(139, 92, 246, 0.03) 24deg, transparent 32deg);
 }
 
 /* December - Golden Mystic ✨ (DEFAULT - uses base styles, no overrides needed) */
+
+/* =============== ALCHEMY LAB =============== */
+
+/* Alchemy Orb - Floating Button */
+.alchemy-orb {
+  position: fixed;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 70px;
+  height: 70px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  background: linear-gradient(145deg,
+      rgba(180, 120, 200, 0.25) 0%,
+      rgba(140, 80, 160, 0.2) 50%,
+      rgba(100, 60, 140, 0.25) 100%);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 180, 255, 0.2);
+  box-shadow:
+    0 8px 32px rgba(120, 60, 140, 0.3),
+    inset 0 2px 4px rgba(255, 220, 255, 0.2),
+    inset 0 -2px 4px rgba(80, 40, 100, 0.15);
+  z-index: 1000;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  overflow: visible;
+}
+
+.alchemy-orb:hover {
+  transform: translateY(-50%) scale(1.1);
+  box-shadow:
+    0 12px 40px rgba(120, 60, 140, 0.4),
+    inset 0 2px 4px rgba(255, 220, 255, 0.3),
+    inset 0 -2px 4px rgba(80, 40, 100, 0.15);
+}
+
+.alchemy-orb:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+.alchemy-orb-glow {
+  position: absolute;
+  inset: -10px;
+  background: radial-gradient(circle, rgba(200, 150, 255, 0.4) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: orbGlow 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes orbGlow {
+
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.8;
+    transform: scale(1.15);
+  }
+}
+
+.alchemy-orb-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.alchemy-orb-icon {
+  font-size: 32px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  position: relative;
+  z-index: 2;
+}
+
+.alchemy-orb-bubbles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.alchemy-orb-bubbles .bubble {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: rgba(255, 200, 255, 0.6);
+  border-radius: 50%;
+  animation: orbBubble 2s ease-in-out infinite;
+}
+
+.alchemy-orb-bubbles .bubble:nth-child(1) {
+  left: 20%;
+  animation-delay: 0s;
+}
+
+.alchemy-orb-bubbles .bubble:nth-child(2) {
+  left: 50%;
+  animation-delay: 0.6s;
+}
+
+.alchemy-orb-bubbles .bubble:nth-child(3) {
+  left: 75%;
+  animation-delay: 1.2s;
+}
+
+@keyframes orbBubble {
+  0% {
+    bottom: 10%;
+    opacity: 0;
+    transform: scale(0.5);
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  80% {
+    opacity: 0.8;
+  }
+
+  100% {
+    bottom: 80%;
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+.alchemy-orb-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  min-width: 22px;
+  height: 22px;
+  background: linear-gradient(145deg, #c084fc, #9333ea);
+  border-radius: 11px;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 6px;
+  box-shadow: 0 2px 8px rgba(147, 51, 234, 0.5);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Alchemy Overlay */
+.alchemy-overlay {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(60, 20, 50, 0.75) 0%, rgba(30, 10, 30, 0.92) 100%);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.alchemy-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.alchemy-lab {
+  position: relative;
+  width: 95%;
+  max-width: 440px;
+  max-height: 90vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: linear-gradient(175deg,
+      rgba(70, 45, 95, 0.98) 0%,
+      rgba(55, 35, 75, 0.99) 35%,
+      rgba(45, 30, 65, 1) 100%);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-radius: 20px;
+  border: 2px solid rgba(180, 140, 200, 0.35);
+  box-shadow:
+    0 0 50px rgba(160, 100, 180, 0.25),
+    0 20px 60px rgba(30, 10, 35, 0.7),
+    inset 0 1px 0 rgba(255, 220, 255, 0.15);
+  padding: 20px 24px;
+  transform: scale(0.9) translateY(20px);
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.alchemy-overlay.active .alchemy-lab {
+  transform: scale(1) translateY(0);
+}
+
+.alchemy-lab::-webkit-scrollbar {
+  width: 6px;
+}
+
+.alchemy-lab::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.alchemy-lab::-webkit-scrollbar-thumb {
+  background: rgba(255, 180, 220, 0.3);
+  border-radius: 3px;
+}
+
+.alchemy-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 200, 230, 0.1);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+.alchemy-close:hover {
+  background: rgba(255, 200, 230, 0.2);
+  transform: rotate(90deg);
+}
+
+.alchemy-close svg {
+  width: 18px;
+  height: 18px;
+  color: rgba(255, 220, 240, 0.8);
+}
+
+/* Alchemy Header */
+.alchemy-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin-bottom: 12px;
+  position: relative;
+}
+
+.alchemy-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 32px;
+  font-weight: 500;
+  color: rgba(255, 245, 250, 0.95);
+  text-align: center;
+  letter-spacing: 2px;
+  text-shadow: 0 2px 8px rgba(180, 130, 220, 0.4);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.alchemy-title-decoration {
+  font-size: 20px;
+  color: rgba(200, 150, 255, 0.6);
+  animation: decorationTwinkle 2s ease-in-out infinite;
+}
+
+.alchemy-title-decoration.right {
+  animation-delay: 1s;
+}
+
+@keyframes decorationTwinkle {
+
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+.alchemy-subtitle {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 14px;
+  font-style: italic;
+  color: rgba(255, 200, 230, 0.6);
+  text-align: center;
+  margin: 0 0 28px;
+}
+
+/* Alchemy Section */
+.alchemy-section {
+  margin-bottom: 24px;
+}
+
+.alchemy-section-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(255, 220, 240, 0.7);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin: 0 0 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 180, 220, 0.15);
+}
+
+/* Essence Grid */
+.essence-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+/* Essence Vial */
+.essence-vial {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 8px 12px;
+  background: linear-gradient(165deg,
+      rgba(255, 200, 230, 0.08) 0%,
+      rgba(180, 120, 180, 0.05) 100%);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 180, 220, 0.1);
+  transition: all 0.3s ease;
+  cursor: default;
+}
+
+.essence-vial:hover {
+  background: rgba(255, 200, 230, 0.12);
+  border-color: rgba(255, 180, 220, 0.2);
+  transform: translateY(-2px);
+}
+
+.essence-vial-container {
+  position: relative;
+  width: 40px;
+  height: 56px;
+  margin-bottom: 8px;
+}
+
+/* Glass beaker shape */
+.essence-beaker {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.15) 0%,
+      rgba(255, 255, 255, 0.05) 50%,
+      rgba(255, 255, 255, 0.1) 100%);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px 4px 12px 12px;
+  overflow: hidden;
+}
+
+/* Beaker neck */
+.essence-beaker::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 8px;
+  right: 8px;
+  height: 8px;
+  background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.2) 0%,
+      rgba(255, 255, 255, 0.08) 100%);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-bottom: none;
+  border-radius: 3px 3px 0 0;
+}
+
+/* Glass shine */
+.essence-beaker::after {
+  content: '';
+  position: absolute;
+  top: 8px;
+  left: 4px;
+  width: 6px;
+  height: 70%;
+  background: linear-gradient(180deg,
+      rgba(255, 255, 255, 0.4) 0%,
+      rgba(255, 255, 255, 0.1) 100%);
+  border-radius: 2px;
+}
+
+/* Liquid fill */
+.essence-liquid {
+  position: absolute;
+  bottom: 2px;
+  left: 2px;
+  right: 2px;
+  height: 0%;
+  border-radius: 0 0 10px 10px;
+  transition: height 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  overflow: hidden;
+}
+
+/* Liquid gradient for each mood */
+.essence-vial[data-mood="peaceful"] .essence-liquid {
+  background: linear-gradient(180deg, rgba(100, 200, 255, 0.8) 0%, rgba(80, 160, 220, 0.9) 100%);
+  box-shadow: 0 0 12px rgba(100, 200, 255, 0.4);
+}
+
+.essence-vial[data-mood="adventurous"] .essence-liquid {
+  background: linear-gradient(180deg, rgba(255, 180, 100, 0.8) 0%, rgba(240, 140, 60, 0.9) 100%);
+  box-shadow: 0 0 12px rgba(255, 180, 100, 0.4);
+}
+
+.essence-vial[data-mood="mysterious"] .essence-liquid {
+  background: linear-gradient(180deg, rgba(180, 100, 255, 0.8) 0%, rgba(140, 60, 200, 0.9) 100%);
+  box-shadow: 0 0 12px rgba(180, 100, 255, 0.4);
+}
+
+.essence-vial[data-mood="scary"] .essence-liquid {
+  background: linear-gradient(180deg, rgba(200, 50, 80, 0.8) 0%, rgba(150, 30, 60, 0.9) 100%);
+  box-shadow: 0 0 12px rgba(200, 50, 80, 0.4);
+}
+
+.essence-vial[data-mood="happy"] .essence-liquid {
+  background: linear-gradient(180deg, rgba(255, 220, 100, 0.8) 0%, rgba(255, 200, 60, 0.9) 100%);
+  box-shadow: 0 0 12px rgba(255, 220, 100, 0.4);
+}
+
+.essence-vial[data-mood="sad"] .essence-liquid {
+  background: linear-gradient(180deg, rgba(100, 150, 200, 0.8) 0%, rgba(80, 120, 180, 0.9) 100%);
+  box-shadow: 0 0 12px rgba(100, 150, 200, 0.4);
+}
+
+/* Bubbles in liquid */
+.essence-bubbles {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.essence-bubbles .bubble {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  animation: liquidBubble 2.5s ease-in-out infinite;
+}
+
+.essence-bubbles .bubble:nth-child(1) {
+  left: 20%;
+  animation-delay: 0s;
+}
+
+.essence-bubbles .bubble:nth-child(2) {
+  left: 50%;
+  animation-delay: 0.8s;
+}
+
+.essence-bubbles .bubble:nth-child(3) {
+  left: 70%;
+  animation-delay: 1.6s;
+}
+
+@keyframes liquidBubble {
+  0% {
+    bottom: 0;
+    opacity: 0;
+    transform: scale(0.5);
+  }
+
+  10% {
+    opacity: 0.8;
+  }
+
+  90% {
+    opacity: 0.6;
+  }
+
+  100% {
+    bottom: 100%;
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+.essence-icon {
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+.essence-name {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(255, 220, 240, 0.8);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.essence-count {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: rgba(255, 240, 250, 0.95);
+  margin-top: 2px;
+}
+
+/* Recipe List */
+.recipe-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.recipe-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: linear-gradient(135deg,
+      rgba(255, 200, 230, 0.06) 0%,
+      rgba(180, 120, 180, 0.04) 100%);
+  border-radius: 14px;
+  border: 1px solid rgba(255, 180, 220, 0.1);
+  transition: all 0.3s ease;
+}
+
+.recipe-card:hover {
+  background: rgba(255, 200, 230, 0.1);
+  border-color: rgba(255, 180, 220, 0.2);
+}
+
+.recipe-card.locked {
+  opacity: 0.6;
+}
+
+.recipe-card.unlocked {
+  border-color: rgba(100, 255, 150, 0.3);
+  background: linear-gradient(135deg,
+      rgba(100, 255, 150, 0.08) 0%,
+      rgba(80, 200, 120, 0.04) 100%);
+}
+
+.recipe-icon {
+  font-size: 28px;
+  flex-shrink: 0;
+}
+
+.recipe-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.recipe-name {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: rgba(255, 240, 250, 0.95);
+  margin-bottom: 4px;
+}
+
+.recipe-cost {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.recipe-cost-item {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 12px;
+  color: rgba(255, 200, 230, 0.7);
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.recipe-cost-item.sufficient {
+  color: rgba(100, 255, 150, 0.8);
+}
+
+.recipe-cost-item.insufficient {
+  color: rgba(255, 100, 100, 0.8);
+}
+
+.recipe-action {
+  flex-shrink: 0;
+}
+
+.craft-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 10px;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.craft-btn.available {
+  background: linear-gradient(145deg, #8b3a6e, #6d2854);
+  color: rgba(255, 240, 250, 0.95);
+  box-shadow: 0 4px 0 #3d1530, 0 4px 12px rgba(60, 20, 50, 0.4);
+}
+
+.craft-btn.available:hover {
+  background: linear-gradient(145deg, #9a4578, #7d3260);
+  transform: translateY(1px);
+  box-shadow: 0 3px 0 #3d1530, 0 3px 10px rgba(60, 20, 50, 0.4);
+}
+
+.craft-btn.available:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #3d1530, 0 2px 6px rgba(60, 20, 50, 0.3);
+}
+
+.craft-btn.locked {
+  background: rgba(100, 80, 100, 0.3);
+  color: rgba(255, 200, 230, 0.4);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.craft-btn.owned {
+  background: linear-gradient(145deg, rgba(100, 200, 150, 0.3), rgba(80, 160, 120, 0.2));
+  color: rgba(100, 255, 150, 0.9);
+  cursor: default;
+  box-shadow: none;
+}
+
+/* Active Theme Display */
+.active-theme {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  background: linear-gradient(135deg,
+      rgba(200, 150, 255, 0.1) 0%,
+      rgba(160, 100, 200, 0.06) 100%);
+  border-radius: 14px;
+  border: 1px solid rgba(200, 150, 255, 0.2);
+}
+
+.active-theme-icon {
+  font-size: 24px;
+}
+
+.active-theme-name {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: rgba(255, 240, 250, 0.95);
+}
+
+/* Craft Animation */
+@keyframes craftPulse {
+  0% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+
+  50% {
+    transform: scale(1.05);
+    filter: brightness(1.3);
+  }
+
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+}
+
+.recipe-card.crafting {
+  animation: craftPulse 0.5s ease-in-out;
+}
+
+/* Craft Success Flash */
+.craft-flash {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(200, 150, 255, 0.4) 0%, transparent 70%);
+  z-index: 3000;
+  pointer-events: none;
+  animation: flashIn 0.6s ease-out forwards;
+}
+
+@keyframes flashIn {
+  0% {
+    opacity: 0;
+  }
+
+  30% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+/* =============== ALCHEMY LAB ENHANCED =============== */
+
+/* Ornate Frame */
+.alchemy-frame {
+  position: absolute;
+  inset: 8px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.frame-corner {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+}
+
+.frame-corner::before,
+.frame-corner::after {
+  content: '';
+  position: absolute;
+  background: linear-gradient(135deg, rgba(200, 150, 220, 0.6), rgba(160, 120, 180, 0.3));
+}
+
+.frame-corner::before {
+  width: 100%;
+  height: 3px;
+}
+
+.frame-corner::after {
+  width: 3px;
+  height: 100%;
+}
+
+.frame-corner.top-left {
+  top: 0;
+  left: 0;
+}
+
+.frame-corner.top-right {
+  top: 0;
+  right: 0;
+  transform: scaleX(-1);
+}
+
+.frame-corner.bottom-left {
+  bottom: 0;
+  left: 0;
+  transform: scaleY(-1);
+}
+
+.frame-corner.bottom-right {
+  bottom: 0;
+  right: 0;
+  transform: scale(-1);
+}
+
+/* Title bar with ornaments */
+.alchemy-title-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: linear-gradient(90deg, transparent, rgba(180, 140, 200, 0.15), transparent);
+  padding: 6px 20px;
+  border-radius: 6px;
+  margin-bottom: 4px;
+}
+
+.title-ornament {
+  font-size: 14px;
+  color: rgba(180, 140, 200, 0.5);
+}
+
+.alchemy-moon {
+  position: absolute;
+  top: 8px;
+  right: 24px;
+  font-size: 28px;
+  text-align: center;
+  filter: drop-shadow(0 0 6px rgba(255, 210, 160, 0.45));
+}
+
+/* Decorative swirls */
+.alchemy-swirls {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  margin-bottom: 12px;
+}
+
+.swirl {
+  width: 65px;
+  height: 16px;
+  border: 2px solid rgba(180, 140, 200, 0.22);
+  border-top: none;
+  border-radius: 0 0 32px 32px;
+}
+
+.swirl.left {
+  transform: rotate(-4deg);
+}
+
+.swirl.right {
+  transform: rotate(4deg);
+}
+
+/* Beaker Shelf Section */
+.alchemy-shelf-section {
+  margin-bottom: 24px;
+  position: relative;
+  z-index: 1;
+}
+
+.beaker-shelf {
+  position: relative;
+  padding: 30px 10px 20px;
+}
+
+/* Decorative curved supports above beakers */
+.beaker-shelf::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 320px;
+  height: 30px;
+  background:
+    /* Left curved bracket */
+    radial-gradient(ellipse 60px 30px at 25% 100%, transparent 48%, rgba(120, 100, 140, 0.25) 50%, transparent 52%),
+    /* Center curved bracket */
+    radial-gradient(ellipse 70px 30px at 50% 100%, transparent 48%, rgba(120, 100, 140, 0.25) 50%, transparent 52%),
+    /* Right curved bracket */
+    radial-gradient(ellipse 60px 30px at 75% 100%, transparent 48%, rgba(120, 100, 140, 0.25) 50%, transparent 52%);
+  pointer-events: none;
+}
+
+.shelf-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 90%;
+  height: 70%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(ellipse, rgba(180, 150, 220, 0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.shelf-beakers {
+  display: flex;
+  justify-content: center;
+  gap: 45px;
+  margin-bottom: 16px;
+  position: relative;
+  z-index: 2;
+}
+
+.shelf-platform {
+  height: 4px;
+  background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(120, 100, 150, 0.35) 15%,
+      rgba(140, 120, 170, 0.45) 50%,
+      rgba(120, 100, 150, 0.35) 85%,
+      transparent 100%);
+  border-radius: 2px;
+  box-shadow: 0 2px 8px rgba(100, 80, 140, 0.2);
+  position: relative;
+  margin: 0 30px;
+}
+
+.shelf-shine {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 15%, rgba(255, 255, 255, 0.35) 50%, transparent 85%);
+  border-radius: 3px;
+}
+
+/* Flask/Beaker on shelf - Redesigned to match inspo */
+.shelf-flask {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: grab;
+  transition: transform 0.3s ease;
+}
+
+.shelf-flask:hover {
+  transform: translateY(-8px) scale(1.05);
+}
+
+.shelf-flask:active {
+  cursor: grabbing;
+}
+
+.shelf-flask.dragging {
+  opacity: 0.5;
+  transform: scale(0.9);
+}
+
+/* The beaker container - holds the entire shape */
+.beaker-container {
+  position: relative;
+  width: 70px;
+  height: 100px;
+}
+
+/* Side handle loop - characteristic of the inspo beaker */
+.beaker-handle {
+  position: absolute;
+  right: -8px;
+  top: 20px;
+  width: 18px;
+  height: 35px;
+  border: 3px solid rgba(160, 130, 180, 0.5);
+  border-left: none;
+  border-radius: 0 20px 20px 0;
+  background: transparent;
+  box-shadow:
+    2px 0 8px rgba(160, 130, 180, 0.2),
+    inset -2px 0 4px rgba(255, 255, 255, 0.1);
+}
+
+/* Neck of the beaker - rectangular top */
+.beaker-neck {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 28px;
+  height: 25px;
+  background: linear-gradient(180deg,
+      rgba(140, 110, 160, 0.25) 0%,
+      rgba(120, 90, 150, 0.3) 50%,
+      rgba(100, 80, 140, 0.35) 100%);
+  border: 2px solid rgba(180, 150, 200, 0.35);
+  border-bottom: none;
+  border-radius: 6px 6px 0 0;
+  box-shadow:
+    inset 2px 4px 8px rgba(255, 255, 255, 0.15),
+    inset -2px 0 8px rgba(80, 60, 100, 0.2);
+}
+
+/* Main beaker body - rounded U-shape at bottom */
+.beaker-body {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 56px;
+  height: 75px;
+  background: linear-gradient(180deg,
+      rgba(140, 110, 160, 0.2) 0%,
+      rgba(120, 90, 150, 0.25) 40%,
+      rgba(110, 80, 145, 0.3) 100%);
+  border: 2px solid rgba(180, 150, 200, 0.35);
+  border-radius: 8px 8px 28px 28px;
+  overflow: hidden;
+  box-shadow:
+    inset 3px 8px 16px rgba(255, 255, 255, 0.12),
+    inset -4px -4px 12px rgba(60, 40, 80, 0.15),
+    0 8px 24px rgba(80, 50, 100, 0.25);
+}
+
+/* Liquid inside beaker */
+.beaker-liquid {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-radius: 0 0 26px 26px;
+  transition: height 0.5s ease, background 0.3s ease;
+  overflow: hidden;
+}
+
+/* Bubbles inside liquid */
+.beaker-bubbles {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.beaker-bubbles .bubble {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  animation: beakerBubble 2.5s ease-in-out infinite;
+}
+
+.beaker-bubbles .bubble:nth-child(1) {
+  left: 25%;
+  animation-delay: 0s;
+}
+
+.beaker-bubbles .bubble:nth-child(2) {
+  left: 50%;
+  animation-delay: 0.8s;
+}
+
+.beaker-bubbles .bubble:nth-child(3) {
+  left: 70%;
+  animation-delay: 1.6s;
+}
+
+@keyframes beakerBubble {
+  0% {
+    bottom: 5%;
+    opacity: 0;
+    transform: scale(0.3);
+  }
+
+  25% {
+    opacity: 0.8;
+  }
+
+  100% {
+    bottom: 95%;
+    opacity: 0;
+    transform: scale(0.8);
+  }
+}
+
+/* Glass highlight - makes it look shiny */
+.beaker-highlight {
+  position: absolute;
+  top: 8px;
+  left: 6px;
+  width: 10px;
+  height: 40%;
+  background: linear-gradient(180deg,
+      rgba(255, 255, 255, 0.35) 0%,
+      rgba(255, 255, 255, 0.1) 60%,
+      transparent 100%);
+  border-radius: 6px;
+  pointer-events: none;
+}
+
+/* Secondary shine effect */
+.beaker-shine {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  width: 6px;
+  height: 25%;
+  background: linear-gradient(180deg,
+      rgba(255, 255, 255, 0.25) 0%,
+      transparent 100%);
+  border-radius: 3px;
+  pointer-events: none;
+}
+
+/* Beaker label section */
+.beaker-label {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.beaker-letter {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: rgba(255, 245, 250, 0.95);
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  letter-spacing: 1px;
+}
+
+.beaker-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 14px;
+  color: rgba(255, 220, 240, 0.75);
+  margin-top: 2px;
+}
+
+.beaker-count {
+  font-size: 12px;
+  color: rgba(255, 200, 230, 0.6);
+  margin-top: 3px;
+}
+
+/* Beaker mood liquid colors */
+.shelf-flask[data-mood="peaceful"] .beaker-liquid {
+  background: linear-gradient(180deg,
+      rgba(120, 200, 230, 0.75) 0%,
+      rgba(80, 170, 210, 0.85) 50%,
+      rgba(60, 150, 200, 0.9) 100%);
+  box-shadow:
+    0 0 20px rgba(100, 180, 220, 0.4),
+    inset 0 -5px 15px rgba(40, 130, 180, 0.3);
+}
+
+.shelf-flask[data-mood="happy"] .beaker-liquid {
+  background: linear-gradient(180deg,
+      rgba(255, 230, 120, 0.8) 0%,
+      rgba(255, 210, 80, 0.85) 50%,
+      rgba(240, 190, 60, 0.9) 100%);
+  box-shadow:
+    0 0 20px rgba(255, 220, 100, 0.4),
+    inset 0 -5px 15px rgba(220, 180, 40, 0.3);
+}
+
+.shelf-flask[data-mood="mysterious"] .beaker-liquid {
+  background: linear-gradient(180deg,
+      rgba(180, 120, 240, 0.75) 0%,
+      rgba(150, 90, 210, 0.85) 50%,
+      rgba(130, 70, 190, 0.9) 100%);
+  box-shadow:
+    0 0 20px rgba(160, 100, 220, 0.4),
+    inset 0 -5px 15px rgba(120, 60, 180, 0.3);
+}
+
+.shelf-flask[data-mood="adventurous"] .beaker-liquid {
+  background: linear-gradient(180deg,
+      rgba(255, 180, 100, 0.8) 0%,
+      rgba(245, 150, 70, 0.85) 50%,
+      rgba(230, 130, 50, 0.9) 100%);
+  box-shadow:
+    0 0 20px rgba(255, 160, 80, 0.4),
+    inset 0 -5px 15px rgba(200, 120, 40, 0.3);
+}
+
+.shelf-flask[data-mood="scary"] .beaker-liquid {
+  background: linear-gradient(180deg,
+      rgba(200, 70, 100, 0.8) 0%,
+      rgba(180, 50, 80, 0.85) 50%,
+      rgba(160, 40, 70, 0.9) 100%);
+  box-shadow:
+    0 0 20px rgba(200, 60, 90, 0.4),
+    inset 0 -5px 15px rgba(150, 30, 60, 0.3);
+}
+
+.shelf-flask[data-mood="sad"] .beaker-liquid {
+  background: linear-gradient(180deg,
+      rgba(110, 160, 210, 0.8) 0%,
+      rgba(90, 140, 190, 0.85) 50%,
+      rgba(70, 120, 175, 0.9) 100%);
+  box-shadow:
+    0 0 20px rgba(100, 150, 200, 0.4),
+    inset 0 -5px 15px rgba(60, 110, 160, 0.3);
+}
+
+/* Cauldron Section */
+.cauldron-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.cauldron-container {
+  position: relative;
+  width: 180px;
+  height: 160px;
+}
+
+.cauldron-magic {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 140px;
+  height: 80px;
+  pointer-events: none;
+}
+
+.magic-swirl {
+  position: absolute;
+  inset: 0;
+  background: conic-gradient(from 0deg, transparent, rgba(180, 120, 255, 0.3), rgba(100, 200, 255, 0.2), rgba(255, 150, 200, 0.3), transparent);
+  border-radius: 50%;
+  animation: magicSwirl 4s linear infinite;
+  opacity: 0.6;
+}
+
+.magic-sparkles {
+  position: absolute;
+  inset: 0;
+}
+
+.magic-sparkles .sparkle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 50%;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.6);
+  animation: sparkleFloat 2.5s ease-in-out infinite;
+}
+
+.magic-sparkles .sparkle:nth-child(1) {
+  left: 20%;
+  top: 30%;
+  animation-delay: 0s;
+}
+
+.magic-sparkles .sparkle:nth-child(2) {
+  left: 50%;
+  top: 10%;
+  animation-delay: 0.4s;
+}
+
+.magic-sparkles .sparkle:nth-child(3) {
+  left: 75%;
+  top: 40%;
+  animation-delay: 0.8s;
+}
+
+.magic-sparkles .sparkle:nth-child(4) {
+  left: 35%;
+  top: 50%;
+  animation-delay: 1.2s;
+}
+
+.magic-sparkles .sparkle:nth-child(5) {
+  left: 65%;
+  top: 25%;
+  animation-delay: 1.6s;
+}
+
+@keyframes magicSwirl {
+  from {
+    transform: translateX(-50%) rotate(0deg);
+  }
+
+  to {
+    transform: translateX(-50%) rotate(360deg);
+  }
+}
+
+@keyframes sparkleFloat {
+
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: translateY(0) scale(0.8);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translateY(-10px) scale(1.2);
+  }
+}
+
+/* The Cauldron */
+.witchy-cauldron {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 130px;
+  height: 95px;
+}
+
+.cauldron-rim {
+  position: absolute;
+  top: 0;
+  left: -10px;
+  right: -10px;
+  height: 20px;
+  background: linear-gradient(180deg,
+      rgba(60, 55, 70, 1) 0%,
+      rgba(45, 40, 55, 1) 50%,
+      rgba(35, 30, 45, 1) 100%);
+  border-radius: 10px 10px 0 0;
+  border: 2px solid rgba(80, 70, 100, 0.5);
+  box-shadow:
+    inset 0 3px 5px rgba(255, 255, 255, 0.1),
+    0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.cauldron-body {
+  position: absolute;
+  top: 10px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(145deg, rgba(55, 50, 65, 1) 0%, rgba(35, 30, 45, 1) 50%, rgba(45, 40, 55, 1) 100%);
+  border-radius: 0 0 65px 65px;
+  border: 2px solid rgba(90, 75, 110, 0.4);
+  overflow: hidden;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45), inset 0 -8px 16px rgba(0, 0, 0, 0.25);
+}
+
+.cauldron-liquid {
+  position: absolute;
+  top: 8px;
+  left: 4px;
+  right: 4px;
+  bottom: 4px;
+  background: linear-gradient(150deg,
+      rgba(120, 80, 180, 0.9) 0%,
+      rgba(80, 140, 200, 0.85) 35%,
+      rgba(100, 170, 190, 0.8) 55%,
+      rgba(140, 100, 180, 0.85) 100%);
+  border-radius: 0 0 60px 60px;
+  animation: liquidShimmer 4s ease-in-out infinite;
+  box-shadow:
+    inset 0 -10px 30px rgba(60, 100, 160, 0.4),
+    inset 0 5px 20px rgba(150, 80, 180, 0.3);
+}
+
+.liquid-swirl {
+  position: absolute;
+  inset: 0;
+  background: conic-gradient(from 0deg, transparent, rgba(255, 255, 255, 0.15), transparent, rgba(200, 150, 255, 0.2), transparent);
+  border-radius: 0 0 65px 65px;
+  animation: swirlRotate 6s linear infinite;
+}
+
+.liquid-bubbles {
+  position: absolute;
+  inset: 0;
+}
+
+.liquid-bubbles .bubble {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  animation: cauldronBubble 2s ease-in-out infinite;
+}
+
+.liquid-bubbles .bubble:nth-child(1) {
+  width: 12px;
+  height: 12px;
+  left: 25%;
+  animation-delay: 0s;
+}
+
+.liquid-bubbles .bubble:nth-child(2) {
+  width: 8px;
+  height: 8px;
+  left: 55%;
+  animation-delay: 0.6s;
+}
+
+.liquid-bubbles .bubble:nth-child(3) {
+  width: 10px;
+  height: 10px;
+  left: 70%;
+  animation-delay: 1.2s;
+}
+
+.cauldron-shine {
+  position: absolute;
+  top: 15px;
+  left: 12px;
+  width: 12px;
+  height: 40px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05));
+  border-radius: 6px;
+}
+
+/* Hide legs to match inspiration - cauldron sits directly */
+.cauldron-legs {
+  display: none;
+}
+
+.cauldron-legs .leg {
+  display: none;
+}
+
+@keyframes liquidShimmer {
+
+  0%,
+  100% {
+    filter: hue-rotate(0deg) brightness(1);
+  }
+
+  50% {
+    filter: hue-rotate(20deg) brightness(1.1);
+  }
+}
+
+@keyframes swirlRotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes cauldronBubble {
+  0% {
+    bottom: 10%;
+    opacity: 0;
+    transform: scale(0.5);
+  }
+
+  30% {
+    opacity: 0.8;
+  }
+
+  100% {
+    bottom: 90%;
+    opacity: 0;
+    transform: scale(1.2);
+  }
+}
+
+/* Rune Circle */
+.rune-circle {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 180px;
+  height: 40px;
+}
+
+.rune-text {
+  font-size: 14px;
+  color: rgba(180, 150, 220, 0.5);
+  text-align: center;
+  letter-spacing: 3px;
+  animation: runeGlow 3s ease-in-out infinite;
+}
+
+@keyframes runeGlow {
+
+  0%,
+  100% {
+    opacity: 0.4;
+    text-shadow: 0 0 5px rgba(180, 150, 220, 0.3);
+  }
+
+  50% {
+    opacity: 0.8;
+    text-shadow: 0 0 15px rgba(180, 150, 220, 0.6);
+  }
+}
+
+.cauldron-hint {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+  font-style: italic;
+  color: rgba(255, 200, 230, 0.6);
+  text-align: center;
+  margin-top: 8px;
+}
+
+/* Brew Result */
+.brew-result {
+  min-height: 0;
+  transition: all 0.3s ease;
+  margin-bottom: 16px;
+}
+
+.brew-result.active {
+  min-height: 60px;
+  padding: 16px;
+  background: rgba(100, 255, 150, 0.1);
+  border-radius: 12px;
+  border: 1px solid rgba(100, 255, 150, 0.3);
+}
+
+.result-content {
+  text-align: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  color: rgba(100, 255, 150, 0.9);
+}
+
+/* Updated section title to be larger */
+.alchemy-section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: rgba(255, 220, 240, 0.8);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin: 0 0 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 180, 220, 0.2);
+}
+
+/* Recipe card fonts larger */
+.recipe-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: rgba(255, 240, 250, 0.95);
+  margin-bottom: 6px;
+}
+
+.recipe-cost-item {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+}
+
+/* Active theme name larger */
+.active-theme-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: rgba(255, 240, 250, 0.95);
+}
+
+.active-theme-icon {
+  font-size: 32px;
+}
+
+/* Cauldron drop zone highlight */
+.cauldron-container.drag-over .witchy-cauldron {
+  transform: translateX(-50%) scale(1.05);
+}
+
+.cauldron-container.drag-over .cauldron-liquid {
+  animation: liquidShimmer 0.5s ease-in-out infinite;
+  filter: brightness(1.3);
+}
+
+.cauldron-container.drag-over .magic-swirl {
+  opacity: 1;
+}
+
+/* Hide Active Theme section to match mockup */
+.alchemy-section:last-of-type {
+  display: none;
+}
+
+/* Recipe icon sizing */
+.recipe-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(100, 80, 140, 0.3);
+  border-radius: 6px;
+}
+
+/* Craft button refinements */
+.craft-btn.locked {
+  background: rgba(120, 100, 140, 0.25);
+  color: rgba(255, 220, 240, 0.45);
+  cursor: not-allowed;
+  box-shadow: none;
+  font-size: 11px;
+  padding: 6px 12px;
+}
+
+/* =============== ONBOARDING OVERLAY =============== */
+.onboarding-overlay {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(60, 20, 50, 0.85) 0%, rgba(20, 5, 20, 0.97) 100%);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+.onboarding-overlay.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.onboarding-card {
+  position: relative;
+  width: 90%;
+  max-width: 460px;
+  padding: 48px 36px 40px;
+  background: linear-gradient(165deg,
+      rgba(200, 140, 200, 0.12) 0%,
+      rgba(160, 100, 170, 0.08) 25%,
+      rgba(120, 80, 150, 0.1) 50%,
+      rgba(140, 90, 160, 0.08) 75%,
+      rgba(180, 120, 180, 0.12) 100%);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-radius: 32px;
+  border: 1px solid rgba(255, 200, 255, 0.18);
+  box-shadow:
+    0 25px 80px rgba(40, 10, 40, 0.6),
+    0 10px 40px rgba(60, 20, 50, 0.4),
+    inset 0 1px 0 rgba(255, 220, 255, 0.15);
+  text-align: center;
+  animation: onboardingCardIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes onboardingCardIn {
+  from {
+    transform: scale(0.85) translateY(30px);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+.onboarding-glow {
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(255, 180, 220, 0.3) 0%, rgba(200, 120, 180, 0.15) 40%, transparent 70%);
+  pointer-events: none;
+  animation: characterPulse 3s ease-in-out infinite;
+}
+
+.onboarding-moon {
+  font-size: 64px;
+  margin-bottom: 16px;
+  animation: characterFloat 4s ease-in-out infinite;
+  filter: drop-shadow(0 4px 20px rgba(255, 200, 230, 0.4));
+}
+
+.onboarding-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 32px;
+  font-weight: 600;
+  color: rgba(255, 240, 250, 0.95);
+  margin: 0 0 8px;
+  letter-spacing: 3px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.onboarding-subtitle {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 16px;
+  font-style: italic;
+  color: rgba(255, 200, 230, 0.65);
+  margin: 0 0 32px;
+}
+
+.onboarding-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+
+.onboarding-form label {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(255, 220, 240, 0.8);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.onboarding-form input {
+  width: 100%;
+  padding: 14px 18px;
+  border: 1px solid rgba(255, 180, 220, 0.2);
+  border-radius: 16px;
+  background: rgba(255, 200, 230, 0.06);
+  backdrop-filter: blur(4px);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 18px;
+  color: rgba(255, 240, 250, 0.95);
+  text-align: center;
+  outline: none;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.onboarding-form input::placeholder {
+  color: rgba(255, 200, 230, 0.4);
+  font-style: italic;
+}
+
+.onboarding-form input:focus {
+  border-color: rgba(255, 180, 220, 0.4);
+  background: rgba(255, 200, 230, 0.1);
+  box-shadow: 0 0 24px rgba(255, 150, 200, 0.15);
+}
+
+.onboarding-start {
+  position: relative;
+  width: 100%;
+  padding: 16px 24px;
+  border: none;
+  border-radius: 16px;
+  background: linear-gradient(145deg, #8b3a6e 0%, #6d2854 50%, #5a2045 100%);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: rgba(255, 240, 250, 0.95);
+  cursor: pointer;
+  letter-spacing: 1px;
+  box-shadow:
+    0 6px 0 #3d1530,
+    0 8px 16px rgba(60, 20, 50, 0.5),
+    inset 0 1px 0 rgba(255, 180, 220, 0.25);
+  transition: all 0.15s ease;
+  overflow: hidden;
+}
+
+.onboarding-start:hover {
+  background: linear-gradient(145deg, #9a4578 0%, #7d3260 50%, #6a2850 100%);
+  transform: translateY(1px);
+  box-shadow:
+    0 5px 0 #3d1530,
+    0 7px 14px rgba(60, 20, 50, 0.5),
+    inset 0 1px 0 rgba(255, 180, 220, 0.25);
+}
+
+.onboarding-start:active {
+  transform: translateY(4px);
+  box-shadow:
+    0 2px 0 #3d1530,
+    0 4px 8px rgba(60, 20, 50, 0.4),
+    inset 0 1px 0 rgba(255, 180, 220, 0.2);
+}
+
+@media (max-width: 520px) {
+  .onboarding-card {
+    width: 95%;
+    padding: 36px 24px 32px;
+    border-radius: 24px;
+  }
+
+  .onboarding-title {
+    font-size: 26px;
+  }
+
+  .onboarding-moon {
+    font-size: 48px;
+  }
+}
