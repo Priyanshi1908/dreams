@@ -10,6 +10,8 @@ body {
   height: 100%;
   overflow: hidden;
   background: #4a1840;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 .scene-wrap {
@@ -36,8 +38,8 @@ body {
   left: 20px;
   top: 50%;
   transform: translateY(-50%);
-  width: 280px;
-  height: 85vh;
+  width: 250px;
+  height: 90vh;
   background: linear-gradient(160deg,
       rgba(180, 120, 180, 0.12) 0%,
       rgba(140, 100, 160, 0.08) 30%,
@@ -70,8 +72,8 @@ body {
 .sidebar-profile {
   display: flex;
   align-items: center;
-  padding: 18px 16px;
-  gap: 12px;
+  padding: 10px 10px;
+  gap: 6px;
   transition: padding 0.6s ease, gap 0.6s ease;
 }
 
@@ -84,8 +86,8 @@ body {
 
 .profile-avatar {
   position: relative;
-  width: 46px;
-  height: 46px;
+  width: 36px;
+  height: 36px;
   flex-shrink: 0;
 }
 
@@ -216,7 +218,7 @@ body {
 
 .profile-name {
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 17px;
+  font-size: 14px;
   font-weight: 600;
   color: rgba(255, 240, 250, 0.95);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
@@ -318,7 +320,7 @@ body {
   padding: 12px 10px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 0px;
   transition: padding 0.6s ease;
 }
 
@@ -349,8 +351,8 @@ body {
 .month-card {
   display: flex;
   align-items: center;
-  padding: 12px 14px;
-  gap: 12px;
+  padding: 6px 10px;
+  gap: 8px;
   border-radius: 14px;
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -380,8 +382,8 @@ body {
 
 /* Month icons - prettier glass orbs */
 .month-icon {
-  width: 44px;
-  height: 44px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -471,7 +473,7 @@ body {
 /* Month info */
 .month-name {
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 17px;
+  font-size: 13px;
   font-weight: 600;
   color: rgba(255, 240, 250, 0.95);
   letter-spacing: 2px;
@@ -622,8 +624,8 @@ body {
 .dream-dialog {
   position: relative;
   width: 90%;
-  max-width: 480px;
-  max-height: 90vh;
+  max-width: 440px;
+  max-height: 80vh;
   overflow-y: auto;
   background: linear-gradient(165deg,
       rgba(200, 140, 200, 0.15) 0%,
@@ -633,7 +635,7 @@ body {
       rgba(180, 120, 180, 0.15) 100%);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
-  border-radius: 32px;
+  border-radius: 24px;
   border: 1px solid rgba(255, 200, 255, 0.2);
   box-shadow:
     0 25px 80px rgba(40, 10, 40, 0.6),
@@ -721,7 +723,7 @@ body {
 
 .dialog-character img {
   position: relative;
-  height: 160px;
+  height: 130px;
   width: auto;
   object-fit: contain;
   filter: drop-shadow(0 10px 30px rgba(100, 40, 80, 0.5));
@@ -743,7 +745,7 @@ body {
 
 /* Dialog content */
 .dialog-content {
-  padding: 24px 28px 28px;
+  padding: 16px 20px 20px;
 }
 
 .dialog-title {
@@ -763,7 +765,7 @@ body {
   font-style: italic;
   color: rgba(255, 200, 230, 0.7);
   text-align: center;
-  margin: 0 0 24px;
+  margin: 0 0 16px;
 }
 
 /* Form styles */
@@ -791,7 +793,7 @@ body {
 .form-group input,
 .form-group textarea {
   width: 100%;
-  padding: 12px 16px;
+  padding: 10px 14px;
   border: 1px solid rgba(255, 180, 220, 0.15);
   border-radius: 14px;
   background: rgba(255, 200, 230, 0.06);
@@ -1244,8 +1246,8 @@ body {
   z-index: 3000;
   pointer-events: none;
   /* Envelope shape */
-  width: 140px;
-  height: 100px;
+  width: 100px;
+  height: 70px;
   background: linear-gradient(165deg,
       #1a0a2e 0%,
       #2d1b4e 30%,
@@ -1281,7 +1283,7 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  height: 50px;
+  height: 35px;
   background: linear-gradient(175deg,
       #2d1b4e 0%,
       #4a2c7a 50%,
@@ -1299,11 +1301,11 @@ body {
 .flying-letter::after {
   content: '✧';
   position: absolute;
-  top: 35px;
+  top: 25px;
   left: 50%;
   transform: translateX(-50%);
-  width: 32px;
-  height: 32px;
+  width: 24px;
+  height: 24px;
   background: radial-gradient(circle at 40% 40%,
       #4fd1c5 0%,
       #38a89d 40%,
@@ -1350,10 +1352,10 @@ body {
 /* Left wing - holographic energy wing */
 .letter-wing-left {
   position: absolute;
-  left: -45px;
-  top: 25px;
-  width: 55px;
-  height: 35px;
+  left: -32px;
+  top: 20px;
+  width: 40px;
+  height: 25px;
   background: linear-gradient(150deg,
       rgba(147, 51, 234, 0.9) 0%,
       rgba(79, 209, 197, 0.7) 50%,
@@ -1371,10 +1373,10 @@ body {
 /* Right wing - holographic energy wing */
 .letter-wing-right {
   position: absolute;
-  right: -45px;
-  top: 25px;
-  width: 55px;
-  height: 35px;
+  right: -32px;
+  top: 20px;
+  width: 40px;
+  height: 25px;
   background: linear-gradient(210deg,
       rgba(147, 51, 234, 0.9) 0%,
       rgba(79, 209, 197, 0.7) 50%,
@@ -1588,7 +1590,7 @@ body {
 
 .calendar-month {
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 600;
   color: rgba(255, 240, 250, 0.95);
   letter-spacing: 1px;
@@ -1655,14 +1657,14 @@ body {
 /* Day Bubbles - Glossy Glass Orbs */
 .calendar-day {
   aspect-ratio: 1;
-  min-width: 32px;
-  min-height: 32px;
+  min-width: 26px;
+  min-height: 26px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 15px;
+  font-size: 12px;
   font-weight: 600;
   color: rgba(255, 240, 250, 0.95);
   cursor: pointer;
